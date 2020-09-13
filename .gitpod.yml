@@ -1,0 +1,10 @@
+tasks:
+  - init: sdk use java 14.0.2.j9-adpt
+    command: echo "Replace me with cd foundly"
+image:
+  file: .gitpod.Dockerfile
+
+ports:
+  # used by virtual desktop and vnc, supports JavaFX
+  - port: 6080
+
