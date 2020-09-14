@@ -1,6 +1,6 @@
 tasks:
   - init: sdk use java 14.0.2.j9-adpt
-    command: echo "Replace me with cd foundly"
+    command: cd foundly
 image:
   file: .gitpod.Dockerfile
 
