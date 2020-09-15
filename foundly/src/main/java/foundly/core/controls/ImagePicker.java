@@ -9,41 +9,112 @@ import java.sql.SQLException;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-import javafx.scene.control.Button;
+import foundly.ui.App;
+import javafx.beans.property.StringProperty;
+import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
-public class ImagePicker extends Button {
+/**
+ * The Class ImagePicker.
+ * Controller class used to select images from local storage.
+ */
+public class ImagePicker extends VBox {
+	
+	
 	
 	final FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Select Image", "*.png", "*.jpg");
 	final FileChooser fc = new FileChooser();
+	final ImageView imageView = new ImageView();
+	final TextField pathholder = new TextField();
+	final BorderPane imageViewWrapper = new BorderPane();
 	
-	private File file;
+	private Image image;
+	private File selectedFile;
 	private InputStream inputStream;
-
+	private String default_path = "Velg bilde";
+	
+	/**
+	 * Instantiates a new image picker.
+	 */
 	public ImagePicker() {
-		this.fc.getExtensionFilters().add(this.imageFilter);
-		this.setOnAction(event -> {
-			file = fc.showOpenDialog(this.getScene().getWindow());
-		});
+		initialize();
 	}
 	
-	public ImagePicker(String name) {
-		this.setText(name);
-		this.fc.getExtensionFilters().add(this.imageFilter);
-		this.setOnAction(event -> {
-			file = fc.showOpenDialog(this.getScene().getWindow());
-		});
+	/**
+	 * Instantiates a new image picker.
+	 *
+	 * @param name the name
+	 */
+	public ImagePicker(String prompt) {
+		default_path = prompt;
+		initialize();
 	}
 	
-	public Blob getImageAsBlob() {
-		if(file != null) {
+	/**
+	 * Initialize.
+	 */
+	private void initialize() {
+		imageViewWrapper.setMinSize(100, 100);
+		imageViewWrapper.setPrefSize(150, 150);
+		imageViewWrapper.setMaxSize(ImagePicker.USE_PREF_SIZE, ImagePicker.USE_PREF_SIZE);
+		imageViewWrapper.getStyleClass().add("image-view-wrapper");
+		BorderPane.setAlignment(imageView, Pos.CENTER);
+		
+		setPath(default_path);
+		pathholder.setEditable(false);
+		pathholder.maxWidthProperty().bind(imageViewWrapper.widthProperty());
+		
+		imageView.setPreserveRatio(true);
+		imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
+		imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
+		
+		
+		fc.getExtensionFilters().add(this.imageFilter);
+		
+		setOnMouseClicked(event -> {
+			selectedFile = fc.showOpenDialog(this.getScene().getWindow());
 			try {
-				inputStream = new FileInputStream(file);
+				String path = selectedFile.toURI().toString();
+				image = new Image(path);
+				imageView.setImage(image);
+				setPath(path);
+			} catch(NullPointerException e) {
+				imageView.setImage(null);
+				setPath(default_path);
+			}
+		});
+		imageViewWrapper.getChildren().add(imageView);
+		getChildren().addAll(imageViewWrapper, pathholder);
+		this.setAlignment(Pos.CENTER);
+	}
+
+    public final StringProperty pathtTextProperty() { return pathholder.textProperty(); }
+    public final String getPath() { return pathholder.getText(); }
+    public final void setPath(String value) { pathholder.setText(value); }
+	
+	/**
+	 * Gets the image as blob.
+	 *
+	 * @return the image as blob
+	 */
+	public Blob getImageAsBlob() {
+		if(selectedFile != null) {
+			try {
+				inputStream = new FileInputStream(selectedFile);
 				return new SerialBlob(inputStream.readAllBytes());
 			} catch (SQLException | IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
+	}
+	
+	public String getUserAgentStylesheet() {
+		return App.class.getResource("css/components/image-picker.css").toExternalForm();
 	}
 }

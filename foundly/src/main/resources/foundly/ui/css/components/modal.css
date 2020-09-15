@@ -1,0 +1,9 @@
+.modal-overlay{
+    -fx-background-color: #00000011;
+    -fx-padding: 0;
+}
+
+.modal-overlay > .depth-container > .content-container,
+.modal-overlay > .content-container{
+    -fx-background-color: WHITE;
+}

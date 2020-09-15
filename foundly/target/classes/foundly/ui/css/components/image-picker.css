@@ -1,0 +1,12 @@
+
+.image-view-wrapper {
+	-fx-background-image: url("../../img/icons/upload-icon.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center center;
+	-fx-background-size: 75px auto;
+	
+	-fx-border-insets: -1;
+    -fx-border-color: rgba(0, 0, 0, 0.3);
+    -fx-border-style: dashed;
+    -fx-border-width: 1;
+}

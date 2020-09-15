@@ -11,6 +11,7 @@ import foundly.database.daoImpl.ItemDaoImpl;
 import foundly.ui.App;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,11 +19,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * The Class Navigator.
+ * Handles navigation between different views/panes of the app. Navigator will only change
+ * the center-content of the app's container, which is a {@link BorderPane}. In other words, the top, left, bottom and right
+ * content of the container will remain the same when a view is changed.
+ */
 public class Navigator {
 
 	@FXML private BorderPane container;
@@ -33,6 +41,9 @@ public class Navigator {
 	@FXML Button btn_found;
 	@FXML Button btn_lost;
 
+	/**
+	 * Instantiates a new navigator.
+	 */
 	public Navigator() {
 		setupScene();
 		setView(View.ITEMS);
@@ -55,6 +66,8 @@ public class Navigator {
 			item_desc.setPromptText("Beskrivelse");
 			
 			VBox form = new VBox(item_name, item_image, item_desc);
+			form.setAlignment(Pos.CENTER);
+			form.setSpacing(10);
 			
 			
 			layout.setBody(form);
@@ -80,7 +93,7 @@ public class Navigator {
 			modal.setContent(layout);
 			modal.setResultConverter(buttonType -> {
 				if(buttonType.getButtonData() == ButtonData.CANCEL_CLOSE) {
-                	return null;
+                	modal.setResult(null);
                 }
                 return modal.getResult();
 			});
@@ -93,10 +106,16 @@ public class Navigator {
 		setupRoutes();
 	}
 	
+	/**
+	 * Setup routes.
+	 */
 	private void setupRoutes() {
 
 	}
 	
+	/**
+	 * Setup scene.
+	 */
 	private void setupScene() {
 		loader = new FXMLLoader();
 		loader.setController(this);
@@ -113,10 +132,20 @@ public class Navigator {
 		}
 	}
 	
+	/**
+	 * Gets the scene.
+	 *
+	 * @return the scene
+	 */
 	public Scene getScene() {
 		return this.scene;
 	}
 	
+	/**
+	 * Sets the view.
+	 *
+	 * @param view the new view to be displayed on the app
+	 */
 	public void setView(View view) {
 		try {
 			this.container.setCenter(view.loadView());
@@ -125,25 +154,52 @@ public class Navigator {
 		}
 	}
 	
+	/**
+	 * Gets the view.
+	 *
+	 * @return the view
+	 */
 	public Node getView() {
 		return this.container.getCenter();
 	}
 	
+	/**
+	 * The Enum View.
+	 * Defines a View
+	 */
 	public enum View {
 		ITEMS("items", new ItemController());
 		
 		private String fxml;
 		private AbstractViewController controller;
 		
+		/**
+		 * Instantiates a new view.
+		 *
+		 * @param fxml the fxml belonging to this view
+		 * @param controller the controller belonging to this view
+		 */
 		View(String fxml, AbstractViewController controller){
 			this.fxml = fxml;
 			this.controller = controller;
 		}
 		
+		/**
+		 * Gets the controller.
+		 *
+		 * @return the controller
+		 */
 		public AbstractViewController getController() {
 			return this.controller;
 		}
 		
+		/**
+		 * Loads the view.
+		 *
+		 * @param <T> the generic type
+		 * @return the elements from the given fxml-file, linked with the set {@link ViewController}
+		 * @throws IOException Signals that an I/O exception has occurred.
+		 */
 		public <T> T loadView() throws IOException {
 			FXMLLoader loader = new FXMLLoader();
 	    	loader.setController(this.controller);

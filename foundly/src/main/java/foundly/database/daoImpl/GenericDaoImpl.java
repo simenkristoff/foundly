@@ -19,20 +19,45 @@ import foundly.core.model.Model.DBTable;
 import foundly.database.ConnectionHandler;
 import foundly.database.dao.GenericDao;
 
+/**
+ * The Class GenericDaoImpl.
+ * Foundational class for database-management of all objects extending the class Model.
+ * Handles basic database-functions such as SELECT (by id, and all), INSERT, UPDATE, REMOVE 
+ *
+ * @param <V> the object type
+ * 
+ * @apiNote V must extend {@link Model}
+ */
 public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	
 	protected Class<V> model;
 	protected String table;
 	protected String mapper;
 	
+	/**
+	 * Instantiates a new instance of GenericDaoImpl.
+	 * @param table the table in which the object V is stored in the database.
+	 * <p>
+	 * 	Table-reference can be found in the objects DaoImpl class </br>
+	 * 	For example: </br>
+	 * 	The table for {@link Item} can be found in the constructor of {@link ItemDaoImpl}
+	 * </p>
+	 * @see ItemDaoImpl
+	 */
 	@SuppressWarnings("unchecked")
 	public GenericDaoImpl(String table) {
 		this.table = table;
 		this.model = (Class<V>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
+	/**
+	 * Gets the object V by it's id.
+	 *
+	 * @param id the id
+	 * @return object with @param id
+	 */
 	public V getById(Integer id) {
-		V value = null;
+		V object = null;
 		try {
 			Connection conn = ConnectionHandler.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(
@@ -46,7 +71,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 				rs.next();
 				try {
 					Constructor<V> cons = this.model.getDeclaredConstructor(ResultSet.class);
-					value = (V) cons.newInstance(rs);
+					object = (V) cons.newInstance(rs);
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | SecurityException | NoSuchMethodException e) {
 					e.printStackTrace();
@@ -56,9 +81,14 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return value;
+		return object;
 	}
 	
+	/**
+	 * Gets all objects of type V.
+	 *
+	 * @return all objects of type V
+	 */
 	public List<V> getAll() {
 		List<V> list = new ArrayList<V>();
 		try {
@@ -70,8 +100,8 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 				ResultSet rs = stmt.getResultSet();
 				Constructor<V> cons = this.model.getDeclaredConstructor(ResultSet.class);
 				while(rs.next()) {
-					V value = (V) cons.newInstance(rs);
-					list.add(value);
+					V object = (V) cons.newInstance(rs);
+					list.add(object);
 				}	
 			}
 			conn.close();
@@ -81,14 +111,19 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		return list;
 	}
 	
-	public void insert(V value) {
-		LinkedHashMap<String, Object> map = mapper(value);
+	/**
+	 * Insert object to database.
+	 *
+	 * @param object the object to be inserted
+	 */
+	public void insert(V object) {
+		LinkedHashMap<String, Object> map = mapper(object);
 		ArrayList<String> index = new ArrayList<String>(map.keySet());
 		ArrayList<Object> values = new ArrayList<Object>(map.values());
 		String cols = index.toString();
 		cols = cols.substring(1, cols.length() - 1);
 		
-		String params = parseParams(values);
+		String params = parseInsertParameters(values);
 
 		String query = "INSERT INTO " + table + " ("
 				+ cols + ") VALUES (" + params +")";
@@ -103,7 +138,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 				ResultSet rs = stmt.getGeneratedKeys();
 				rs.next();
 				Integer id = rs.getInt(1);
-				value.setId(id);
+				object.setId(id);
 			}
 			conn.close();
 		} catch (SQLException e) {
@@ -112,23 +147,21 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		
 	}
 	
-	public void update(V value) {
-		LinkedHashMap<String, Object> map = mapper(value);
+	/**
+	 * Update object.
+	 *
+	 * @param object the object to be updated
+	 */
+	public void update(V object) {
+		LinkedHashMap<String, Object> map = mapper(object);
 		ArrayList<String> index = new ArrayList<String>(map.keySet());
 		ArrayList<Object> values = new ArrayList<Object>(map.values());
 		
-		String params = "";
-		for(int i = 1; i < index.size(); i++) {
-			if(i > 1) {
-				params += ", " + index.get(i) + " = ?";
-			} else {
-				params += index.get(i) + " = ?";
-			}
-		}
+		String params = parseUpdateParameters(index, values);
 		
 		String query = "UPDATE " + table
 				+ " SET " + params
-				+ " WHERE " + table + ".id = " + value.getId();
+				+ " WHERE " + table + ".id = " + object.getId();
 		
 		try {
 			Connection conn = ConnectionHandler.getConnection();
@@ -144,8 +177,13 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		}
 	}
 	
-	public void delete(V v) {
-		Integer id = v.getId();
+	/**
+	 * Delete object from database.
+	 *
+	 * @param object the object to be removed
+	 */
+	public void delete(V object) {
+		Integer id = object.getId();
 		try {
 			Connection conn = ConnectionHandler.getConnection();
 			PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + table + " WHERE "
@@ -159,33 +197,66 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		}
 	}
 	
-	private String parseParams(ArrayList values) {
+	/**
+	 * Parses the insert parameters.
+	 *
+	 * @param values the values to be inserted
+	 * @return the insert parameters
+	 */
+	protected String parseInsertParameters(ArrayList<Object> values) {
 		StringBuilder params = new StringBuilder();
-		int i = 0;
-		for(Object value : values) {
-			if(i > 0) params.append(", ");
+		String delimiter = "";
+		for(Object object : values) {
 			try {
-				params.append(value.toString().replaceAll("([^?!null].*$)", "?"));
+				params.append(delimiter + object.toString().replaceAll("(\\b[\\S\\s]+\\b)", "?")); // old regex: ([^?!null].*$)
 			} catch(NullPointerException e) {
 				params.append("null");
 			}
-			
-			i++;
+			delimiter = ", ";
 		}
 		return params.toString();
 	}
 	
-	private LinkedHashMap<String, Object> mapper(V value) {
+	/**
+	 * Parses the update parameters.
+	 *
+	 * @param index name of the columns inside database-table
+	 * @param values the values belonging to each column
+	 * @return the update parameters
+	 */
+	protected String parseUpdateParameters(ArrayList<String> index, ArrayList<Object> values) {
+		StringBuilder params = new StringBuilder();
+		int k = (index.get(0).equals("id") ? 1 : 0);
+		String delimiter = "";
+		for(int i = k; i < index.size(); i++) {
+			try {
+				params.append(delimiter + index.get(i) + " = ");
+				params.append(values.get(i).toString().replaceAll("(\\b[\\S\\s]+\\b)", "?")); // old regex: ([^?!null].*$)
+			} catch(NullPointerException e) {
+				params.append("null");
+			}
+			delimiter = ", ";
+		}
+		return params.toString();
+	}
+	
+	/**
+	 * Maps the declared fields in the Model-class along with their values
+	 *
+	 * @param object the object to be mapped
+	 * @return the linked hash map with "column" as KEY, and "value" as VALUE
+	 */
+	private LinkedHashMap<String, Object> mapper(V object) {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		Class<?> model = value.getClass();
+		Class<?> model = object.getClass();
 		for(Field field : model.getDeclaredFields()) {
 			field.setAccessible(true);
 			DBTable column = (field.getAnnotation(DBTable.class) != null) ? field.getAnnotation(DBTable.class) : null;
 			if(column != null) {
 				try {
 					String col = column.columnName();
-					/** Get values from model **/
-					Object val = model.getMethod(column.func(), null).invoke(value, null);
+					// Get values from the model
+					Object val = model.getMethod(column.func(), null).invoke(object, null);
 					map.put(col, val);
 				} catch (SecurityException | NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();

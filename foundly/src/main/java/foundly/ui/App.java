@@ -8,24 +8,34 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-import foundly.core.model.Item;
 import foundly.database.ConnectionHandler;
-import foundly.database.daoImpl.ItemDaoImpl;
 import foundly.ui.controller.Navigator;
 
 /**
- * JavaFX App
+ * JavaFX App.
  */
 public class App extends Application {
 	
+	/** The title. */
 	private final String TITLE = "Foundly";
+	
+	/** The width. */
 	private final double WIDTH = 720;
-	private final double HEIGHT = 480;
+	
+	/** The height. */
+	private final double HEIGHT = 640;
 	
 	
+	/** The navigator. */
 	private Navigator navigator;
-	private ItemDaoImpl itemDao = new ItemDaoImpl();
 	
+	/**
+	 * Start the app.
+	 *
+	 * @param stage the stage
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@SuppressWarnings("exports")
 	public void start(Stage stage) throws IOException {
 		initialize();
 		stage.setTitle(TITLE);
@@ -45,16 +55,27 @@ public class App extends Application {
 		});
 	}
 	
+    /**
+     * Initialize app.
+     */
     private void initialize() {
     	this.navigator = new Navigator();
     }
     
+    /**
+     * Close app.
+     */
     private void close() {
     	ConnectionHandler.closePool();
     	Platform.exit();
     	System.exit(-1);
     }
 
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
     public static void main(String[] args) {
     	System.setProperty("os.target", "ios");
         System.setProperty("os.name", "iOS");

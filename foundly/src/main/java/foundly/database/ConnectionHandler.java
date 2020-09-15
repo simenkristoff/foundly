@@ -7,6 +7,9 @@ import java.util.Properties;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * The Class ConnectionHandler. Manages all connections to the database-server in a pool of connections.
+ */
 public class ConnectionHandler {
 
 	private static final String DB_USERNAME = "db.username";
@@ -17,6 +20,10 @@ public class ConnectionHandler {
 	private static Properties properties = null;
 	private static BasicDataSource dataSource = new BasicDataSource();
 	
+	/**
+	 * Self initializing method.
+	 * Setup connection pool with configuration from file ("database.properties")
+	 */
 	static {
 		try {
 			properties = new Properties();	
@@ -32,7 +39,7 @@ public class ConnectionHandler {
 		    dataSource.setMinIdle(0);
 		    dataSource.setInitialSize(3);
 		    dataSource.setTestOnBorrow(true);
-		    dataSource.setValidationQuery("select 1");
+		    dataSource.setValidationQuery("select 1"); //TODO redo validation query
 		    dataSource.setValidationQueryTimeout(10); //The value is in seconds
 	
 		    dataSource.setTimeBetweenEvictionRunsMillis(600000); // 10 minutes wait to run evictor process
@@ -46,6 +53,9 @@ public class ConnectionHandler {
 		}
 	}
 	
+	/**
+	 * Close connection pool.
+	 */
 	public static void closePool() {
 		try {
 			dataSource.close();
@@ -54,14 +64,19 @@ public class ConnectionHandler {
 		}
 	}
 	
-	public static void numIdle() {
-		System.out.println(dataSource.getNumIdle());
-	}
-	
+	/**
+	 * Retrieves an idle connection from the connection pool
+	 *
+	 * @return the connection
+	 * @throws SQLException the SQL exception
+	 */
 	@SuppressWarnings("exports")
 	public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 	
+	/**
+	 * Instantiates a new connection handler.
+	 */
 	private ConnectionHandler() {}
 }
