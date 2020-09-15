@@ -1,8 +1,13 @@
 package foundly.core.model;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 import javafx.scene.image.Image;
 
@@ -40,6 +45,28 @@ public class Item extends Model{
 		this.name = name;
 		this.description = description;
 		this.imageBlob = imageBlob;
+	}
+	
+	
+	/**
+	 * Instantiates a new item.
+	 *
+	 * @param id the id
+	 * @param name the name
+	 * @param description the description
+	 * @param image the image
+	 */
+	public Item(Integer id, String name, String description, InputStream inputStream) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		try {
+			this.imageBlob = new SerialBlob(inputStream.readAllBytes());
+		} catch (SQLException | IOException e) {
+			this.imageBlob = null;
+			e.printStackTrace();
+		}
+
 	}
 
 	/**

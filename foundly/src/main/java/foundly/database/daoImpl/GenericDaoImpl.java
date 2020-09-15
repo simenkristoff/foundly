@@ -210,7 +210,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 			try {
 				params.append(delimiter + object.toString().replaceAll("(\\b[\\S\\s]+\\b)", "?")); // old regex: ([^?!null].*$)
 			} catch(NullPointerException e) {
-				params.append("null");
+				params.append(delimiter + "null");
 			}
 			delimiter = ", ";
 		}
@@ -246,7 +246,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	 * @param object the object to be mapped
 	 * @return the linked hash map with "column" as KEY, and "value" as VALUE
 	 */
-	private LinkedHashMap<String, Object> mapper(V object) {
+	protected LinkedHashMap<String, Object> mapper(V object) {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Class<?> model = object.getClass();
 		for(Field field : model.getDeclaredFields()) {

@@ -59,6 +59,7 @@ public class ImagePicker extends VBox {
 	 * Initialize.
 	 */
 	private void initialize() {
+		getStyleClass().add("image-picker");
 		imageViewWrapper.setMinSize(100, 100);
 		imageViewWrapper.setPrefSize(150, 150);
 		imageViewWrapper.setMaxSize(ImagePicker.USE_PREF_SIZE, ImagePicker.USE_PREF_SIZE);
@@ -68,6 +69,8 @@ public class ImagePicker extends VBox {
 		setPath(default_path);
 		pathholder.setEditable(false);
 		pathholder.maxWidthProperty().bind(imageViewWrapper.widthProperty());
+		pathholder.getStyleClass().add("pathholder");
+		pathholder.getStylesheets().add(this.getUserAgentStylesheet());
 		
 		imageView.setPreserveRatio(true);
 		imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
@@ -76,7 +79,7 @@ public class ImagePicker extends VBox {
 		
 		fc.getExtensionFilters().add(this.imageFilter);
 		
-		setOnMouseClicked(event -> {
+		imageViewWrapper.setOnMouseClicked(event -> {
 			selectedFile = fc.showOpenDialog(this.getScene().getWindow());
 			try {
 				String path = selectedFile.toURI().toString();
