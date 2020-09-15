@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 
 /**
  * The Class Item.
+ * Model-object used to insert and retrieve data
+ * from database
  */
 public class Item extends Model{
 

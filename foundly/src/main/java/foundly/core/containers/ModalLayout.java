@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * The Class ModalLayout.
+ * Defines the layout for parent {@link Modal}
  */
 public class ModalLayout extends VBox {
 

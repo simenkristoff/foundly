@@ -21,7 +21,7 @@ import javafx.stage.FileChooser;
 
 /**
  * The Class ImagePicker.
- * Controller class used to select images from local storage.
+ * ImagePicker, used to select images from local storage.
  */
 public class ImagePicker extends VBox {
 	

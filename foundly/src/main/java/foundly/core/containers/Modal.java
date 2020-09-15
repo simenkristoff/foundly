@@ -26,7 +26,8 @@ import javafx.stage.Window;
 
 /**
  * The Class Modal.
- *
+ * Modal window, a child window that requires users to interact with it 
+ * before they can return to operating the parent application.
  * @param <R> the generic type
  */
 public class Modal<R> extends Dialog<R> {

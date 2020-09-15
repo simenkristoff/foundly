@@ -5,6 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * The Class Model.
+ * Abstract class for all objects stored in database
  */
 public abstract class Model {
 	
