@@ -11,7 +11,19 @@ import org.apache.commons.dbcp2.BasicDataSource;
  * The Class ConnectionHandler. Manages all connections to the database-server in a pool of connections.
  */
 public class ConnectionHandler {
-
+	
+	/**
+	 * ConnectionHandler will connect to external database
+	 */
+	private static final String DB_PROPS_EXT = "database.properties";
+	
+	/**
+	 * ConnectionHandler will connect to local database
+	 * Will not work if you haven't setup a mysql-database on
+	 * your local network
+	 */
+	private static final String DB_PROPS_LOCAL = "database2.properties";
+	
 	private static final String DB_USERNAME = "db.username";
 	private static final String DB_PASSWORD = "db.password";
 	private static final String DB_URL = "db.url";
@@ -22,17 +34,23 @@ public class ConnectionHandler {
 	
 	/**
 	 * Self initializing method.
-	 * Setup connection pool with configuration from file ("database.properties")
+	 * Setup connection pool with configuration from
+	 * file "database.properties" (external) or "database2.properties" (local)
 	 */
 	static {
 		try {
 			properties = new Properties();	
 			properties.load(ConnectionHandler.class.getResourceAsStream("database.properties"));
-
 			dataSource.setDriverClassName(properties.getProperty(DB_DRIVER));
 			dataSource.setUrl(properties.getProperty(DB_URL));
 			dataSource.setUsername(properties.getProperty(DB_USERNAME));
 			dataSource.setPassword(properties.getProperty(DB_PASSWORD));
+			
+			System.out.println(
+				"Connection to host: " + dataSource.getUrl() + "\n"
+				+ "Username: " + dataSource.getUsername()
+			);
+			
 			dataSource.setMaxIdle(3);
 		    dataSource.setMaxWaitMillis(20000); //wait 10 seconds to get new connection
 		    dataSource.setMaxTotal(6);
@@ -48,6 +66,7 @@ public class ConnectionHandler {
 		    dataSource.setMaxConnLifetimeMillis(600000); // 10 minutes is max life time
 		    dataSource.setNumTestsPerEvictionRun(10);
 			
+		    
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
