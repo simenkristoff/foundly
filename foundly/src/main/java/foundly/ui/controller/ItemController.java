@@ -3,7 +3,7 @@ package foundly.ui.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+import foundly.core.containers.ItemCellLayout;
 import foundly.core.model.Item;
 import foundly.database.daoImpl.ItemDaoImpl;
 import javafx.collections.FXCollections;
@@ -43,21 +43,10 @@ public class ItemController extends AbstractViewController {
 		list_items.setItems(items);
 		
 		/**
-		 *  Sets each cell of the list to display a BorderPane consisting
-		 *  of an ImageView on the left side, and the content in the center.
-		 *  The content is currently a VBox consisting of each item's title and
-		 *  description
-		 *  
-		 *  TODO Clean up this code by writing a new class (ex. ItemListCell) extending BorderPane which
-		 *  takes in an Item in the constructor.
+		 *  Changes the display of each cell to ItemCellLayout
 		 */
 		list_items.setCellFactory(param -> new ListCell<Item>() {
-			private BorderPane bp = new BorderPane();
-			private ImageView imageView = new ImageView();
-			private VBox imageViewWrapper = new VBox(imageView);
-			
-			private VBox content;
-			private Text title, description;
+			private ItemCellLayout itemCellLayout;
 			
 			@Override
 			public void updateItem(Item item, boolean empty) {
@@ -67,26 +56,8 @@ public class ItemController extends AbstractViewController {
 					setGraphic(null);
 					return;
 				}
-				
-				imageViewWrapper.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
-				imageViewWrapper.setPrefSize(100, 100);
-				imageViewWrapper.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-				imageViewWrapper.setAlignment(Pos.CENTER);
-				
-				imageView.setPreserveRatio(true);
-				imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
-				imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
-				imageView.setImage(item.getImage());
-				
-				title = new Text(item.getName());
-				description = new Text(item.getDescription());
-				content = new VBox(title, description);
-				content.setPadding(new Insets(10));
-				content.setSpacing(5);
-				
-				bp.setCenter(content);
-				bp.setLeft(imageViewWrapper);
-				setGraphic(bp);
+				itemCellLayout = new ItemCellLayout(item);
+				setGraphic(itemCellLayout);
 			}
 		});
 	}

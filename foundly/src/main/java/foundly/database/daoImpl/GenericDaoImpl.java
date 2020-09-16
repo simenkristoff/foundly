@@ -34,6 +34,8 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	protected String table;
 	protected String mapper;
 	
+	protected static final String SANITIZE_PATTERN = "(\\b[\\S\\s]+\\b(\\?)*)";
+	
 	/**
 	 * Instantiates a new instance of GenericDaoImpl.
 	 * @param table the table in which the object V is stored in the database.
@@ -127,6 +129,12 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 
 		String query = "INSERT INTO " + table + " ("
 				+ cols + ") VALUES (" + params +")";
+		
+		/** DEBUG **/
+		System.out.println("index -> " + index);
+		System.out.println("values -> " + values);
+		System.out.println("query -> " + query);
+		
 		try {
 			Connection conn = ConnectionHandler.getConnection();			
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -208,7 +216,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		String delimiter = "";
 		for(Object object : values) {
 			try {
-				params.append(delimiter + object.toString().replaceAll("(\\b[\\S\\s]+\\b)", "?")); // old regex: ([^?!null].*$)
+				params.append(delimiter + object.toString().replaceAll(SANITIZE_PATTERN, "?")); // old regex: ([^?!null].*$)
 			} catch(NullPointerException e) {
 				params.append(delimiter + "null");
 			}
@@ -231,7 +239,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		for(int i = k; i < index.size(); i++) {
 			try {
 				params.append(delimiter + index.get(i) + " = ");
-				params.append(values.get(i).toString().replaceAll("(\\b[\\S\\s]+\\b)", "?")); // old regex: ([^?!null].*$)
+				params.append(values.get(i).toString().replaceAll(SANITIZE_PATTERN, "?")); // old regex: ([^?!null].*$)
 			} catch(NullPointerException e) {
 				params.append("null");
 			}

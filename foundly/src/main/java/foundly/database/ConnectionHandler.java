@@ -40,7 +40,7 @@ public class ConnectionHandler {
 	static {
 		try {
 			properties = new Properties();	
-			properties.load(ConnectionHandler.class.getResourceAsStream("database.properties"));
+			properties.load(ConnectionHandler.class.getResourceAsStream(DB_PROPS_EXT));
 			dataSource.setDriverClassName(properties.getProperty(DB_DRIVER));
 			dataSource.setUrl(properties.getProperty(DB_URL));
 			dataSource.setUsername(properties.getProperty(DB_USERNAME));

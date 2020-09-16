@@ -24,20 +24,6 @@ public abstract class Model {
 	public abstract Integer getId();
 	
 	/**
-	 * Sets the name.
-	 *
-	 * @param name the new name
-	 */
-	public abstract void setName(String name);
-	
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public abstract String getName();
-	
-	/**
 	 * The Interface DBTable. Points each declaration in a Model-object to their respective
 	 * column inside the database, along with a get-function in order to retrieve the
 	 * value of the declaration.

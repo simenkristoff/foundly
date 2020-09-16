@@ -55,7 +55,7 @@ public class Navigator {
 			modal.setOverlayClose(false);
 			
 			ModalLayout layout = new ModalLayout();
-			layout.setHeading(new Label("Legg til ny gjenstand"));
+			layout.setHeader(new Label("Legg til ny gjenstand"));
 			
 			TextField item_name = new TextField();
 			item_name.setPromptText("Navn");

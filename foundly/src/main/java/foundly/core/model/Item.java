@@ -1,11 +1,11 @@
 package foundly.core.model;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -21,8 +21,8 @@ public class Item extends Model{
 	@DBTable(columnName="id", func="getId")
 	protected Integer id;
 	
-	@DBTable(columnName="name", func="getName")
-	private String name;
+	@DBTable(columnName="title", func="getTitle")
+	private String title;
 	
 	@DBTable(columnName="description", func="getDescription")
 	private String description;
@@ -30,21 +30,25 @@ public class Item extends Model{
 	@DBTable(columnName="image", func="getImageBlob")
 	private Blob imageBlob;
 	
+	@DBTable(columnName="created_at", func="getDateCreated")
+	private Date dateCreated;
+	
 	private Image image;
 	
 	/**
 	 * Instantiates a new item.
 	 *
 	 * @param id the id
-	 * @param name the name
+	 * @param title the title
 	 * @param description the description
 	 * @param imageBlob the image blob
 	 */
-	public Item(Integer id, String name, String description, Blob imageBlob) {
+	public Item(Integer id, String title, String description, Blob imageBlob) {
 		this.id = id;
-		this.name = name;
+		this.title = title;
 		this.description = description;
 		this.imageBlob = imageBlob;
+		this.dateCreated = new Date();
 	}
 	
 	
@@ -52,21 +56,19 @@ public class Item extends Model{
 	 * Instantiates a new item.
 	 *
 	 * @param id the id
-	 * @param name the name
+	 * @param title the title
 	 * @param description the description
 	 * @param image the image
 	 */
-	public Item(Integer id, String name, String description, InputStream inputStream) {
+	public Item(Integer id, String title, String description, InputStream inputStream) {
 		this.id = id;
-		this.name = name;
+		this.title = title;
 		this.description = description;
 		try {
-			this.imageBlob = new SerialBlob(inputStream.readAllBytes());
-		} catch (SQLException | IOException e) {
-			this.imageBlob = null;
-			e.printStackTrace();
+			this.imageBlob = new SerialBlob(inputStream.readAllBytes());}
+			catch (SQLException | IOException e) {this.imageBlob = null; e.printStackTrace();
 		}
-
+		this.dateCreated = new Date();
 	}
 
 	/**
@@ -77,9 +79,10 @@ public class Item extends Model{
 	 */
 	public Item(ResultSet rs) throws SQLException {
 		this.id = rs.getInt("id");
-		this.name = rs.getString("name");
+		this.title = rs.getString("title");
 		this.description = rs.getString("description");
 		this.imageBlob = rs.getBlob("image");
+		this.dateCreated = rs.getTimestamp("created_at");
 	}
 
 	/**
@@ -101,21 +104,21 @@ public class Item extends Model{
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the title.
 	 *
-	 * @return the name
+	 * @return the title
 	 */
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 	/**
-	 * Sets the name.
+	 * Sets the title.
 	 *
-	 * @param name the new name
+	 * @param title the new title
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	/**
@@ -169,6 +172,15 @@ public class Item extends Model{
 		}
 		return image;
 	}
+	
+	/**
+	 * Gets the date the item was created.
+	 *
+	 * @return the date of creation
+	 */
+	public Date getDateCreated() {
+		return dateCreated;
+	}
 
 	/**
 	 * To string.
@@ -177,7 +189,7 @@ public class Item extends Model{
 	 */
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", name=" + name + ", image=" + imageBlob + "]";
+		return "Item [id=" + id + ", title=" + title + ", image=" + imageBlob + "]";
 	}
 	
 }

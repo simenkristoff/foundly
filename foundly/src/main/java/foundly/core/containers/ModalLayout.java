@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
  */
 public class ModalLayout extends VBox {
 
-	private StackPane heading = new StackPane();
+	private StackPane header = new StackPane();
 	private StackPane body = new StackPane();
 	private FlowPane actions = new FlowPane();
 	
@@ -31,27 +31,34 @@ public class ModalLayout extends VBox {
 		VBox.setVgrow(body, Priority.ALWAYS);
 		this.setPadding(new Insets(10));
 		setSpacing(10);
-		getChildren().setAll(heading, body, actions);
+		getChildren().setAll(header, body, actions);
 	}
 	
 	/**
-	 * Gets the heading.
-	 *
-	 * @return the heading
+	 * Initialize.
 	 */
-	@SuppressWarnings("exports")
-	public ObservableList<Node> getHeading(){
-		return heading.getChildren();
+	private void initialize() {
+		
 	}
 	
 	/**
-	 * Sets the heading.
+	 * Gets the header.
 	 *
-	 * @param titleContent the new heading
+	 * @return the header
 	 */
 	@SuppressWarnings("exports")
-	public void setHeading(Node... titleContent) {
-		this.heading.getChildren().setAll(titleContent);
+	public ObservableList<Node> getHeader(){
+		return header.getChildren();
+	}
+	
+	/**
+	 * Sets the header.
+	 *
+	 * @param titleContent the new header
+	 */
+	@SuppressWarnings("exports")
+	public void setHeader(Node... titleContent) {
+		this.header.getChildren().setAll(titleContent);
 	}
 	
 	/**
@@ -103,11 +110,4 @@ public class ModalLayout extends VBox {
 	public void setActions(List<? extends Node> actions) {
         this.actions.getChildren().setAll(actions);
     }
-	
-	/**
-	 * Initialize.
-	 */
-	private void initialize() {
-		
-	}
 }

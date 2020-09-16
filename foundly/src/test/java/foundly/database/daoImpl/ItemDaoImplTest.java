@@ -42,9 +42,10 @@ public class ItemDaoImplTest {
 	public void testMapper() {
 		HashMap<String, Object> expected = new LinkedHashMap<String, Object>();
 		expected.put("id", null);
-		expected.put("name", "Nøkkel");
+		expected.put("title", "Nøkkel");
 		expected.put("description", "Funnet i Hangaren");
 		expected.put("image", image);
+		expected.put("created_at", item.getDateCreated());
 		
 		map = itemDao.mapper(item);
 		assertTrue(expected.equals(map));
@@ -54,17 +55,17 @@ public class ItemDaoImplTest {
 	public void testParseInsertParameters() {
 		
 		// First test
-		Object[] valueData = {null, "Nøkkel", "Funnet i hangaren", image};
+		Object[] valueData = {null, "Nøkkel", "Funnet i hangaren", image, item.getDateCreated()};
 		ArrayList<Object> values = new ArrayList<Object>(Arrays.asList(valueData));		
 		String params = itemDao.parseInsertParameters(values);
-		String expected = "null, ?, ?, ?";
+		String expected = "null, ?, ?, ?, ?";
 		assertEquals(expected, params);
 		
 		// Second test
-		Object[] valueData2 = {null, "Nøkkel", "Funnet i hangaren", null};
+		Object[] valueData2 = {null, "Nøkkel", "Funnet i hangaren", null, item.getDateCreated()};
 		ArrayList<Object> values2 = new ArrayList<Object>(Arrays.asList(valueData2));		
 		String params2 = itemDao.parseInsertParameters(values2);
-		String expected2 = "null, ?, ?, null";
+		String expected2 = "null, ?, ?, null, ?";
 		assertEquals(expected2, params2);
 	}
 	
@@ -72,25 +73,25 @@ public class ItemDaoImplTest {
 	public void testParseUpdateParameters() {
 		
 		// First test
-		String[] indexData = {"id", "name", "description", "image"};
+		String[] indexData = {"id", "title", "description", "image", "created_at"};
 		ArrayList<String> index = new ArrayList(Arrays.asList(indexData));	
 		
-		Object[] valueData = {null, "Nøkkel", "Funnet i hangaren", image};
+		Object[] valueData = {null, "Nøkkel", "Funnet i hangaren", image, item.getDateCreated()};
 		ArrayList<Object> values = new ArrayList<Object>(Arrays.asList(valueData));	
 		
 		String params = itemDao.parseUpdateParameters(index, values);
-		String expected = "name = ?, description = ?, image = ?";
+		String expected = "title = ?, description = ?, image = ?, created_at = ?";
 		assertEquals(expected, params);
 		
 		// Second test
-		String[] indexData2 = {"id", "name", "description", "image"};
+		String[] indexData2 = {"id", "title", "description", "image", "created_at"};
 		ArrayList<String> index2 = new ArrayList(Arrays.asList(indexData));	
 		
-		Object[] valueData2 = {null, "Nøkkel", "Funnet i hangaren", null};
+		Object[] valueData2 = {null, "Nøkkel", "Funnet i hangaren", null, item.getDateCreated()};
 		ArrayList<Object> values2 = new ArrayList<Object>(Arrays.asList(valueData2));	
 		
 		String params2 = itemDao.parseUpdateParameters(index2, values2);
-		String expected2 = "name = ?, description = ?, image = null";
+		String expected2 = "title = ?, description = ?, image = null, created_at = ?";
 		assertEquals(expected2, params2);
 	}
 	
