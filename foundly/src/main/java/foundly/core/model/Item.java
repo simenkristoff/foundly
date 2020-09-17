@@ -38,6 +38,23 @@ public class Item extends Model{
 	
 	private Image image;
 	
+	
+	/**
+	 * Instantiates a new item.
+	 *
+	 * @param id the id
+	 * @param title the title
+	 * @param description the description
+	 */
+	public Item(Integer id, State state, String title, String description) {
+		this.id = id;
+		this.state = state;
+		this.title = title;
+		this.description = description;
+		this.imageBlob = null;
+		this.dateCreated = new Date();
+	}
+	
 	/**
 	 * Instantiates a new item.
 	 *

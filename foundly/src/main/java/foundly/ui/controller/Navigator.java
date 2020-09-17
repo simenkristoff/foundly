@@ -6,6 +6,7 @@ import java.util.Optional;
 import foundly.core.containers.Modal;
 import foundly.core.containers.ModalLayout;
 import foundly.core.controls.ImagePicker;
+import foundly.core.effects.DepthManager;
 import foundly.core.model.Item;
 import foundly.database.daoImpl.ItemDaoImpl;
 import foundly.ui.App;
@@ -55,7 +56,7 @@ public class Navigator {
 	public Navigator() {	
 		setupScene();
 		setView(View.ITEMS);
-		
+		DepthManager.setDepth(this.container.getTop(), 2);
 		btn_found.setOnAction(foundItem());
 		btn_lost.setOnAction(lostItem());
 		setupRoutes();

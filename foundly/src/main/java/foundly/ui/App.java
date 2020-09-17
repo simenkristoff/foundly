@@ -2,6 +2,8 @@ package foundly.ui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.application.Preloader;
+import javafx.application.Preloader.PreloaderNotification;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -26,6 +28,8 @@ public class App extends Application {
 	/** The height. */
 	private final double HEIGHT = 640;
 	
+	private final int COUNT_LIMIT = 5000; // 5 seconds 
+	
 	/** The icon **/
 	private final Image ICON = new Image(App.class.getResource("img/icons/icon.png").toExternalForm());
 	
@@ -43,7 +47,6 @@ public class App extends Application {
 	 */
 	@SuppressWarnings("exports")
 	public void start(Stage stage) throws IOException {
-		initialize();
 		stage.getIcons().add(ICON);
 		stage.setTitle(TITLE);
 		stage.setScene(this.navigator.getScene());
@@ -65,8 +68,12 @@ public class App extends Application {
     /**
      * Initialize app.
      */
-    private void initialize() {
+    public void init() {
     	this.navigator = new Navigator();
+    	for(int i = 0; i < COUNT_LIMIT; i++) {
+    		double progress = (100 * i) / COUNT_LIMIT;
+    		this.notifyPreloader(new Preloader.ProgressNotification(progress));
+    	}
     }
     
     /**
@@ -88,6 +95,7 @@ public class App extends Application {
         System.setProperty("os.name", "iOS");
         System.setProperty("glass.platform", "ios");
         System.setProperty("targetos.name", "iOS");
+        System.setProperty("javafx.preloader", SplashScreen.class.getCanonicalName());
         launch();
     }
 
