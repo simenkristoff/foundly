@@ -3,6 +3,7 @@ package foundly.ui;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -25,6 +26,11 @@ public class App extends Application {
 	/** The height. */
 	private final double HEIGHT = 640;
 	
+	/** The icon **/
+	private final Image ICON = new Image(App.class.getResource("img/icons/icon.png").toExternalForm());
+	
+	/** The logo **/
+	public static final Image LOGO = new Image(App.class.getResource("img/logo.png").toExternalForm());
 	
 	/** The navigator. */
 	private Navigator navigator;
@@ -38,6 +44,7 @@ public class App extends Application {
 	@SuppressWarnings("exports")
 	public void start(Stage stage) throws IOException {
 		initialize();
+		stage.getIcons().add(ICON);
 		stage.setTitle(TITLE);
 		stage.setScene(this.navigator.getScene());
 		stage.setWidth(WIDTH);

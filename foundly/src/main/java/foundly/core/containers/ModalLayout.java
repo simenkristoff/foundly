@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -19,7 +20,7 @@ public class ModalLayout extends VBox {
 
 	private StackPane header = new StackPane();
 	private StackPane body = new StackPane();
-	private FlowPane actions = new FlowPane();
+	private HBox actions = new HBox();
 	
 	/**
 	 * Instantiates a new modal layout.
@@ -27,6 +28,7 @@ public class ModalLayout extends VBox {
 	public ModalLayout() {
 		initialize();
 		actions.setAlignment(Pos.CENTER);
+		actions.setSpacing(10);
 		body.setPadding(new Insets(10));
 		VBox.setVgrow(body, Priority.ALWAYS);
 		this.setPadding(new Insets(10));

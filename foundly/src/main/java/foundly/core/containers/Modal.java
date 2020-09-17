@@ -65,6 +65,7 @@ public class Modal<R> extends Dialog<R> {
     		{
     			getButtonTypes().add(ButtonType.CLOSE);
     			Node closeButton = this.lookupButton(ButtonType.CLOSE);
+    			System.out.println(closeButton);
     			closeButton.managedProperty().bind(closeButton.visibleProperty());
     			closeButton.setVisible(false);
     		}

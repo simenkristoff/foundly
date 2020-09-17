@@ -9,6 +9,8 @@ import foundly.core.controls.ImagePicker;
 import foundly.core.model.Item;
 import foundly.database.daoImpl.ItemDaoImpl;
 import foundly.ui.App;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -18,10 +20,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -44,18 +52,29 @@ public class Navigator {
 	/**
 	 * Instantiates a new navigator.
 	 */
-	public Navigator() {
+	public Navigator() {	
 		setupScene();
 		setView(View.ITEMS);
 		
-		btn_found.setOnAction(event -> {
+		btn_found.setOnAction(foundItem());
+		btn_lost.setOnAction(lostItem());
+		setupRoutes();
+	}
+	
+	/**
+	 * Event for adding found items
+	 * 
+	 * @return (ActionEvent) event
+	 */
+	private EventHandler<ActionEvent> foundItem() {
+		return event -> {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
 			ItemDaoImpl itemDao = new ItemDaoImpl();
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
 			ModalLayout layout = new ModalLayout();
-			layout.setHeader(new Label("Legg til ny gjenstand"));
+			layout.setHeader(new Label("Legg til funnet gjenstand"));
 			
 			TextField item_name = new TextField();
 			item_name.setPromptText("Navn");
@@ -74,9 +93,11 @@ public class Navigator {
 			
 			Button btn_submit = new Button("Legg til");
 			btn_submit.setDefaultButton(true);
-			btn_submit.setOnAction(addEvent -> {
+			btn_submit.getStyleClass().add("primary");
+			btn_submit.setOnAction(addEvent -> {	
 				Item item = new Item(
 					null, 						// ID
+					Item.State.FOUND,			// STATE
 					item_name.getText(), 		// NAME
 					item_desc.getText(), 		// DESCRIPTION
 					item_image.getImageAsBlob() // IMAGE
@@ -87,23 +108,89 @@ public class Navigator {
 			
 			Button btn_cancel = new Button("Avbryt");
 			btn_cancel.setCancelButton(true);
+			btn_cancel.getStyleClass().add("danger");
 			btn_cancel.setOnAction(closeEvent -> modal.hide());
 			
 			layout.setActions(btn_submit, btn_cancel);
 			modal.setContent(layout);
 			modal.setResultConverter(buttonType -> {
 				if(buttonType.getButtonData() == ButtonData.CANCEL_CLOSE) {
-                	modal.setResult(null);
-                }
-                return modal.getResult();
+	            	modal.setResult(null);
+	            }
+	            return modal.getResult();
 			});
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
 				itemDao.insert((Item) result.get());
 				ItemController.getItems().addAll(result.get());
 			}
-		});
-		setupRoutes();
+		};
+	}
+	
+	/**
+	 * Event for adding found items
+	 * 
+	 * @return (ActionEvent) event
+	 */
+	private EventHandler<ActionEvent> lostItem() {
+		return event -> {
+			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
+			ItemDaoImpl itemDao = new ItemDaoImpl();
+			modal.initModality(Modality.APPLICATION_MODAL);
+			modal.setOverlayClose(false);
+			
+			ModalLayout layout = new ModalLayout();
+			layout.setHeader(new Label("Legg til mistet gjenstand"));
+			
+			TextField item_name = new TextField();
+			item_name.setPromptText("Navn");
+			
+			ImagePicker item_image = new ImagePicker("Velg bilde");
+			
+			TextArea item_desc = new TextArea();
+			item_desc.setPromptText("Beskrivelse");
+			
+			VBox form = new VBox(item_name, item_image, item_desc);
+			form.setAlignment(Pos.CENTER);
+			form.setSpacing(10);
+			
+			
+			layout.setBody(form);
+			
+			Button btn_submit = new Button("Legg til");
+			btn_submit.setDefaultButton(true);
+			btn_submit.getStyleClass().add("primary");
+			btn_submit.setOnAction(addEvent -> {
+				Item item = new Item(
+					null, 						// ID
+					Item.State.LOST,			// STATE
+					item_name.getText(), 		// NAME
+					item_desc.getText(), 		// DESCRIPTION
+					item_image.getImageAsBlob() // IMAGE
+				);
+				modal.setResult(item);
+				modal.hide();
+			});
+			
+			Button btn_cancel = new Button("Avbryt");
+			btn_cancel.setCancelButton(true);
+			btn_cancel.getStyleClass().add("danger");
+			btn_cancel.setOnAction(closeEvent -> modal.hide());
+			
+			layout.setActions(btn_submit, btn_cancel);
+			modal.setContent(layout);
+			modal.setResultConverter(buttonType -> {
+				if(buttonType.getButtonData() == ButtonData.CANCEL_CLOSE) {
+	            	modal.setResult(null);
+	            }
+	            return modal.getResult();
+			});
+			Optional<Item> result = modal.showAndWait();
+			if (result.isPresent()){
+				itemDao.insert((Item) result.get());
+				ItemController.getItems().addAll(result.get());
+			}
+		};
 	}
 	
 	/**

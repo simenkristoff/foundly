@@ -21,6 +21,9 @@ public class Item extends Model{
 	@DBTable(columnName="id", func="getId")
 	protected Integer id;
 	
+	@DBTable(columnName="state", func="getStateAsString")
+	protected State state;
+	
 	@DBTable(columnName="title", func="getTitle")
 	private String title;
 	
@@ -43,8 +46,9 @@ public class Item extends Model{
 	 * @param description the description
 	 * @param imageBlob the image blob
 	 */
-	public Item(Integer id, String title, String description, Blob imageBlob) {
+	public Item(Integer id, State state, String title, String description, Blob imageBlob) {
 		this.id = id;
+		this.state = state;
 		this.title = title;
 		this.description = description;
 		this.imageBlob = imageBlob;
@@ -60,8 +64,9 @@ public class Item extends Model{
 	 * @param description the description
 	 * @param image the image
 	 */
-	public Item(Integer id, String title, String description, InputStream inputStream) {
+	public Item(Integer id, State state, String title, String description, InputStream inputStream) {
 		this.id = id;
+		this.state = state;
 		this.title = title;
 		this.description = description;
 		try {
@@ -78,6 +83,7 @@ public class Item extends Model{
 	 * @throws SQLException the SQL exception
 	 */
 	public Item(ResultSet rs) throws SQLException {
+		readStateFromRs(rs);
 		this.id = rs.getInt("id");
 		this.title = rs.getString("title");
 		this.description = rs.getString("description");
@@ -101,6 +107,33 @@ public class Item extends Model{
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Gets the state as a String.
+	 *
+	 * @return the state as String
+	 */
+	public String getStateAsString() {
+		return state.toString();
+	}
+	
+	/**
+	 * Gets the state.
+	 *
+	 * @return the state
+	 */
+	public State getState() {
+		return state;
+	}
+
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the new state
+	 */
+	public void setState(State state) {
+		this.state = state;
 	}
 
 	/**
@@ -189,7 +222,66 @@ public class Item extends Model{
 	 */
 	@Override
 	public String toString() {
-		return "Item [id=" + id + ", title=" + title + ", image=" + imageBlob + "]";
+		return "Item [id=" + id + ", state=" + state +", title=" + title + ", image=" + imageBlob + "]";
+	}
+	
+	
+	/**
+	 * Sets the correct State of Items stored in database
+	 *
+	 * @param rs the Item fetched from database
+	 *
+	 * @throws SQLException 
+	 */
+	private void readStateFromRs(ResultSet rs) throws SQLException {
+		String state = rs.getString("state");
+		switch (state) {
+			case "FOUND":
+				this.state = State.FOUND;
+				break;
+			case "LOST":
+				this.state = State.LOST;
+				break;
+			default:
+				this.state = State.FOUND;
+				break;
+		}	
+	}
+	
+	public enum State {
+		LOST("MISTET") {
+			public String toString() {
+				return "LOST";
+			}
+		},
+		FOUND("FUNNET"){
+			public String toString() {
+				return "FOUND";
+			}
+		};
+		
+		private String value;
+		
+		
+		/**
+		 * Instantiates a new State.
+		 *
+		 * @param value the string value of the state
+		 */
+		private State(final String value) {
+			this.value = value;
+		}
+		
+	    /**
+		 * Gets the value
+		 * 
+		 * @return the value
+		 */
+		public String getValue() {
+			return value;
+		}
+		
+		
 	}
 	
 }

@@ -25,8 +25,6 @@ import javafx.stage.FileChooser;
  */
 public class ImagePicker extends VBox {
 	
-	
-	
 	final FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Select Image", "*.png", "*.jpg");
 	final FileChooser fc = new FileChooser();
 	final ImageView imageView = new ImageView();
@@ -100,6 +98,24 @@ public class ImagePicker extends VBox {
     public final String getPath() { return pathholder.getText(); }
     public final void setPath(String value) { pathholder.setText(value); }
 	
+    /**
+	 * Gets the image.
+	 *
+	 * @return the image
+	 */
+    public Image getImage() {
+    	return this.imageView.getImage();
+    }
+    
+    /**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+    public void setImage(Image image) {
+    	this.imageView.setImage(image);
+    }
+    
 	/**
 	 * Gets the image as blob.
 	 *

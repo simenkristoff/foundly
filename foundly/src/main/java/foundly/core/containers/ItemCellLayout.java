@@ -3,16 +3,22 @@ package foundly.core.containers;
 import java.util.List;
 
 import foundly.core.model.Item;
+import foundly.ui.App;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -28,6 +34,7 @@ public class ItemCellLayout extends BorderPane {
 	private Header header = new Header();
 	private Body body = new Body();
 	private Footer footer = new Footer();
+	private Image defaultImage = new Image(App.class.getResourceAsStream("img/icons/lost_items_icon.png"));
 	private ImageView imageView = new ImageView();
 	
 	private VBox contentWrapper = new VBox(header, body, footer);
@@ -50,9 +57,10 @@ public class ItemCellLayout extends BorderPane {
 	 * Initialize.
 	 */
 	private void initialize() {
-		contentWrapper.setSpacing(10);
+		this.getStyleClass().add("itemCell");
 		
 		header.setTitle(item.getTitle());
+		header.setState(item.getState().getValue());
 		body.setDescription(item.getDescription());
 		footer.setDate(item.getDateCreated().toLocaleString());
 		
@@ -64,7 +72,7 @@ public class ItemCellLayout extends BorderPane {
 		imageView.setPreserveRatio(true);
 		imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
 		imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
-		imageView.setImage(item.getImage());
+		imageView.setImage((item.getImage() != null) ? item.getImage() : defaultImage);
 	}
 	
 	/**
@@ -155,18 +163,35 @@ public class ItemCellLayout extends BorderPane {
         this.footer.getChildren().setAll(footer);
     }
 	
+	public String getUserAgentStylesheet() {
+		return App.class.getResource("css/components/itemCell.css").toExternalForm();
+	}
+	
 	/**
 	 * The Class Header.
 	 */
-	private class Header extends VBox {
+	private class Header extends AnchorPane {
 		
 		private Text title = new Text();
+		private Text state = new Text();
+		private VBox badge;
 		
 		/**
 		 * Instantiates a new header.
 		 */
 		public Header() {
-			getChildren().add(title);
+			setPadding(new Insets(10, 0, 5, 0));
+	
+			setLeftAnchor(title, 0.0);
+			setBottomAnchor(title, 0.0);
+			title.getStyleClass().add("title");
+			
+			badge = new VBox(state);
+			setRightAnchor(badge, 0.0);
+			setBottomAnchor(badge, 5.0);
+			badge.getStyleClass().add("state");
+			
+			getChildren().addAll(title, badge);
 		}
 		
 		/**
@@ -186,6 +211,34 @@ public class ItemCellLayout extends BorderPane {
 		public void setTitle(String title) {
 			this.title.setText(title);
 		}
+		
+		/**
+		 * Gets the state.
+		 *
+		 * @return the state
+		 */
+		public String getState() {
+			return this.state.getText();
+		}
+		
+		/**
+		 * Sets the state.
+		 *
+		 * @param state the new state
+		 */
+		public void setState(String state) {
+			switch (state.toLowerCase()){
+				default:
+					badge.getStyleClass().remove("success");
+					badge.getStyleClass().add("danger");
+					break;
+				case "funnet":
+					badge.getStyleClass().remove("success");
+					badge.getStyleClass().add("success");
+					break;
+				}
+			this.state.setText(state);
+		}	
 	}
 	
 	/**
@@ -199,6 +252,8 @@ public class ItemCellLayout extends BorderPane {
 		 * Instantiates a new body.
 		 */
 		public Body() {
+			description.getStyleClass().add("description");
+			
 			VBox.setVgrow(this, Priority.ALWAYS);
 			getChildren().addAll(description);
 		}
@@ -233,6 +288,7 @@ public class ItemCellLayout extends BorderPane {
 		 * Instantiates a new footer.
 		 */
 		public Footer() {
+			date.getStyleClass().add("date");
 			setAlignment(Pos.BOTTOM_RIGHT);
 			getChildren().add(date);
 		}

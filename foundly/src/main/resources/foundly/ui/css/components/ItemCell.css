@@ -1,0 +1,30 @@
+
+.itemCell {
+}
+
+.itemCell .title {
+	-fx-font-size: 14px;
+	-fx-font-weight: 600;
+}
+
+.itemCell .description {
+	
+}
+
+.itemCell .date {
+	-fx-fill: #444444; 
+	-fx-font-size: 12px;
+	-fx-font-weight: 700;
+}
+
+.itemCell .state {
+	-fx-border-radius: 2;
+	-fx-background-radius: 2;
+	-fx-padding: 3 6;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 6, 0.0, 0, 2);
+}
+
+.itemCell .state > Text {
+	-fx-fill: #ffffff;
+	-fx-font-weight: 600;
+}

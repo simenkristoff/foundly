@@ -35,7 +35,7 @@ public class ItemDaoImplTest {
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
-		item = new Item(null, "Nøkkel", "Funnet i Hangaren", image);
+		item = new Item(null, Item.State.FOUND, "Nøkkel", "Funnet i Hangaren", image);
     }
 	
 	@Test

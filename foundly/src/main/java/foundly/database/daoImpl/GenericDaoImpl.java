@@ -34,7 +34,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	protected String table;
 	protected String mapper;
 	
-	protected static final String SANITIZE_PATTERN = "(\\b[\\S\\s]+\\b(\\?)*)";
+	protected static final String SANITIZE_PATTERN = "(.+)"; // OLD REGEX: (\\b[\\S\\s\\.]+\\b(\\?)*)
 	
 	/**
 	 * Instantiates a new instance of GenericDaoImpl.
