@@ -1,0 +1,8 @@
+#Directories
+foundly/target/
+bin/
+.settings/
+
+#Files
+.project
+.classpath
