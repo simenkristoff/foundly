@@ -154,5 +154,4 @@ public class ItemDaoImplTest {
 		assertEquals(expected, params);
 	}
 	
-	
 }

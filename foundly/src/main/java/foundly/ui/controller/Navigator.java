@@ -3,13 +3,13 @@ package foundly.ui.controller;
 import java.io.IOException;
 import java.util.Optional;
 
-import foundly.core.containers.Modal;
-import foundly.core.containers.ModalLayout;
-import foundly.core.controls.ImagePicker;
-import foundly.core.effects.DepthManager;
 import foundly.core.model.Item;
 import foundly.database.daoImpl.ItemDaoImpl;
 import foundly.ui.App;
+import foundly.ui.containers.Modal;
+import foundly.ui.containers.ModalLayout;
+import foundly.ui.controls.ImagePicker;
+import foundly.ui.effects.DepthManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

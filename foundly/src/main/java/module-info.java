@@ -11,10 +11,10 @@ module foundly {
 	requires java.desktop;
 
 	exports foundly.database;
-	exports foundly.core.containers;
+	exports foundly.ui.containers;
 	exports foundly.ui;
 	
-	opens foundly.core.containers to javafx.base;
+	opens foundly.ui.containers to javafx.base;
     opens foundly.ui.controller to javafx.fxml;
     
 }

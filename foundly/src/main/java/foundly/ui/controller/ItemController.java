@@ -4,9 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-import foundly.core.containers.ItemCellLayout;
 import foundly.core.model.Item;
 import foundly.database.daoImpl.ItemDaoImpl;
+import foundly.ui.containers.ItemCellLayout;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
