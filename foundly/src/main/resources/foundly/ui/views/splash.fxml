@@ -32,7 +32,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ProgressBar fx:id="splash_progress" prefWidth="400.0" progress="0.0" />
+                  <ProgressBar fx:id="splash_progress" prefWidth="400.0" />
                </children>
             </VBox>
          </center>

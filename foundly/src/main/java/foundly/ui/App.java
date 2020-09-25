@@ -1,5 +1,6 @@
 package foundly.ui;
 
+import javax.swing.SwingWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.application.Preloader;
@@ -28,7 +29,7 @@ public class App extends Application {
 	/** The height. */
 	private final double HEIGHT = 640;
 	
-	private final int COUNT_LIMIT = 5000; // 5 seconds 
+	private final int COUNT_LIMIT = 10;
 	
 	/** The icon **/
 	private final Image ICON = new Image(App.class.getResource("img/icons/icon.png").toExternalForm());
@@ -67,12 +68,16 @@ public class App extends Application {
 	
     /**
      * Initialize app.
+     * 
+     * TODO implement SwingWorker later for handling data-loading
+     * in the background.
      */
-    public void init() {
+    public void init() throws Exception {
     	this.navigator = new Navigator();
     	for(int i = 0; i < COUNT_LIMIT; i++) {
-    		double progress = (100 * i) / COUNT_LIMIT;
+    		double progress = (double) i / COUNT_LIMIT;
     		this.notifyPreloader(new Preloader.ProgressNotification(progress));
+    		Thread.sleep(100);
     	}
     }
     

@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -13,7 +13,7 @@
          <children>
             <AnchorPane>
                <children>
-                  <TextField maxWidth="250.0" minWidth="100.0" promptText="Søk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+                  <TextField fx:id="searchFilter" maxWidth="250.0" minWidth="100.0" promptText="Søk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
                   <ComboBox prefWidth="150.0" promptText="Velg filter" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                </children>
                <padding>
@@ -23,7 +23,10 @@
                   <Insets />
                </opaqueInsets>
             </AnchorPane>
-            <ListView fx:id="list_items" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="SOMETIMES" />
+            <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+              <tabs>
+              </tabs>
+            </TabPane>
          </children>
       </VBox>
    </children>

@@ -21,16 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 

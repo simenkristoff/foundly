@@ -8,6 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Label;
 
+/**
+ * The Class SplashController.
+ * Controls the Preloader.
+ */
 public class SplashController implements Initializable {
 
 	public static Label label;
@@ -19,10 +23,16 @@ public class SplashController implements Initializable {
     @FXML
     private ProgressBar splash_progress;
 
+	/**
+	 * Initialize.
+	 *
+	 * @param location the location
+	 * @param resources the resources
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.label = splash_txt;
-		this.progress = splash_progress;
+		label = splash_txt;
+		progress = splash_progress;
 	}
 
 }
