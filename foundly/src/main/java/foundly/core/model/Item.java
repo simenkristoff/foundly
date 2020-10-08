@@ -114,7 +114,7 @@ public class Item extends Model{
 	 * @return the id
 	 */
 	public Integer getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class Item extends Model{
 	 * @return the state as String
 	 */
 	public String getStateAsString() {
-		return state.toString();
+		return this.state.toString();
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class Item extends Model{
 	 * @return the state
 	 */
 	public State getState() {
-		return state;
+		return this.state;
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class Item extends Model{
 	 * @return the title
 	 */
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class Item extends Model{
 	 * @return the description
 	 */
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class Item extends Model{
 	 * @return the image blob
 	 */
 	public Blob getImageBlob() {
-		return imageBlob;
+		return this.imageBlob;
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class Item extends Model{
 				e.printStackTrace();
 			}
 		}
-		return image;
+		return this.image;
 	}
 	
 	/**
@@ -229,7 +229,7 @@ public class Item extends Model{
 	 * @return the date of creation
 	 */
 	public Date getDateCreated() {
-		return dateCreated;
+		return this.dateCreated;
 	}
 
 	/**
