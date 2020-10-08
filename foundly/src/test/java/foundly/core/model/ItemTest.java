@@ -38,8 +38,32 @@ public class ItemTest {
 	}
 	
 	@Test
-	public void itemTest() {
+	public void createItemTest() {
         assertEquals(item.getId(), this.id);
+        assertEquals(item.getState(), this.state);
+        assertEquals(item.getTitle(), this.title);
+        assertEquals(item.getDescription(), this.description);
+        assertEquals(item.getImageBlob(), this.image);
+	}
+	
+	@Test
+	public void changeItemTest() {
+		this.id = 2;
+		this.state = Item.State.LOST;
+		this.title = "Fin nøkkel";
+		this.description = "Fant en fin nøkkel";
+		try {
+			this.image = new SerialBlob(getClass().getResourceAsStream("newKeyTest.jpg").readAllBytes());
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+		this.item.setId(this.id);
+		this.item.setState(this.state);
+		this.item.setTitle(this.title);
+		this.item.setDescription(this.description);
+		this.item.setImageBlob(this.image);
+		
+		assertEquals(item.getId(), this.id);
         assertEquals(item.getState(), this.state);
         assertEquals(item.getTitle(), this.title);
         assertEquals(item.getDescription(), this.description);
