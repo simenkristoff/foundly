@@ -1,33 +1,32 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.idi.ntnu.no/#https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2050/gr2050)
 
 # Foundly
-Dette prosjektet er konfigurert med maven og er bygget opp med tre lag; domenelag, brukergrensesnitt (UI) og persistens. Prosjektet inneholder tester for persistens.
+Dette prosjektet er konfigurert med maven og er bygget opp med tre lag; domenelag, brukergrensesnitt (UI) og persistens. Prosjektet inneholder tester for alle tre lag.
 
 ## Organisering
-Prosjektet **[Foundly](foundly/)** er organisert med 4 kildekodemapper: Kodemappe og ressursmappe for både appen og tester.
+Prosjektet **[Foundly](foundly/)** er organisert en parent-modul (foundlyParent) og tre submoduler; core, ui, database
 
-- **src/main/java** for koden til applikasjonen
-- **src/main/resources** for ressurser til applikasjonen
-- **src/test/java** for testkoden
-- **src/test/resources** for ressurser til testkoden
+- **foundly/core** for kode og ressurser til kjernelogikk
+- **foundly/database** for kode og ressurser til database - vårt persistenslag
+- **foundly/ui** for kode og ressurser til brukergrensesnitt
 ##
 
 ## Domenelaget
 
-Pakken **[foundly.core](foundly/src/main/java/foundly/core/)** utgjør domenelaget i denne applikasjonen.
-Domenelaget inneholder alle klasser og logikk knyttet til dataene som applikasjonen handler om og håndterer.
+Pakken **[foundly.core](foundly/core)** utgjør domenelaget i denne applikasjonen.
+Domenelaget inneholder alle klasser og logikk knyttet til dataene som applikasjonen handler om og håndterer, samt tester og ressurser til disse klassene.
 
  
 
 ## Brukergrensesnittlaget
 
-Pakken **[foundly.ui](foundly/src/main/java/foundly/ui/)** utgjør brukergrensesnittlaget i denne applikasjonen.
+Pakken **[foundly.ui](foundly/ui/)** utgjør brukergrensesnittlaget i denne applikasjonen.
 Brukergrensesnittlaget inneholder alle klasser og logikk knyttet til visning og handlinger på dataene i domenelaget.
 
 
 ## Persistenslaget
 
-Pakken **[foundly.database](foundly/src/main/java/foundly/database/)** utgjør persistenslaget i denne applikasjonen.
+Pakken **[foundly.database](foundly/database)** utgjør persistenslaget i denne applikasjonen.
 Persistenslaget inneholder alle klasser og logikk for lagring (skriving og lesing) av dataene i domenelaget. Vårt persistenslag implementerer lagring av data i en database.
 
 ## Maven
