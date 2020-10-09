@@ -119,13 +119,12 @@
                 </configuration>
             </plugin>
             
-            <!-- Run the spotbugs code quality tool -->
-            <!--
+             <!-- Run the checkstyle code quality tool -->
             <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
-        -->
+
             <!-- Configure jacoco code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
