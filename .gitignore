@@ -1,5 +1,8 @@
 #Directories
 foundly/target/
+foundly/ui/target/
+foundly/database/target/
+foundly/core/target/
 bin/
 .settings/
 
