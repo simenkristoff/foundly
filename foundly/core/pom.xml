@@ -11,7 +11,7 @@
    <artifactId>core</artifactId> 
     
     <dependencies>
-
+		
         <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -23,23 +23,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>14</version>
         </dependency>
-		
-		<!-- Apache Commons DBCP2 -->
-		<dependency>
-		    <groupId>commons-logging</groupId>
-		    <artifactId>commons-logging</artifactId>
-		    
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-pool2</artifactId>
-		    
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-dbcp2</artifactId>
-		   
-		</dependency>
 		
 		<!-- Test with JUnit5 -->
 		<dependency>
@@ -54,8 +37,7 @@
 		</dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            
+            <artifactId>mockito-core</artifactId>  
         </dependency>
         
     </dependencies>

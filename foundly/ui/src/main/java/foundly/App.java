@@ -1,10 +1,8 @@
 package foundly;
 
-import javax.swing.SwingWorker;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.application.Preloader;
-import javafx.application.Preloader.PreloaderNotification;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -12,7 +10,6 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-import foundly.ConnectionHandler;
 import foundly.controller.Navigator;
 
 /**
@@ -46,7 +43,6 @@ public class App extends Application {
 	 * @param stage the stage
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	@SuppressWarnings("exports")
 	public void start(Stage stage) throws IOException {
 		stage.getIcons().add(ICON);
 		stage.setTitle(TITLE);
@@ -88,6 +84,10 @@ public class App extends Application {
     	ConnectionHandler.closePool();
     	Platform.exit();
     	System.exit(-1);
+    }
+    
+    public Navigator getNavigator() {
+    	return this.navigator;
     }
 
     /**

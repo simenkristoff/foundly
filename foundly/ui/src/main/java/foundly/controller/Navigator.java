@@ -63,6 +63,7 @@ public class Navigator {
 	private EventHandler<ActionEvent> foundItem() {
 		return event -> {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
+			//modal.setTitle("Legg til funnet gjenstand");
 			ItemDaoImpl itemDao = new ItemDaoImpl();
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);

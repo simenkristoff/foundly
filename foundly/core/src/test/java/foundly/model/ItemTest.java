@@ -30,7 +30,7 @@ public class ItemTest {
         this.title = "Nøkkel";
         this.description = "Dette er en nøkkel";
         try {
-			this.image = new SerialBlob(getClass().getResourceAsStream("itemTest.jpg").readAllBytes());
+			this.image = new SerialBlob(getClass().getClassLoader().getResourceAsStream("itemTest.jpg").readAllBytes());
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +53,7 @@ public class ItemTest {
 		this.title = "Fin nøkkel";
 		this.description = "Fant en fin nøkkel";
 		try {
-			this.image = new SerialBlob(getClass().getResourceAsStream("newKeyTest.jpg").readAllBytes());
+			this.image = new SerialBlob(getClass().getClassLoader().getResourceAsStream("newKeyTest.jpg").readAllBytes());
 		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
