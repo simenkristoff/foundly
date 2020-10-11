@@ -21,15 +21,7 @@
             <groupId>gr2050.foundly</groupId>
             <artifactId>database</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-          <!-- MySQL database storage -->
-        <dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.21</version>
-		</dependency>
-		
+        </dependency>		
     
     	<!-- JavaFX -->
         <dependency>
@@ -42,23 +34,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>14</version>
         </dependency>
-		
-		<!-- Apache Commons DBCP2 -->
-		<dependency>
-		    <groupId>commons-logging</groupId>
-		    <artifactId>commons-logging</artifactId>
-		    
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-pool2</artifactId>
-		   
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-dbcp2</artifactId>
-		    
-		</dependency>
 		
 		<!-- Test with JUnit5 -->
 		<dependency>

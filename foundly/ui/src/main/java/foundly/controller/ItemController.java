@@ -75,6 +75,7 @@ public class ItemController extends AbstractViewController {
 	}
 	
 	private void setupTabs() {
+			
 		for(String tabName : tabNames) {
 			Tab tab = new Tab(tabName);
 			tab.setId(tabName.toLowerCase());
@@ -82,7 +83,6 @@ public class ItemController extends AbstractViewController {
 		}
 		
 		tabPane.getTabs().setAll(tabs);
-		System.out.println(tabPane.getTabs());
 		tabPane.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)->{
 			ov.setContent(null);
 			nv.setContent(listView);

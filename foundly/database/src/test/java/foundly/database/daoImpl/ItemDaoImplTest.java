@@ -28,7 +28,7 @@ public class ItemDaoImplTest {
 	private Item foundItem, lostItem;
 
 	@BeforeEach
-    public void setUp() {
+    public void setup() {
 		itemDao = new ItemDaoImpl();
 		try {
 			image = new SerialBlob(getClass().getResourceAsStream("test.jpg").readAllBytes());

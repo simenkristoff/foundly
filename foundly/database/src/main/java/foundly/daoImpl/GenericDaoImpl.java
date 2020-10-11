@@ -128,13 +128,7 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		String params = parseInsertParameters(values);
 
 		String query = "INSERT INTO " + table + " ("
-				+ cols + ") VALUES (" + params +")";
-		
-		/** DEBUG **/
-		System.out.println("index -> " + index);
-		System.out.println("values -> " + values);
-		System.out.println("query -> " + query);
-		
+				+ cols + ") VALUES (" + params +")";		
 		try {
 			Connection conn = ConnectionHandler.getConnection();			
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
