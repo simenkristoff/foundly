@@ -90,7 +90,6 @@
                 <version>0.0.4</version>
                 <configuration>
                     <mainClass>foundly.App</mainClass>
-                    <argLine>${argLine} --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED</argLine>
                 </configuration>
             </plugin>
             

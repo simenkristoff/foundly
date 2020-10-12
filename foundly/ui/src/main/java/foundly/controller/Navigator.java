@@ -24,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -238,11 +239,7 @@ public class Navigator {
 	 * @param view the new view to be displayed on the app
 	 */
 	public void setView(View view) {
-		try {
-			this.container.setCenter(view.loadView());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.container.setCenter(view.loadView());
 	}
 	
 	/**
@@ -291,13 +288,26 @@ public class Navigator {
 		 * @return the elements from the given fxml-file, linked with the set {@link ViewController}
 		 * @throws IOException Signals that an I/O exception has occurred.
 		 */
-		public <T> T loadView() throws IOException {
+		public Region loadView() {
 			FXMLLoader loader = new FXMLLoader();
 	    	loader.setController(this.controller);
-	    	
-	    	return loader.load(
-	    		App.class.getResourceAsStream("views/" + this.fxml + ".fxml")
-	    	);
+	    	InputStream inputStream = null;
+	    	Region region = null;
+	    	try {
+	    		inputStream = App.class.getResourceAsStream("views/" + this.fxml + ".fxml");
+	    		region = loader.load(inputStream);
+	    		inputStream.close();
+	    	} catch(IOException e) {
+	    		e.printStackTrace();
+	    	}
+	    	if(inputStream != null) {
+	    		try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    	}
+	    	return region;
 		}
 	}
 }
