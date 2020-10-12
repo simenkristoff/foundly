@@ -115,6 +115,7 @@
                 <configuration>
                     <xmlOutput>false</xmlOutput>
                     <htmlOutput>true</htmlOutput>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <execution>
