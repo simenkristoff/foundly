@@ -40,7 +40,8 @@ Vårt bygg har tillegg for:
 
 ## Kjøring av prosjektet
 1. Åpne prosjektet i gitpod ved hjelp av knappen øverst.
-2. Fra /workspace/gr2050/foundly, skriv kommandoen **mvn install** i terminalvinduet.
-3. Kjør deretter kommandoen **mvn javafx:run -f ui/pom.xml**
-4. Legg inn hittegodset ditt!
+2. Åpne port 6080 ved å trykke på knappen nederst i høyre hjørne i gitpod.
+3. Fra /workspace/gr2050/foundly, skriv kommandoen **mvn install** i terminalvinduet.
+4. Kjør deretter kommandoen **mvn javafx:run -f ui/pom.xml**
+5. Legg inn hittegodset ditt!
 
