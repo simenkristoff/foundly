@@ -65,7 +65,7 @@ public class App extends Application {
     /**
      * Initialize app.
      * 
-     * TODO implement SwingWorker later for handling data-loading
+     *TODO implement SwingWorker later for handling data-loading
      * in the background.
      */
     public void init() throws Exception {
@@ -83,7 +83,7 @@ public class App extends Application {
     private void close() {
     	ConnectionHandler.closePool();
     	Platform.exit();
-    	System.exit(-1);
+    	//System.exit(-1);
     }
     
     public Navigator getNavigator() {
