@@ -1,6 +1,8 @@
 package foundly;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -31,6 +33,7 @@ public class ConnectionHandler {
 	
 	private static Properties properties = null;
 	private static BasicDataSource dataSource = new BasicDataSource();
+	private static InputStream propertyStream;
 	
 	/**
 	 * Self initializing method.
@@ -39,8 +42,11 @@ public class ConnectionHandler {
 	 */
 	static {
 		try {
-			properties = new Properties();	
-			properties.load(ConnectionHandler.class.getResourceAsStream(DB_PROPS_EXT));
+			properties = new Properties();
+			propertyStream = ConnectionHandler.class.getResourceAsStream(DB_PROPS_EXT);
+			properties.load(propertyStream);
+			propertyStream.close();
+			
 			dataSource.setDriverClassName(properties.getProperty(DB_DRIVER));
 			dataSource.setUrl(properties.getProperty(DB_URL));
 			dataSource.setUsername(properties.getProperty(DB_USERNAME));
@@ -68,6 +74,13 @@ public class ConnectionHandler {
 			
 		    
 		} catch(IOException e) {
+			if(propertyStream != null) {
+				try {
+					propertyStream.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 			e.printStackTrace();
 		}
 	}

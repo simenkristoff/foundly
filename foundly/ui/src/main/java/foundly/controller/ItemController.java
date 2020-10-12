@@ -42,9 +42,10 @@ public class ItemController extends AbstractViewController {
 	ObjectProperty<Predicate<Item>> descriptionFilter = new SimpleObjectProperty<>();
 	
 	private FilteredList<Item> filteredData;
-	
-	
-	public SortedList<Item> sortedData;
+
+	/* TODO: implement sorting function
+	 * public SortedList<Item> sortedData;
+	 */
 	
 	@FXML TextField searchFilter;
 	
