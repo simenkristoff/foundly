@@ -14,8 +14,8 @@ import javafx.scene.control.Label;
  */
 public class SplashController implements Initializable {
 
-	public static Label label;
-	public static ProgressBar progress;
+	private static Label label;
+	private static ProgressBar progress;
 	
     @FXML
     private Label splash_txt;
@@ -31,8 +31,41 @@ public class SplashController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		label = splash_txt;
-		progress = splash_progress;
+		setLabel(splash_txt);
+		setProgressBar(splash_progress);
 	}
+	
+	/**
+	 * Thread safe function to set the Label
+	 * @param label the Label to be set
+	 */
+	public synchronized static void setLabel(Label label) {
+		SplashController.label = label;
+	}
+	
+	/**
+	 * Sets the text of label
+	 * @param text
+	 */
+	public static void setLabelText(String text) {
+		label.setText(text);
+	}
+	
+	/**
+	 * Thread safe function to set the ProgressBar
+	 * @param progressBar the ProgressBar to be set
+	 */
+	public synchronized static void setProgressBar(ProgressBar progressBar) {
+		SplashController.progress = progressBar;
+	}
+	
+	/**
+	 * Sets the progress value
+	 * @param value the progress
+	 */
+	public static void setProgressValue(Double value) {
+		progress.setProgress(value);
+	}
+
 
 }

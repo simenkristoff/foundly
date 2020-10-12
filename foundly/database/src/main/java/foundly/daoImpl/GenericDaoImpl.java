@@ -32,7 +32,9 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	
 	protected Class<V> model;
 	protected String table;
-	protected String mapper;
+	
+	private Connection conn = null;
+	private PreparedStatement stmt = null;
 	
 	protected static final String SANITIZE_PATTERN = "(.+)"; // OLD REGEX: (\\b[\\S\\s\\.]+\\b(\\?)*)
 	
@@ -61,8 +63,8 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	public V getById(Integer id) {
 		V object = null;
 		try {
-			Connection conn = ConnectionHandler.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(
+			this.conn = ConnectionHandler.getConnection();
+			this.stmt = conn.prepareStatement(
 				"SELECT * FROM " + table
 				+ " WHERE " + table + ".id = ? "
 				+ "LIMIT 1"
@@ -79,10 +81,11 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 					e.printStackTrace();
 				}
 			}
-			conn.close();
+			//conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		sanitizeQuery();
 		return object;
 	}
 	
@@ -94,8 +97,8 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	public List<V> getAll() {
 		List<V> list = new ArrayList<V>();
 		try {
-			Connection conn = ConnectionHandler.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(
+			this.conn = ConnectionHandler.getConnection();
+			this.stmt = conn.prepareStatement(
 				"SELECT * FROM " + table
 			);
 			if(stmt.execute() && stmt.getResultSet() != null) {
@@ -106,10 +109,11 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 					list.add(object);
 				}	
 			}
-			conn.close();
+			//conn.close();
 		} catch (SQLException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		sanitizeQuery();
 		return list;
 	}
 	
@@ -130,8 +134,8 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 		String query = "INSERT INTO " + table + " ("
 				+ cols + ") VALUES (" + params +")";		
 		try {
-			Connection conn = ConnectionHandler.getConnection();			
-			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			this.conn = ConnectionHandler.getConnection();			
+			this.stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			ParameterMetaData pmd = stmt.getParameterMetaData();
 			for(int i = 1; i <= pmd.getParameterCount(); i++) {
 				stmt.setObject(i, values.get(i));
@@ -142,11 +146,11 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 				Integer id = rs.getInt(1);
 				object.setId(id);
 			}
-			conn.close();
+			//conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		sanitizeQuery();
 	}
 	
 	/**
@@ -166,17 +170,18 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 				+ " WHERE " + table + ".id = " + object.getId();
 		
 		try {
-			Connection conn = ConnectionHandler.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(query);
+			this.conn = ConnectionHandler.getConnection();
+			this.stmt = conn.prepareStatement(query);
 			ParameterMetaData pmd = stmt.getParameterMetaData();
 			for(int i = 1; i <= pmd.getParameterCount(); i++) {
 				stmt.setObject(i, values.get(i));
 			}
 			stmt.execute();
-			conn.close();
+			//conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		sanitizeQuery();
 	}
 	
 	/**
@@ -187,16 +192,17 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 	public void delete(V object) {
 		Integer id = object.getId();
 		try {
-			Connection conn = ConnectionHandler.getConnection();
-			PreparedStatement stmt = conn.prepareStatement("DELETE FROM " + table + " WHERE "
+			this.conn = ConnectionHandler.getConnection();
+			this.stmt = conn.prepareStatement("DELETE FROM " + table + " WHERE "
 					+ table + ".id = ?;"
 			);
 			stmt.setInt(1, (int) id);
 			stmt.execute();
-			conn.close();
+			//conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		sanitizeQuery();
 	}
 	
 	/**
@@ -266,5 +272,23 @@ public abstract class GenericDaoImpl<V extends Model> implements GenericDao<V> {
 			}
 		}
 		return map;
-	}	
+	}
+	
+	/**
+	 * Cleans up the PreparedStatement and Connection.
+	 * To be used after each query to the database
+	 */
+	protected void sanitizeQuery() {
+		try {
+			if(this.stmt !=null) {
+				this.stmt.close();
+			}
+			
+			if(this.conn !=null) {
+				this.conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

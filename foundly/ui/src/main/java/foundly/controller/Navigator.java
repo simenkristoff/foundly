@@ -1,6 +1,7 @@
 package foundly.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 
 import foundly.model.Item;
@@ -201,15 +202,23 @@ public class Navigator {
 	private void setupScene() {
 		loader = new FXMLLoader();
 		loader.setController(this);
+		InputStream inputStream = null;
 		try {
-			this.scene = new Scene(loader.load(
-				App.class.getResourceAsStream("views/app.fxml"))
-			);
+			inputStream = App.class.getResourceAsStream("views/app.fxml");
+			this.scene = new Scene(loader.load(inputStream));
+			inputStream.close();
 			
 			this.scene.getStylesheets().setAll(
 					App.class.getResource("css/app.css").toExternalForm()
 			);
 		} catch (IOException e) {
+			if(inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 			e.printStackTrace();
 		}
 	}

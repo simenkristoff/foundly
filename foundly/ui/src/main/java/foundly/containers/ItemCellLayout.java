@@ -170,7 +170,7 @@ public class ItemCellLayout extends BorderPane {
 	/**
 	 * The Class Header.
 	 */
-	private class Header extends AnchorPane {
+	static private class Header extends AnchorPane {
 		
 		private Text title = new Text();
 		private Text state = new Text();
@@ -244,7 +244,7 @@ public class ItemCellLayout extends BorderPane {
 	/**
 	 * The Class Body.
 	 */
-	private class Body extends VBox {
+	static private class Body extends VBox {
 		
 		private Text description = new Text();
 		
@@ -280,7 +280,7 @@ public class ItemCellLayout extends BorderPane {
 	/**
 	 * The Class Footer.
 	 */
-	private class Footer extends VBox {
+	static private class Footer extends VBox {
 		
 		private Text date = new Text();
 		

@@ -42,9 +42,10 @@ public class ItemController extends AbstractViewController {
 	ObjectProperty<Predicate<Item>> descriptionFilter = new SimpleObjectProperty<>();
 	
 	private FilteredList<Item> filteredData;
-	
-	
-	private SortedList<Item> sortedData;
+
+	/* TODO: implement sorting function
+	 * public SortedList<Item> sortedData;
+	 */
 	
 	@FXML TextField searchFilter;
 	
@@ -71,7 +72,7 @@ public class ItemController extends AbstractViewController {
 		items = FXCollections.observableArrayList(itemDao.getAll());
 		
 		filteredData = new FilteredList<Item>(items, p -> true);
-		sortedData = new SortedList<>(filteredData);
+		//sortedData = new SortedList<>(filteredData);
 	}
 	
 	private void setupTabs() {
