@@ -38,3 +38,9 @@ Vårt bygg har tillegg for:
 - sjekking av kodekvalitet med [checkstyle](https://checkstyle.sourceforge.io) (**maven-checkstyle-plugin**) og [spotbugs](https://spotbugs.github.io) (**spotbugs-maven-plugin**)
 - testdekningsgrad med [jacoco](https://github.com/jacoco/jacoco) (**jacoco-maven-plugin**)
 
+## Kjøring av prosjektet
+1. Åpne prosjektet i gitpod ved hjelp av knappen øverst.
+2. Fra /workspace/gr2050/foundly, skriv kommandoen **mvn install** i terminalvinduet.
+3. Kjør deretter kommandoen **mvn javafx:run -f ui/pom.xml**
+4. Legg inn hittegodset ditt!
+
