@@ -1,4 +1,4 @@
-package foundly.model;
+package foundly.core.model;
 
 import java.io.IOException;
 import java.io.InputStream;
