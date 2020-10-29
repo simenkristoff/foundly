@@ -1,4 +1,4 @@
-package foundly.model;
+package foundly.core.model;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

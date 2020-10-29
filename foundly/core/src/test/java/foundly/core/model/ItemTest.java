@@ -1,4 +1,4 @@
-package foundly.model;
+package foundly.core.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
