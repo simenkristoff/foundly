@@ -15,8 +15,10 @@ import foundly.core.model.Item;
 @JsonComponent
 public class ItemSerializer extends JsonSerializer<Item> {
 
+    // Method to write json-object from given Item-object
     @Override
     public void serialize(Item item, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        // Generate json-object from fields in Item
         gen.writeStartObject();
 		gen.writeStringField("title", item.getTitle());
 		gen.writeStringField("description", item.getDescription());
