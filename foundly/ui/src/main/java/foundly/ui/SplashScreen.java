@@ -1,6 +1,6 @@
 package foundly.ui;
 
-import foundly.controller.SplashController;
+import foundly.ui.controller.SplashController;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,9 +1,9 @@
-package foundly.ui.containers;
+package foundly.ui.container;
 
 import java.util.List;
 
-import foundly.App;
-import foundly.effects.DepthManager;
+import foundly.ui.App;
+import foundly.ui.effect.DepthManager;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

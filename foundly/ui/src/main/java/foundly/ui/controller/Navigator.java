@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-import foundly.model.Item;
-import foundly.daoImpl.ItemDaoImpl;
-import foundly.App;
-import foundly.containers.Modal;
-import foundly.containers.ModalLayout;
-import foundly.controls.ImagePicker;
-import foundly.effects.DepthManager;
+import foundly.core.model.Item;
+import foundly.ui.App;
+import foundly.ui.container.Modal;
+import foundly.ui.container.ModalLayout;
+import foundly.ui.control.ImagePicker;
+import foundly.ui.effect.DepthManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -66,7 +65,7 @@ public class Navigator {
 		return event -> {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
 			//modal.setTitle("Legg til funnet gjenstand");
-			ItemDaoImpl itemDao = new ItemDaoImpl();
+			//ItemDaoImpl itemDao = new ItemDaoImpl();
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
@@ -92,14 +91,14 @@ public class Navigator {
 			btn_submit.setDefaultButton(true);
 			btn_submit.getStyleClass().add("primary");
 			btn_submit.setOnAction(addEvent -> {	
-				Item item = new Item(
+				/*Item item = new Item(
 					null, 						// ID
 					Item.State.FOUND,			// STATE
 					item_name.getText(), 		// NAME
 					item_desc.getText(), 		// DESCRIPTION
 					item_image.getImageAsBlob() // IMAGE
 				);
-				modal.setResult(item);
+				modal.setResult(item);*/
 				modal.hide();
 			});
 			
@@ -118,7 +117,7 @@ public class Navigator {
 			});
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
-				itemDao.insert((Item) result.get());
+				//itemDao.insert((Item) result.get());
 				ItemController.getItems().addAll(result.get());
 			}
 		};
@@ -132,7 +131,7 @@ public class Navigator {
 	private EventHandler<ActionEvent> lostItem() {
 		return event -> {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
-			ItemDaoImpl itemDao = new ItemDaoImpl();
+			//ItemDaoImpl itemDao = new ItemDaoImpl();
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
@@ -158,14 +157,14 @@ public class Navigator {
 			btn_submit.setDefaultButton(true);
 			btn_submit.getStyleClass().add("primary");
 			btn_submit.setOnAction(addEvent -> {
-				Item item = new Item(
+				/*Item item = new Item(
 					null, 						// ID
 					Item.State.LOST,			// STATE
 					item_name.getText(), 		// NAME
 					item_desc.getText(), 		// DESCRIPTION
 					item_image.getImageAsBlob() // IMAGE
 				);
-				modal.setResult(item);
+				modal.setResult(item);*/
 				modal.hide();
 			});
 			
@@ -184,7 +183,7 @@ public class Navigator {
 			});
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
-				itemDao.insert((Item) result.get());
+				//itemDao.insert((Item) result.get());
 				ItemController.getItems().addAll(result.get());
 			}
 		};

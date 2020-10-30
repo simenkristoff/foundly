@@ -1,4 +1,4 @@
-package foundly.ui.controls;
+package foundly.ui.control;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-import foundly.App;
+import foundly.ui.App;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
