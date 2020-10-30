@@ -13,10 +13,10 @@
 	<description>Simple app for finding your lost items in Trondheim</description>
 
     <modules>
+    	<module>web-client</module>
         <module>core</module>
         <module>rest-api</module>
         <module>ui</module>
-        <module>web-client</module>
     </modules>
 
     <parent>

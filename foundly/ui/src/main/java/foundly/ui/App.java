@@ -38,7 +38,7 @@ public class App extends Application {
 	private final Image ICON = new Image(App.class.getResource("img/icons/icon.png").toExternalForm());
 
 	/** The logo **/
-	public static final Image LOGO = new Image(App.class.getResource("img/logo.png").toExternalForm());
+	public final Image LOGO = new Image(App.class.getResource("img/logo.png").toExternalForm());
 
 	/** The navigator. */
 	private Navigator navigator;
@@ -102,7 +102,7 @@ public class App extends Application {
 	 */
 	public static void main(String[] args) {
 		System.setProperty("javafx.preloader", SplashScreen.class.getCanonicalName());
-		launch();
+		Application.launch(args);
 	}
 
 }
