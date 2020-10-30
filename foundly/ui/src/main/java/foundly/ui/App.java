@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import java.io.IOException;
 
 import foundly.ui.controller.Navigator;
@@ -14,8 +16,10 @@ import foundly.ui.controller.Navigator;
 /**
  * JavaFX App.
  */
+@SpringBootApplication
 public class App extends Application {
-	
+    
+    private ConfigurableApplicationContext springContext;
 	/** The title. */
 	private final String TITLE = "Foundly";
 	
@@ -56,14 +60,26 @@ public class App extends Application {
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
+				try {
+                    stop();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 			}
 		});
-	}
+    }
+    
+    @Override
+    public void stop() throws Exception {
+            springContext.close();
+            System.exit(-1);
+        }
 	
     /**
      * Initialize app.
      */
     public void init() throws Exception {
+        this.springContext = SpringApplication.run(RestApi.class);
     	this.navigator = new Navigator();
     	for(int i = 0; i < COUNT_LIMIT; i++) {
     		double progress = (double) i / COUNT_LIMIT;
@@ -71,6 +87,8 @@ public class App extends Application {
     		Thread.sleep(100);
     	}
     }
+    
+
     
     public Navigator getNavigator() {
     	return this.navigator;
@@ -82,10 +100,6 @@ public class App extends Application {
      * @param args the arguments
      */
     public static void main(String[] args) {
-    	System.setProperty("os.target", "ios");
-        System.setProperty("os.name", "iOS");
-        System.setProperty("glass.platform", "ios");
-        System.setProperty("targetos.name", "iOS");
         System.setProperty("javafx.preloader", SplashScreen.class.getCanonicalName());
         launch();
     }
