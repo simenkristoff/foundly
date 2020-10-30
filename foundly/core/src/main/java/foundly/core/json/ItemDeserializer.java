@@ -19,6 +19,7 @@ import foundly.core.model.Item.State;
 @JsonComponent
 public class ItemDeserializer extends JSONDeserializer<Item> {
 
+    // Metode som lager Item-objekt fra JsonParser
     @Override
     public Item deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         ObjectCodec oc = p.getCodec();
