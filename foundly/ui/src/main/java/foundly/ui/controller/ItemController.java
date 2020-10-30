@@ -4,9 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
-import foundly.model.Item;
-import foundly.daoImpl.ItemDaoImpl;
-import foundly.containers.ItemCellLayout;
+import foundly.core.model.Item;
+import foundly.ui.container.ItemCellLayout;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -33,7 +32,7 @@ public class ItemController extends AbstractViewController {
 	
 	private ListView<Item> listView;
 	
-	private ItemDaoImpl itemDao;
+	//private ItemDaoImpl itemDao;
 	private static ObservableList<Item> items;
 	
 	/** Filters **/
@@ -64,8 +63,8 @@ public class ItemController extends AbstractViewController {
 	}
 
 	private void fetchData() {
-		itemDao = new ItemDaoImpl();
-		items = FXCollections.observableArrayList(itemDao.getAll());
+		//itemDao = new ItemDaoImpl();
+		//items = FXCollections.observableArrayList(itemDao.getAll());
 		
 		filteredData = new FilteredList<Item>(items, p -> true);
 		//sortedData = new SortedList<>(filteredData);

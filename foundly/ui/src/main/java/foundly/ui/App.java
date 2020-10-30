@@ -1,7 +1,6 @@
 package foundly.ui;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -12,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 
-import foundly.controller.Navigator;
+import foundly.ui.controller.Navigator;
 
 /**
  * JavaFX App.

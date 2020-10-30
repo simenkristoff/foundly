@@ -1,4 +1,4 @@
-package foundly.effects;
+package foundly.ui.effect;
 
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;

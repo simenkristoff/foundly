@@ -1,24 +1,14 @@
-package foundly.ui.containers;
+package foundly.ui.container;
 
-import java.util.List;
-
-import foundly.model.Item;
-import foundly.App;
-import javafx.collections.ObservableList;
+import foundly.core.model.Item;
+import foundly.ui.App;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -62,7 +52,7 @@ public class ItemCellLayout extends BorderPane {
 		header.setTitle(item.getTitle());
 		header.setState(item.getState().getValue());
 		body.setDescription(item.getDescription());
-		footer.setDate(item.getDateCreated().toLocaleString());
+		//footer.setDate(item.getDateCreated().toLocaleString());
 		
 		imageViewWrapper.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
 		imageViewWrapper.setPrefSize(100, 100);
@@ -72,96 +62,8 @@ public class ItemCellLayout extends BorderPane {
 		imageView.setPreserveRatio(true);
 		imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
 		imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
-		imageView.setImage((item.getImage() != null) ? item.getImage() : defaultImage);
+		//imageView.setImage((item.getImage() != null) ? item.getImage() : defaultImage);
 	}
-	
-	/**
-	 * Gets the image.
-	 *
-	 * @return the image
-	 */
-	public Image getImage() {
-		return this.imageView.getImage();
-	}
-	
-	/**
-	 * Sets the image.
-	 *
-	 * @param image the new image
-	 */
-	public void setImage(Image image) {
-		this.imageView.setImage(image);
-	}
-	
-	/**
-	 * Gets the header.
-	 *
-	 * @return image the new image
-	 */
-	@SuppressWarnings("exports")
-	public ObservableList<Node> getHeader(){
-		return header.getChildren();
-	}
-	
-	/**
-	 * Sets the header.
-	 *
-	 * @param headerContent the new header
-	 */
-	@SuppressWarnings("exports")
-	public void setHeader(Node... headerContent) {
-		this.header.getChildren().setAll(headerContent);
-	}
-	
-	/**
-	 * Gets the body.
-	 *
-	 * @return the body
-	 */
-	@SuppressWarnings("exports")
-	public ObservableList<Node> getBody(){
-		return body.getChildren();
-	}
-	
-	/**
-	 * Sets the body.
-	 *
-	 * @param body the new body
-	 */
-	@SuppressWarnings("exports")
-	public void setBody(Node... body) {
-		this.body.getChildren().setAll(body);
-	}
-	
-	/**
-	 * Gets the footer.
-	 *
-	 * @return the footer
-	 */
-	@SuppressWarnings("exports")
-	public ObservableList<Node> getFooter(){
-		return footer.getChildren();
-	}
-	
-	/**
-	 * Sets the footer.
-	 *
-	 * @param footer the new footer
-	 */
-	@SuppressWarnings("exports")
-	public void setFooter(Node... footer) {
-		this.footer.getChildren().setAll(footer);
-	}
-	
-	/**
-	 * Sets the footer.
-	 *
-	 * @param footer the new footer
-	 */
-	@SuppressWarnings("exports")
-	public void setFooter(List<? extends Node> footer) {
-        this.footer.getChildren().setAll(footer);
-    }
 	
 	public String getUserAgentStylesheet() {
 		return App.class.getResource("css/components/itemCell.css").toExternalForm();
@@ -195,30 +97,12 @@ public class ItemCellLayout extends BorderPane {
 		}
 		
 		/**
-		 * Gets the title.
-		 *
-		 * @return the title
-		 */
-		public String getTitle() {
-			return this.title.getText();
-		}
-		
-		/**
 		 * Sets the title.
 		 *
 		 * @param title the new title
 		 */
 		public void setTitle(String title) {
 			this.title.setText(title);
-		}
-		
-		/**
-		 * Gets the state.
-		 *
-		 * @return the state
-		 */
-		public String getState() {
-			return this.state.getText();
 		}
 		
 		/**
@@ -259,15 +143,6 @@ public class ItemCellLayout extends BorderPane {
 		}
 		
 		/**
-		 * Gets the description.
-		 *
-		 * @return the description
-		 */
-		public String getDescription() {
-			return this.description.getText();
-		}
-		
-		/**
 		 * Sets the description.
 		 *
 		 * @param description the new description
@@ -291,15 +166,6 @@ public class ItemCellLayout extends BorderPane {
 			date.getStyleClass().add("date");
 			setAlignment(Pos.BOTTOM_RIGHT);
 			getChildren().add(date);
-		}
-		
-		/**
-		 * Gets the date.
-		 *
-		 * @return the date
-		 */
-		public String getDate() {
-			return this.date.getText();
 		}
 		
 		/**
