@@ -17,7 +17,7 @@ import foundly.core.model.Item;
 import foundly.core.model.Item.State;
 
 @JsonComponent
-public class ItemDeserializer extends JSONDeserializer<Item> {
+public class ItemDeserializer extends JsonDeserializer<Item> {
 
     // Metode som lager Item-objekt fra JsonParser
     @Override
