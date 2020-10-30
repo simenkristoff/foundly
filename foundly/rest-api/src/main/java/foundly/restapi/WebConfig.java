@@ -14,6 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements Filter, WebMvcConfigurer {
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) { 
+	registry
+        	.addResourceHandler("/img/**")
+        	.addResourceLocations("file:resources/", "file:uploads/")
+       		.setCachePeriod(0);
+    }
+
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**");
