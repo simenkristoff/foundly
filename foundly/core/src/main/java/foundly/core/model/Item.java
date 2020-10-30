@@ -10,9 +10,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import foundly.core.json.ItemDeserializer;
  
 @Entity
 @Table(name = "items")
+@JsonDeserializer(using = ItemDeserializer.class)
 public class Item {
 	 
 	@Id
