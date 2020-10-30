@@ -42,7 +42,13 @@ public class ItemDataAccessObject implements ItemDataAccess {
 		System.out.println(response.getStatusCode());
 
 		if (response.getStatusCode() == HttpStatus.OK) {
-			return Arrays.asList(response.getBody());
+            try {
+                return Arrays.asList(response.getBody());
+            } catch (NullPointerException e) {
+                System.out.println("Error while fetching all items from rest-Server");
+                return null;
+            }
+			
 		}
 		
 		return null;
