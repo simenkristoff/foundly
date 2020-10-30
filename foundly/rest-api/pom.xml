@@ -26,7 +26,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>gr2050.foundly</groupId>
-			<artifactId>project-core</artifactId>
+			<artifactId>core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	
