@@ -1,4 +1,4 @@
-package foundly.controller;
+package foundly.ui.controller;
 
 import java.io.IOException;
 import java.io.InputStream;

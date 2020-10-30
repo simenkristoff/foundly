@@ -26,7 +26,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>gr2050.foundly</groupId>
-			<artifactId>project-core</artifactId>
+			<artifactId>core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	
@@ -71,6 +71,33 @@
 					<target>14</target>
 				</configuration>
             </plugin>
+
+            <plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Copy web-client to the server's public folder</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/resources/public</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>${project.parent.basedir}/project-web-client/target/dist</directory>
+									<includes>
+										<include>static/</include>
+										<include>index.html</include>
+										<include>favicon.ico</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
             
             <!-- Running tests -->
 			<plugin>

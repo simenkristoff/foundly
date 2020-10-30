@@ -1,4 +1,4 @@
-package foundly;
+package foundly.ui;
 
 import foundly.controller.SplashController;
 import javafx.application.Preloader;

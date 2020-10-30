@@ -22,7 +22,12 @@ import foundly.restapi.persistence.ItemRepository;
 public class ApiController {
 
 	@Autowired
-	ItemRepository itemRepository;
+    ItemRepository itemRepository;
+
+    @Autowired
+    FileStorageService storageService; 
+
+    private static final Logger LOG = LoggerFactory.getLogger(ApiController.class);
 
 	@GetMapping("/items")
 	public List<Item> getAllItems() {
@@ -77,6 +82,20 @@ public class ApiController {
 		itemData.setImage(item.getImage());
 		final Item updatedItem = itemRepository.save(itemData);
 		return ResponseEntity.ok(updatedItem);
+    }
+    
+    @PostMapping("/upload")
+	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+		String message = "";
+		try {
+			storageService.save(file);
+
+			message = "Uploaded the file successfully: " + file.getOriginalFilename();
+			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+		} catch (Exception e) {
+			message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+		}
 	}
 	
 }
