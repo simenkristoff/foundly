@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import foundly.core.json.ItemDeserializer;
+import foundly.core.json.ItemSerializer;
  
 @Entity
 @Table(name = "items")
