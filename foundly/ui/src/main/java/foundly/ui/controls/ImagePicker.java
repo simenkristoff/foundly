@@ -1,4 +1,4 @@
-package foundly.controls;
+package foundly.ui.controls;
 
 import java.io.File;
 import java.io.FileInputStream;

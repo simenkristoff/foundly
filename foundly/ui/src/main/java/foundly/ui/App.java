@@ -1,4 +1,4 @@
-package foundly;
+package foundly.ui;
 
 import javafx.application.Application;
 import javafx.application.Platform;

@@ -1,4 +1,4 @@
-package foundly.controller;
+package foundly.ui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
