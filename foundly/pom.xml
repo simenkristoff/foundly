@@ -16,6 +16,7 @@
         <module>core</module>
         <module>rest-api</module>
         <module>ui</module>
+        <module>web-client</module>
     </modules>
 
     <parent>
