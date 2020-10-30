@@ -1,4 +1,4 @@
-package foundly.ui.containers;
+package foundly.ui.container;
 
 import java.util.List;
 

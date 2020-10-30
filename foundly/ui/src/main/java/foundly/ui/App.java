@@ -1,7 +1,6 @@
 package foundly.ui;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -10,7 +9,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-import foundly.controller.Navigator;
+import foundly.ui.controller.Navigator;
 
 /**
  * JavaFX App.
@@ -57,7 +56,6 @@ public class App extends Application {
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				close();
 			}
 		});
 	}
@@ -72,15 +70,6 @@ public class App extends Application {
     		this.notifyPreloader(new Preloader.ProgressNotification(progress));
     		Thread.sleep(100);
     	}
-    }
-    
-    /**
-     * Close app.
-     */
-    private void close() {
-    	ConnectionHandler.closePool();
-    	Platform.exit();
-    	//System.exit(-1);
     }
     
     public Navigator getNavigator() {
