@@ -8,8 +8,11 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan(basePackages="foundly.core.model")
 public class RestApi {
 
+    @Resource
+    FileStorageService storageService;
+
 	public void run(String... arg) throws Exception {
-		
+		storageService.init();
 	}
 	
 }
