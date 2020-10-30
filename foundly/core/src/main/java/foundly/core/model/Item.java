@@ -15,7 +15,7 @@ import foundly.core.json.ItemDeserializer;
  
 @Entity
 @Table(name = "items")
-@JsonDeserializer(using = ItemDeserializer.class)
+@JsonDeserialize(using = ItemDeserializer.class)
 public class Item {
 	 
 	@Id
