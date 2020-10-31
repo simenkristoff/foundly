@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from 'vue-router'
-import HelloWorld from "./components/HelloWorld.vue";
+import ItemsList from "./components/ItemsList.vue";
 
 Vue.use(Router);
 
@@ -11,7 +11,7 @@ export default new Router({
       path: "/",
       name: "items",
       alias: "/items",
-      component: HelloWorld,
+      component: ItemsList,
     }
   ]
 });
