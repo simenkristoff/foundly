@@ -1,0 +1,129 @@
+
+ul.items {
+  max-height: 50vh;
+  overflow-y: scroll;
+  overflow-wrap: anywhere;
+  border: 2px rgba(0, 0, 0, .1);
+  border-style: solid none solid none;
+
+  > li:nth-child(odd) a.item {
+    background: darken($primary-background-color, 2%);
+  }
+
+  > li:not(:last-child) .item {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+  }
+}
+
+.item {
+  min-height: 150px;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  background: $primary-background-color;
+  transition: .2s;
+
+  &:hover {
+    background: darken(#ffffff, 5%);
+  }
+}
+
+.item-image {
+  width: 25%;
+  min-width: 150px;
+  border-right: solid 1px rgba(0, 0, 0, .1);
+
+  > img {
+    padding: .25rem;
+    object-fit: contain;
+    height: 150px;
+    max-width: 100%;
+  }
+}
+
+.item-content {
+  display: flex;
+  position: relative;
+  text-align: left;
+  padding: .25rem 1rem;
+  flex: 1 1 100%;
+  align-self: stretch;
+  flex-flow: column;
+
+  > div {
+    display: flex;
+  }
+
+  .item-header {
+    padding-top: .75rem;
+    flex-shrink: 0;
+    > .state {
+      position: absolute;
+      top: .5rem;
+      right: .5rem;
+    }
+  }
+
+  .item-body {
+    flex: 1 1 100%;
+    align-self: stretch;
+    padding: .5rem 0;
+
+    > .description {
+      width: 100%;
+      max-height: 250px;
+      overflow-y: hidden;
+    }
+  }
+
+  .item-title {
+    margin: 0;
+  }
+
+  .item-footer {
+    display: inline-flex;
+    flex-flow: column;
+    align-self: flex-start;
+    width: 100%;
+
+    > span {
+      flex: 1 1 100%;
+    }
+
+    ul.item-details {
+      > li {
+        float: left;
+        word-break: break-all;
+
+        &.date {
+          font-weight: 600;
+        }
+
+        &:not(:last-child) {
+          margin-right: .5rem;
+        }
+
+        svg {
+          margin-right: .125rem;
+          fill: $primary-color;
+          vertical-align: sub;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .item {
+    max-height: 150px;
+  }
+
+  ul.item-details > li.date {
+    position: absolute;
+    right: 1rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+
+}
