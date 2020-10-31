@@ -3,6 +3,11 @@
 	-fx-font-weight: 600;
 }
 
+.itemCell .subtitle {
+	-fx-fill: #444444;
+	-fx-font-weight: 700;
+}
+
 .itemCell .description {
 	
 }
