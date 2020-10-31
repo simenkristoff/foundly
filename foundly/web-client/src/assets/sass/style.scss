@@ -1,0 +1,11 @@
+
+/*** Import Bootstrap assets ***/
+@import '~bootstrap/scss/bootstrap';
+
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  margin: 1rem auto;
+  max-width: 1024px;
+}
