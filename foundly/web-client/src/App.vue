@@ -1,32 +1,51 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="site mx-auto">
+      <div class="site-header">
+        <img class="logo" src="./assets/img/logo.png" />
+      </div>
+      <div class="site-content">
+        <router-view/>
+      </div>
+      <div class="site-footer text-center py-3">
+        <button @click="addItem('FOUND')" class="btn btn-primary mx-2">Har du funnet noe?</button>
+        <button @click="addItem('LOST')" class="btn btn-secondary mx-2">Har du mistet noe?</button>
+      </div>
     </div>
-    <router-view/>
+    <modal @close="closeModal" :state="state" v-show="state != null"></modal>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import http from "./http-common";
+import Modal from './components/ItemModal'
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default {
+  name: 'App',
+  components: {Modal},
+  data() {
+    return {
+      state: '',
+      form: {},
     }
+  },
+  methods: {
+    addItem(state){
+      this.state = state;
+      window.jQuery('#ItemModal').modal('show');
+    },
+    closeModal(form) {
+      http.post("/items", form)
+      .then(response => {
+        console.log(response.data);
+        window.jQuery('#ItemModal').modal('hide');
+        window.Fire.$emit('update');
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
+    },
   }
 }
-</style>
+</script>
