@@ -1,7 +1,8 @@
 #Directories
 foundly/target/
+foundly/web-client/target/
 foundly/ui/target/
-foundly/database/target/
+foundly/rest-api/target/
 foundly/core/target/
 bin/
 
