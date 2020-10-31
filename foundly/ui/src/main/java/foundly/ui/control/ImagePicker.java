@@ -20,29 +20,28 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 /**
- * The Class ImagePicker.
- * ImagePicker, used to select images from local storage.
+ * The Class ImagePicker. ImagePicker, used to select images from local storage.
  */
 public class ImagePicker extends VBox {
-	
+
 	final FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Select Image", "*.png", "*.jpg");
 	final FileChooser fc = new FileChooser();
 	final ImageView imageView = new ImageView();
 	final TextField pathholder = new TextField();
 	final BorderPane imageViewWrapper = new BorderPane();
-	
+
 	private Image image;
 	private File selectedFile;
 	private InputStream inputStream;
 	private String default_path = "Velg bilde";
-	
+
 	/**
 	 * Instantiates a new image picker.
 	 */
 	public ImagePicker() {
 		initialize();
 	}
-	
+
 	/**
 	 * Instantiates a new image picker.
 	 *
@@ -52,7 +51,7 @@ public class ImagePicker extends VBox {
 		default_path = prompt;
 		initialize();
 	}
-	
+
 	/**
 	 * Initialize.
 	 */
@@ -63,20 +62,19 @@ public class ImagePicker extends VBox {
 		imageViewWrapper.setMaxSize(ImagePicker.USE_PREF_SIZE, ImagePicker.USE_PREF_SIZE);
 		imageViewWrapper.getStyleClass().add("image-view-wrapper");
 		BorderPane.setAlignment(imageView, Pos.CENTER);
-		
+
 		setPath(default_path);
 		pathholder.setEditable(false);
 		pathholder.maxWidthProperty().bind(imageViewWrapper.widthProperty());
 		pathholder.getStyleClass().add("pathholder");
 		pathholder.getStylesheets().add(this.getUserAgentStylesheet());
-		
+
 		imageView.setPreserveRatio(true);
 		imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
 		imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
-		
-		
+
 		fc.getExtensionFilters().add(this.imageFilter);
-		
+
 		imageViewWrapper.setOnMouseClicked(event -> {
 			selectedFile = fc.showOpenDialog(this.getScene().getWindow());
 			try {
@@ -84,7 +82,7 @@ public class ImagePicker extends VBox {
 				image = new Image(path);
 				imageView.setImage(image);
 				setPath(path);
-			} catch(NullPointerException e) {
+			} catch (NullPointerException e) {
 				imageView.setImage(null);
 				setPath(default_path);
 			}
@@ -94,35 +92,64 @@ public class ImagePicker extends VBox {
 		this.setAlignment(Pos.CENTER);
 	}
 
-    public final StringProperty pathtTextProperty() { return pathholder.textProperty(); }
-    public final String getPath() { return pathholder.getText(); }
-    public final void setPath(String value) { pathholder.setText(value); }
-	
-    /**
+	public final StringProperty pathtTextProperty() {
+		return pathholder.textProperty();
+	}
+
+	public final String getPath() {
+		return pathholder.getText();
+	}
+
+	public final void setPath(String value) {
+		pathholder.setText(value);
+	}
+
+	/**
+	 * Gets the name of the image.
+	 *
+	 * @return the name
+	 */
+	public String getImageName() {
+		if (this.getSelectedFile() != null) {
+			return this.selectedFile.getName();
+		}
+		return "default.png";
+	}
+
+	/**
+	 * Gets the selected file.
+	 *
+	 * @return the selected file
+	 */
+	public File getSelectedFile() {
+		return this.selectedFile;
+	}
+
+	/**
 	 * Gets the image.
 	 *
 	 * @return the image
 	 */
-    public Image getImage() {
-    	return this.imageView.getImage();
-    }
-    
-    /**
+	public Image getImage() {
+		return this.imageView.getImage();
+	}
+
+	/**
 	 * Sets the image.
 	 *
 	 * @param image the new image
 	 */
-    public void setImage(Image image) {
-    	this.imageView.setImage(image);
-    }
-    
+	public void setImage(Image image) {
+		this.imageView.setImage(image);
+	}
+
 	/**
 	 * Gets the image as blob.
 	 *
 	 * @return the image as blob
 	 */
 	public Blob getImageAsBlob() {
-		if(selectedFile != null) {
+		if (selectedFile != null) {
 			try {
 				inputStream = new FileInputStream(selectedFile);
 				return new SerialBlob(inputStream.readAllBytes());
@@ -132,7 +159,7 @@ public class ImagePicker extends VBox {
 		}
 		return null;
 	}
-	
+
 	public String getUserAgentStylesheet() {
 		return App.class.getResource("css/components/image-picker.css").toExternalForm();
 	}

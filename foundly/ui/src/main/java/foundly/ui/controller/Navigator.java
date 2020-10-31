@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import foundly.core.dataaccess.ImageDataAccessObject;
 import foundly.core.dataaccess.ItemDataAccessObject;
 import foundly.core.model.Item;
 import foundly.ui.App;
@@ -67,6 +68,7 @@ public class Navigator {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
 			
 			ItemDataAccessObject itemDao = new ItemDataAccessObject(App.getApiUrl());
+			ImageDataAccessObject imageDao = new ImageDataAccessObject(App.getApiUrl());
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
@@ -103,7 +105,7 @@ public class Navigator {
 					Item.State.FOUND,
 					item_email.getText(),
 					item_phone.getText(),
-					"default.png",
+					item_image.getImageName(),
 					LocalDateTime.now()
 				);
 				modal.setResult(item);
@@ -126,6 +128,9 @@ public class Navigator {
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
 				itemDao.insert((Item) result.get());
+				if (item_image.getSelectedFile() != null) {
+					imageDao.upload(item_image.getSelectedFile());
+				}
 				ItemController.getItems().addAll(result.get());
 			}
 		};
@@ -141,6 +146,7 @@ public class Navigator {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
 
 			ItemDataAccessObject itemDao = new ItemDataAccessObject(App.getApiUrl());
+			ImageDataAccessObject imageDao = new ImageDataAccessObject(App.getApiUrl());
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
@@ -178,7 +184,7 @@ public class Navigator {
 					Item.State.LOST,
 					item_email.getText(),
 					item_phone.getText(),
-					"default.png",
+					item_image.getImageName(),
 					LocalDateTime.now()
 				);
 				modal.setResult(item);
@@ -201,6 +207,9 @@ public class Navigator {
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
 				itemDao.insert((Item) result.get());
+				if (item_image.getSelectedFile() != null) {
+					imageDao.upload(item_image.getSelectedFile());
+				}
 				ItemController.getItems().addAll(result.get());
 			}
 		};
