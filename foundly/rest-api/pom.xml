@@ -86,7 +86,7 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/project-web-client/target/dist</directory>
+									<directory>${project.parent.basedir}/web-client/target/dist</directory>
 									<includes>
 										<include>static/</include>
 										<include>index.html</include>

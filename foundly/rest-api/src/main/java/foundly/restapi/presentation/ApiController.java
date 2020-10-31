@@ -104,5 +104,12 @@ public class ApiController {
 			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 		}
 	}
-	
+    
+    /** Redirect all URls to frontend except index.html and api/.. */
+    @RequestMapping(value = "{_:^(?!index\\.html|api).*$}")
+	public String redirectApi() {
+		LOG.info("URL entered directly into the Browser, so we need to redirect...");
+		return "forward:/";
+	}
+
 }
