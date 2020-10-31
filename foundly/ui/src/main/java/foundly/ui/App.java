@@ -42,7 +42,10 @@ public class App extends Application {
 
 	/** The navigator. */
 	private Navigator navigator;
-
+	
+	/** BASE-URL for the API-services **/
+	private final static String API_URL = "http://localhost:8098";
+	
 	/**
 	 * Start the app.
 	 *
@@ -93,6 +96,10 @@ public class App extends Application {
 
 	public Navigator getNavigator() {
 		return this.navigator;
+	}
+	
+	public static String getApiUrl() {
+		return API_URL;
 	}
 
 	/**
