@@ -1,0 +1,23 @@
+
+.modal-header {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  .modal-title {
+    margin-left: 1.25rem;
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  .close {
+    margin-right: .25rem;
+    display: inline-flex;
+    align-items: center;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.modal-footer {
+  justify-content: center;
+}

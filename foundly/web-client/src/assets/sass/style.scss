@@ -1,6 +1,24 @@
 
+/*** Abstract ***/
+@import 'abstracts/abstracts';
+
+/*** Typography ***/
+@import 'typography/typography';
+
 /*** Import Bootstrap assets ***/
 @import '~bootstrap/scss/bootstrap';
+
+/*** Reset Styles ***/
+@import 'reset';
+
+/*** Elements ***/
+@import 'elements/elements';
+
+/*** Layout ***/
+@import 'layout/layout';
+
+/*** Components ***/
+@import 'components/components';
 
 #app {
   -webkit-font-smoothing: antialiased;
@@ -8,4 +26,10 @@
   text-align: center;
   margin: 1rem auto;
   max-width: 1024px;
+}
+
+@media screen and (max-width: 1025px) {
+  #app {
+    margin: 0 auto;
+  }
 }

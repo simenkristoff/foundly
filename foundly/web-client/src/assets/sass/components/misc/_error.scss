@@ -1,0 +1,8 @@
+
+.error {
+  color: $error-color;
+
+  &::before {
+    content: '*';
+  }
+}
