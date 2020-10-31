@@ -2,8 +2,10 @@ package foundly.ui.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import foundly.core.dataaccess.ItemDataAccessObject;
 import foundly.core.model.Item;
 import foundly.ui.App;
 import foundly.ui.container.Modal;
@@ -53,7 +55,6 @@ public class Navigator {
 		DepthManager.setDepth(this.container.getTop(), 2);
 		btn_found.setOnAction(foundItem());
 		btn_lost.setOnAction(lostItem());
-		setupRoutes();
 	}
 	
 	/**
@@ -64,26 +65,31 @@ public class Navigator {
 	private EventHandler<ActionEvent> foundItem() {
 		return event -> {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
-			//modal.setTitle("Legg til funnet gjenstand");
-			//ItemDaoImpl itemDao = new ItemDaoImpl();
+			
+			ItemDataAccessObject itemDao = new ItemDataAccessObject(App.getApiUrl());
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
 			ModalLayout layout = new ModalLayout();
 			layout.setHeader(new Label("Legg til funnet gjenstand"));
 			
-			TextField item_name = new TextField();
-			item_name.setPromptText("Navn");
-			
-			ImagePicker item_image = new ImagePicker("Velg bilde");
+			TextField item_title = new TextField();
+			item_title.setPromptText("Tittel");
 			
 			TextArea item_desc = new TextArea();
 			item_desc.setPromptText("Beskrivelse");
 			
-			VBox form = new VBox(item_name, item_image, item_desc);
-			form.setAlignment(Pos.CENTER);
-			form.setSpacing(10);
+			TextField item_email = new TextField();
+			item_email.setPromptText("Email-adresse");
 			
+			TextField item_phone = new TextField();
+			item_phone.setPromptText("Telefon");
+			
+			ImagePicker item_image = new ImagePicker("Velg bilde");
+			
+			VBox form = new VBox(item_title, item_image, item_desc, item_email, item_phone);
+			form.setAlignment(Pos.CENTER);
+			form.setSpacing(3);
 			
 			layout.setBody(form);
 			
@@ -91,14 +97,16 @@ public class Navigator {
 			btn_submit.setDefaultButton(true);
 			btn_submit.getStyleClass().add("primary");
 			btn_submit.setOnAction(addEvent -> {	
-				/*Item item = new Item(
-					null, 						// ID
-					Item.State.FOUND,			// STATE
-					item_name.getText(), 		// NAME
-					item_desc.getText(), 		// DESCRIPTION
-					item_image.getImageAsBlob() // IMAGE
+				Item item = new Item(
+					item_title.getText(),
+					item_desc.getText(),
+					Item.State.FOUND,
+					item_email.getText(),
+					item_phone.getText(),
+					"default.png",
+					LocalDateTime.now()
 				);
-				modal.setResult(item);*/
+				modal.setResult(item);
 				modal.hide();
 			});
 			
@@ -117,7 +125,7 @@ public class Navigator {
 			});
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
-				//itemDao.insert((Item) result.get());
+				itemDao.insert((Item) result.get());
 				ItemController.getItems().addAll(result.get());
 			}
 		};
@@ -131,24 +139,31 @@ public class Navigator {
 	private EventHandler<ActionEvent> lostItem() {
 		return event -> {
 			Modal<Item> modal = new Modal<Item>((Stage) btn_found.getScene().getWindow());
-			//ItemDaoImpl itemDao = new ItemDaoImpl();
+
+			ItemDataAccessObject itemDao = new ItemDataAccessObject(App.getApiUrl());
 			modal.initModality(Modality.APPLICATION_MODAL);
 			modal.setOverlayClose(false);
 			
 			ModalLayout layout = new ModalLayout();
 			layout.setHeader(new Label("Legg til mistet gjenstand"));
 			
-			TextField item_name = new TextField();
-			item_name.setPromptText("Navn");
-			
-			ImagePicker item_image = new ImagePicker("Velg bilde");
+			TextField item_title = new TextField();
+			item_title.setPromptText("Tittel");
 			
 			TextArea item_desc = new TextArea();
 			item_desc.setPromptText("Beskrivelse");
 			
-			VBox form = new VBox(item_name, item_image, item_desc);
+			TextField item_email = new TextField();
+			item_email.setPromptText("Email-adresse");
+			
+			TextField item_phone = new TextField();
+			item_phone.setPromptText("Telefon");
+			
+			ImagePicker item_image = new ImagePicker("Velg bilde");
+			
+			VBox form = new VBox(item_title, item_image, item_desc, item_email, item_phone);
 			form.setAlignment(Pos.CENTER);
-			form.setSpacing(10);
+			form.setSpacing(3);
 			
 			
 			layout.setBody(form);
@@ -157,14 +172,16 @@ public class Navigator {
 			btn_submit.setDefaultButton(true);
 			btn_submit.getStyleClass().add("primary");
 			btn_submit.setOnAction(addEvent -> {
-				/*Item item = new Item(
-					null, 						// ID
-					Item.State.LOST,			// STATE
-					item_name.getText(), 		// NAME
-					item_desc.getText(), 		// DESCRIPTION
-					item_image.getImageAsBlob() // IMAGE
+				Item item = new Item(
+					item_title.getText(),
+					item_desc.getText(),
+					Item.State.LOST,
+					item_email.getText(),
+					item_phone.getText(),
+					"default.png",
+					LocalDateTime.now()
 				);
-				modal.setResult(item);*/
+				modal.setResult(item);
 				modal.hide();
 			});
 			
@@ -183,17 +200,10 @@ public class Navigator {
 			});
 			Optional<Item> result = modal.showAndWait();
 			if (result.isPresent()){
-				//itemDao.insert((Item) result.get());
+				itemDao.insert((Item) result.get());
 				ItemController.getItems().addAll(result.get());
 			}
 		};
-	}
-	
-	/**
-	 * Setup routes.
-	 */
-	private void setupRoutes() {
-
 	}
 	
 	/**
