@@ -1,13 +1,12 @@
 package foundly.ui.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.function.Predicate;
-
 import foundly.core.dataaccess.ItemDataAccessObject;
 import foundly.core.model.Item;
 import foundly.ui.App;
 import foundly.ui.container.ItemCellLayout;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -26,126 +25,129 @@ import javafx.scene.control.TextField;
  */
 public class ItemController extends AbstractViewController {
 
-	@FXML
-	private TabPane tabPane;
-	private ObservableList<Tab> tabs = FXCollections.observableArrayList();
-	private final String[] tabNames = { "Alle", "Mistet", "Funnet" };
+  @FXML
+  private TabPane tabPane;
+  private ObservableList<Tab> tabs = FXCollections.observableArrayList();
+  private final String[] tabNames = {"Alle", "Mistet", "Funnet"};
 
-	private ListView<Item> listView;
+  private ListView<Item> listView;
 
-	private ItemDataAccessObject itemDao;
-	private static ObservableList<Item> items;
+  private ItemDataAccessObject itemDao;
+  private static ObservableList<Item> items;
 
-	/** Filters **/
-	ObjectProperty<Predicate<Item>> stateFilter = new SimpleObjectProperty<>();
-	ObjectProperty<Predicate<Item>> titleFilter = new SimpleObjectProperty<>();
-	ObjectProperty<Predicate<Item>> descriptionFilter = new SimpleObjectProperty<>();
+  /** Filters. **/
+  ObjectProperty<Predicate<Item>> stateFilter = new SimpleObjectProperty<>();
+  ObjectProperty<Predicate<Item>> titleFilter = new SimpleObjectProperty<>();
+  ObjectProperty<Predicate<Item>> descriptionFilter = new SimpleObjectProperty<>();
 
-	private FilteredList<Item> filteredData;
+  private FilteredList<Item> filteredData;
 
-	@FXML
-	TextField searchFilter;
+  @FXML
+  TextField searchFilter;
 
-	public ItemController() {
+  public ItemController() {
 
-	}
+  }
 
-	/**
-	 * Initialize.
-	 *
-	 * @param location  the location
-	 * @param resources the resources
-	 */
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		fetchData();
-		setupListView();
-		setupTabs();
-		setupFilters();
-	}
+  /**
+   * Initialize.
+   *
+   * @param location the location
+   * @param resources the resources
+   */
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    fetchData();
+    setupListView();
+    setupTabs();
+    setupFilters();
+  }
 
-	private void fetchData() {
-		itemDao = new ItemDataAccessObject(App.getApiUrl());
-		items = FXCollections.observableArrayList(itemDao.getAll());
+  private void fetchData() {
+    itemDao = new ItemDataAccessObject(App.API_URL);
+    items = FXCollections.observableArrayList(itemDao.getAll());
 
-		filteredData = new FilteredList<Item>(items, p -> true);
-	}
+    filteredData = new FilteredList<Item>(items, p -> true);
+  }
 
-	private void setupTabs() {
+  private void setupTabs() {
 
-		for (String tabName : tabNames) {
-			Tab tab = new Tab(tabName);
-			tab.setId(tabName.toLowerCase());
-			tabs.add(tab);
-		}
+    for (String tabName : tabNames) {
+      Tab tab = new Tab(tabName);
+      tab.setId(tabName.toLowerCase());
+      tabs.add(tab);
+    }
 
-		tabPane.getTabs().setAll(tabs);
-		tabPane.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
-			ov.setContent(null);
-			nv.setContent(listView);
-		});
-		tabPane.getSelectionModel().select(0);
-		;
-		tabPane.getSelectionModel().getSelectedItem().setContent(listView);
-	}
+    tabPane.getTabs().setAll(tabs);
+    tabPane.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
+      ov.setContent(null);
+      nv.setContent(listView);
+    });
+    tabPane.getSelectionModel().select(0);;
+    tabPane.getSelectionModel().getSelectedItem().setContent(listView);
+  }
 
-	private void setupListView() {
-		this.listView = new ListView<Item>();
+  private void setupListView() {
+    this.listView = new ListView<Item>();
 
-		/**
-		 * Changes the display of each cell to ItemCellLayout
-		 */
-		listView.setCellFactory(param -> new ListCell<Item>() {
-			private ItemCellLayout itemCellLayout;
+    /**
+     * Changes the display of each cell to ItemCellLayout
+     */
+    listView.setCellFactory(param -> new ListCell<Item>() {
+      private ItemCellLayout itemCellLayout;
 
-			@Override
-			public void updateItem(Item item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty) {
-					setText(null);
-					setGraphic(null);
-					return;
-				}
-				itemCellLayout = new ItemCellLayout(item);
-				setGraphic(itemCellLayout);
-			}
-		});
-		listView.setItems(filteredData);
-	}
+      @Override
+      public void updateItem(Item item, boolean empty) {
+        super.updateItem(item, empty);
+        if (empty) {
+          setText(null);
+          setGraphic(null);
+          return;
+        }
+        itemCellLayout = new ItemCellLayout(item);
+        setGraphic(itemCellLayout);
+      }
+    });
+    listView.setItems(filteredData);
+  }
 
-	private void setupFilters() {
-		stateFilter.bind(Bindings.createObjectBinding(() -> item -> {
-			String pred = tabPane.getSelectionModel().selectedItemProperty().getValue().getId();
-			if (!pred.equals("alle")) {
-				if (item.getState().getValue().toLowerCase().equals(pred)) {
-					return true;
-				}
-				return false;
-			}
-			return true;
-		}, tabPane.getSelectionModel().selectedItemProperty()));
+  private void setupFilters() {
+    stateFilter.bind(Bindings.createObjectBinding(() -> item -> {
+      String pred = tabPane.getSelectionModel().selectedItemProperty().getValue().getId();
+      if (!pred.equals("alle")) {
+        if (item.getState().getValue().toLowerCase().equals(pred)) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    }, tabPane.getSelectionModel().selectedItemProperty()));
 
-		titleFilter.bind(Bindings.createObjectBinding(
-				() -> item -> item.getTitle().toLowerCase().contains(searchFilter.getText().toLowerCase()),
-				searchFilter.textProperty()));
+    titleFilter.bind(Bindings.createObjectBinding(
+        () -> item -> item.getTitle().toLowerCase().contains(searchFilter.getText().toLowerCase()),
+        searchFilter.textProperty()));
 
-		descriptionFilter.bind(Bindings.createObjectBinding(
-				() -> item -> item.getDescription().toLowerCase().contains(searchFilter.getText().toLowerCase()),
-				searchFilter.textProperty()));
+    descriptionFilter
+        .bind(
+            Bindings
+                .createObjectBinding(
+                    () -> item -> item.getDescription().toLowerCase()
+                        .contains(searchFilter.getText().toLowerCase()),
+                    searchFilter.textProperty()));
 
-		filteredData.predicateProperty()
-				.bind(Bindings.createObjectBinding(
-						() -> stateFilter.get().and(titleFilter.get().or(descriptionFilter.get())), stateFilter,
-						titleFilter, descriptionFilter));
-	}
+    filteredData.predicateProperty()
+        .bind(Bindings.createObjectBinding(
+            () -> stateFilter.get().and(titleFilter.get().or(descriptionFilter.get())), stateFilter,
+            titleFilter, descriptionFilter));
+  }
 
-	/**
-	 * Gets the items.
-	 *
-	 * @return the items
-	 */
-	public static ObservableList<Item> getItems() {
-		return items;
-	}
+  /**
+   * Gets the items.
+   *
+   * @return the items
+   */
+  public static ObservableList<Item> getItems() {
+    return items;
+  }
 
 }

@@ -12,8 +12,8 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="btn_found" mnemonicParsing="false" styleClass="primary" text="Har du funnet noe?" />
-                  <Button fx:id="btn_lost" mnemonicParsing="false" styleClass="warning" text="Har du mistet noe?" />
+                  <Button fx:id="btnFound" mnemonicParsing="false" styleClass="primary" text="Har du funnet noe?" />
+                  <Button fx:id="btnLost" mnemonicParsing="false" styleClass="warning" text="Har du mistet noe?" />
                </children>
             </HBox>
          </bottom>

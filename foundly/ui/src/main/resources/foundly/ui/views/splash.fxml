@@ -24,7 +24,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </ImageView>
-                  <Label fx:id="splash_txt" text="Laster..." textFill="WHITE">
+                  <Label fx:id="splashText" text="Laster..." textFill="WHITE">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
@@ -32,7 +32,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ProgressBar fx:id="splash_progress" prefWidth="400.0" />
+                  <ProgressBar fx:id="splashProgress" prefWidth="400.0" />
                </children>
             </VBox>
          </center>
