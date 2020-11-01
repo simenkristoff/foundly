@@ -11,20 +11,40 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * The Class WebConfig. Configuration-class for the rest-api.
+ */
 @Configuration
 public class WebConfig implements Filter, WebMvcConfigurer {
 
+  /**
+   * Adds the resource handlers.
+   *
+   * @param registry the registry
+   */
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/img/**").addResourceLocations("file:resources/", "file:uploads/")
         .setCachePeriod(0);
   }
 
+  /**
+   * Adds cross origin request-mapping (CORS).
+   *
+   * @param registry the registry
+   */
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**");
   }
 
+  /**
+   * Adds filters for requests to the rest-api.
+   *
+   * @param req the request
+   * @param res the response
+   * @param chain the chain of filters
+   */
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
     HttpServletResponse response = (HttpServletResponse) res;
