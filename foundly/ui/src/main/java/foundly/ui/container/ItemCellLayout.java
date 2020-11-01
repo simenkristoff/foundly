@@ -45,7 +45,7 @@ public class ItemCellLayout extends BorderPane {
   }
 
   /**
-   * Initialize.
+   * Initialize. Loads data from the given Item into it's dedicated fields.
    */
   private void initialize() {
     this.getStyleClass().add("itemCell");
@@ -71,6 +71,11 @@ public class ItemCellLayout extends BorderPane {
     imageView.setImage(image);
   }
 
+  /**
+   * Gets the stylesheet.
+   *
+   * @return the user agent stylesheet
+   */
   public String getUserAgentStylesheet() {
     return App.class.getResource("css/components/itemCell.css").toExternalForm();
   }

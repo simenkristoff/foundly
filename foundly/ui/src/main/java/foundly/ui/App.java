@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * JavaFX App.
+ * JavaFX App. The launcher application for this project.
  */
 @SpringBootApplication
 public class App extends Application {
@@ -33,7 +33,7 @@ public class App extends Application {
   private Navigator navigator;
 
   /**
-   * Start the app.
+   * Sets up the stage and starts the app.
    *
    * @param stage the stage
    * @throws IOException Signals that an I/O exception has occurred.
@@ -61,6 +61,11 @@ public class App extends Application {
     });
   }
 
+  /**
+   * Stops the rest-api service and closes the application.
+   *
+   * @throws Exception the exception
+   */
   @Override
   public void stop() throws Exception {
     springContext.close();
@@ -68,7 +73,10 @@ public class App extends Application {
   }
 
   /**
-   * Initialize app.
+   * Initialize the app. Starts the rest-api service, initializes the navigator and updates the
+   * preloader.
+   *
+   * @throws Exception the exception
    */
   public void init() throws Exception {
     this.springContext = SpringApplication.run(RestApi.class);
@@ -80,12 +88,17 @@ public class App extends Application {
     }
   }
 
+  /**
+   * Gets the navigator.
+   *
+   * @return the navigator
+   */
   public Navigator getNavigator() {
     return this.navigator;
   }
 
   /**
-   * The main method.
+   * The main method. Starts the preloader and launches the application.
    *
    * @param args the arguments
    */
