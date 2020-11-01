@@ -50,9 +50,9 @@ public class ApiController {
 
   @PostMapping("/items")
   public Item postItem(@RequestBody Item item) {
-    Item _item = itemRepository.save(new Item(item.getTitle(), item.getDescription(),
+    Item updatedItem = itemRepository.save(new Item(item.getTitle(), item.getDescription(),
         item.getState(), item.getEmail(), item.getPhone(), item.getImage(), item.getDate()));
-    return _item;
+    return updatedItem;
   }
 
   @DeleteMapping("/items/{id}")
