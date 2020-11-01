@@ -13,10 +13,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.boot.jackson.JsonComponent;
 
+/**
+ * The Class ItemDeserializer. Handles deserialization of Item-objects.
+ */
 @JsonComponent
 public class ItemDeserializer extends JsonDeserializer<Item> {
 
-  // Metode som lager Item-objekt fra JsonParser
+
+  /**
+   * Deserializes a json-object to an Item-object.
+   *
+   * @param p the JsonParser to be used.
+   * @param ctxt the Context of the deserializer
+   * @return the deserialized Item
+   * @throws IOException Signals that an I/O exception has occurred.
+   * @throws JsonProcessingException the json processing exception
+   */
   @Override
   public Item deserialize(JsonParser p, DeserializationContext ctxt)
       throws IOException, JsonProcessingException {
