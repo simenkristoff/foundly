@@ -2,9 +2,8 @@ package foundly.restapi.presentation;
 
 import foundly.core.model.Item;
 import foundly.core.model.ResponseMessage;
-import foundly.restapi.persistence.ItemRepository;
 import foundly.restapi.service.FileStorageService;
-import java.util.ArrayList;
+import foundly.restapi.service.ItemService;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApiController {
 
   @Autowired
-  ItemRepository itemRepository;
+  ItemService itemService;
 
   @Autowired
   FileStorageService storageService;
@@ -38,103 +37,90 @@ public class ApiController {
   private static final Logger LOG = LoggerFactory.getLogger(ApiController.class);
 
   /**
-   * Gets all Items from the Item-repository and returns them.
+   * Gets all Items from the Item-repository and returns them as a response.
    *
    * @return all items
    */
   @GetMapping("/items")
-  public List<Item> getAllItems() {
-    List<Item> items = new ArrayList<>();
-    itemRepository.findAll().forEach(items::add);
-    return items;
+  public ResponseEntity<List<Item>> getAllItems() {
+    ResponseEntity<List<Item>> response = ResponseEntity.ok().body(itemService.getAllItems());
+    return response;
   }
 
   /**
-   * Gets an Item from the Item-repository with an id corresponding to the id-parameter. Throws an
-   * exception if the id doesn't exist.
+   * Gets an Item from the Item-repository with an id corresponding to the id-parameter and returns
+   * the Item as a response.
    *
    * @param id the id
    * @return the item
-   * @throws IllegalArgumentException the illegal argument exception
    */
   @GetMapping("/items/{id}")
-  public ResponseEntity<Item> getItem(@PathVariable Long id) throws IllegalArgumentException {
-    Item item = itemRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Item could not be found for id: " + id));
-    return ResponseEntity.ok().body(item);
+  public ResponseEntity<Item> getItem(@PathVariable Long id) {
+    Item item = itemService.getItemById(id);
+    ResponseEntity<Item> response = ResponseEntity.ok().body(item);
+    System.out.println(response.getStatusCode());
+    return response;
   }
 
   /**
-   * Add an Item to the Item-repository.
+   * Adds an Item to the Item-repository and returns a response message.
    *
    * @param item the item
-   * @return the item
+   * @return the response message
    */
   @PostMapping("/items")
-  public Item postItem(@RequestBody Item item) {
-    Item updatedItem = itemRepository.save(new Item(item.getTitle(), item.getDescription(),
-        item.getState(), item.getEmail(), item.getPhone(), item.getImage(), item.getDate()));
-    return updatedItem;
+  public ResponseEntity<ResponseMessage> postItem(@RequestBody Item item) {
+    itemService.insertItem(item);
+    String message = "Item inserted";
+    ResponseEntity<ResponseMessage> response =
+        ResponseEntity.ok().body(new ResponseMessage(message));
+    return response;
   }
 
   /**
-   * Delete an Item with id corresponding to the id-parameter. Throws an exception if the id doesn't
-   * exist.
+   * Delete an Item with id corresponding to the id-parameter and returns a response message.
    *
    * @param id the id
-   * @return the response
-   * @throws IllegalArgumentException the illegal argument exception
+   * @return the response message
    */
   @DeleteMapping("/items/{id}")
-  public ResponseEntity<Item> deleteItem(@PathVariable("id") long id)
-      throws IllegalArgumentException {
-    System.out.println("Delete Item with ID = " + id + "...");
-
-    Item item = itemRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Item could not be found for id: " + id));
-
-    itemRepository.delete(item);
-
-    return ResponseEntity.ok().body(item);
+  public ResponseEntity<ResponseMessage> deleteItem(@PathVariable("id") long id) {
+    itemService.deleteItem(id);
+    String message = "Item deleted at id = " + id;
+    ResponseEntity<ResponseMessage> response =
+        ResponseEntity.ok().body(new ResponseMessage(message));
+    return response;
   }
 
   /**
-   * Update an Item in the Item-repository. The new Item will override the old Item with same id as
-   * the id-parameter in the Item-repository. Throws an exception if the id doesn't exist.
+   * Updates an Item in the Item-repository and returns a response message. The new Item will
+   * override the old Item with same id as the id-parameter in the Item-repository.
    *
    * @param id the id
-   * @param item the item
-   * @return the response
-   * @throws IllegalArgumentException the illegal argument exception
+   * @param item the updated item
+   * @return the response message
    */
   @PutMapping("/items/{id}")
-  public ResponseEntity<Item> updateItem(@PathVariable("id") long id, @RequestBody Item item)
-      throws IllegalArgumentException {
-    Item itemData = itemRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Item could not be found for id: " + id));
-
-    itemData.setTitle(item.getTitle());
-    itemData.setDescription(item.getDescription());
-    itemData.setState(item.getState());
-    itemData.setEmail(item.getEmail());
-    itemData.setPhone(item.getPhone());
-    itemData.setImage(item.getImage());
-    final Item updatedItem = itemRepository.save(itemData);
-    return ResponseEntity.ok(updatedItem);
+  public ResponseEntity<ResponseMessage> updateItem(@PathVariable("id") long id,
+      @RequestBody Item item) {
+    itemService.updateItem(id, item);
+    String message = "Item updated at id = " + id;
+    ResponseEntity<ResponseMessage> response =
+        ResponseEntity.ok().body(new ResponseMessage(message));
+    return response;
   }
 
   /**
    * Uploads a file to the file storage directory.
    *
    * @param file the file to be uploaded
-   * @return the response
+   * @return the response message
    */
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
     String message = "";
     try {
       storageService.save(file);
-
       message = "Uploaded the file successfully: " + file.getOriginalFilename();
       return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
     } catch (Exception e) {
