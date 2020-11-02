@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The Class ApiController. Handles all endpoints requested to the rest-api.
+ */
 @RestController()
 @RequestMapping("/api")
 public class ApiController {
@@ -34,6 +37,11 @@ public class ApiController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ApiController.class);
 
+  /**
+   * Gets all Items from the Item-repository and returns them.
+   *
+   * @return all items
+   */
   @GetMapping("/items")
   public List<Item> getAllItems() {
     List<Item> items = new ArrayList<>();
@@ -41,6 +49,14 @@ public class ApiController {
     return items;
   }
 
+  /**
+   * Gets an Item from the Item-repository with an id corresponding to the id-parameter. Throws an
+   * exception if the id doesn't exist.
+   *
+   * @param id the id
+   * @return the item
+   * @throws IllegalArgumentException the illegal argument exception
+   */
   @GetMapping("/items/{id}")
   public ResponseEntity<Item> getItem(@PathVariable Long id) throws IllegalArgumentException {
     Item item = itemRepository.findById(id)
@@ -48,6 +64,12 @@ public class ApiController {
     return ResponseEntity.ok().body(item);
   }
 
+  /**
+   * Add an Item to the Item-repository.
+   *
+   * @param item the item
+   * @return the item
+   */
   @PostMapping("/items")
   public Item postItem(@RequestBody Item item) {
     Item updatedItem = itemRepository.save(new Item(item.getTitle(), item.getDescription(),
@@ -55,6 +77,14 @@ public class ApiController {
     return updatedItem;
   }
 
+  /**
+   * Delete an Item with id corresponding to the id-parameter. Throws an exception if the id doesn't
+   * exist.
+   *
+   * @param id the id
+   * @return the response
+   * @throws IllegalArgumentException the illegal argument exception
+   */
   @DeleteMapping("/items/{id}")
   public ResponseEntity<Item> deleteItem(@PathVariable("id") long id)
       throws IllegalArgumentException {
@@ -68,6 +98,15 @@ public class ApiController {
     return ResponseEntity.ok().body(item);
   }
 
+  /**
+   * Update an Item in the Item-repository. The new Item will override the old Item with same id as
+   * the id-parameter in the Item-repository. Throws an exception if the id doesn't exist.
+   *
+   * @param id the id
+   * @param item the item
+   * @return the response
+   * @throws IllegalArgumentException the illegal argument exception
+   */
   @PutMapping("/items/{id}")
   public ResponseEntity<Item> updateItem(@PathVariable("id") long id, @RequestBody Item item)
       throws IllegalArgumentException {
@@ -84,6 +123,12 @@ public class ApiController {
     return ResponseEntity.ok(updatedItem);
   }
 
+  /**
+   * Uploads a file to the file storage directory.
+   *
+   * @param file the file to be uploaded
+   * @return the response
+   */
   @PostMapping("/upload")
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
     String message = "";
@@ -99,10 +144,14 @@ public class ApiController {
     }
   }
 
-  /** Redirect all URls to frontend except index.html and api/.. */
+  /**
+   * Redirect all URls to the web-client frontend except index.html and 'api/..'.
+   *
+   * @return forward string
+   */
   @RequestMapping(value = "{_:^(?!index\\.html|api).*$}")
   public String redirectApi() {
-    LOG.info("URL entered directly into the Browser, so we need to redirect...");
+    LOG.info("Redirecting to the frontend..");
     return "forward:/";
   }
 

@@ -8,11 +8,18 @@ import java.nio.file.Paths;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The Class FileStorageServiceImpl. Implementation of the interface FileStorageService. This class
+ * handles storing of files.
+ */
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
   private final Path root = Paths.get("uploads");
 
+  /**
+   * Inits the storage directory in root. Throws an exception if the directory couldn't be created.
+   */
   @Override
   public void init() {
     try {
@@ -22,6 +29,11 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
   }
 
+  /**
+   * Saves a file to the storage directory. Throws an exception if the file couldn't be stored.
+   *
+   * @param file the file
+   */
   @Override
   public void save(MultipartFile file) {
     try {

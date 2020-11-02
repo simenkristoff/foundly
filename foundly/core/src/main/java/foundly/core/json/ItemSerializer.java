@@ -9,14 +9,23 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.springframework.boot.jackson.JsonComponent;
 
+/**
+ * The Class ItemSerializer. Handles serialization of Item-objects.
+ */
 @JsonComponent
 public class ItemSerializer extends JsonSerializer<Item> {
 
-  // Method to write json-object from given Item-object
+  /**
+   * Serializes an Item-object to a json-object.
+   *
+   * @param item the Item to be serialized
+   * @param gen the JsonGenerator
+   * @param serializers the Serializer
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   @Override
   public void serialize(Item item, JsonGenerator gen, SerializerProvider serializers)
       throws IOException {
-    // Generate json-object from fields in Item
     gen.writeStartObject();
     gen.writeStringField("title", item.getTitle());
     gen.writeStringField("description", item.getDescription());

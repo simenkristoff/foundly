@@ -2,11 +2,6 @@ package foundly.ui.control;
 
 import foundly.ui.App;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
@@ -15,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javax.sql.rowset.serial.SerialBlob;
 
 /**
  * The Class ImagePicker. ImagePicker, used to select images from local storage.
@@ -31,7 +25,6 @@ public class ImagePicker extends VBox {
 
   private Image image;
   private File selectedFile;
-  private InputStream inputStream;
   private String defaultPath = "Velg bilde";
 
   /**
@@ -42,7 +35,7 @@ public class ImagePicker extends VBox {
   }
 
   /**
-   * Instantiates a new image picker.
+   * Instantiates a new image picker with prompt text.
    *
    * @param prompt the prompt text
    */
@@ -52,7 +45,7 @@ public class ImagePicker extends VBox {
   }
 
   /**
-   * Initialize.
+   * Adds required components to the image picker.
    */
   private void initialize() {
     getStyleClass().add("image-picker");
@@ -91,15 +84,30 @@ public class ImagePicker extends VBox {
     this.setAlignment(Pos.CENTER);
   }
 
-  public final StringProperty pathtTextProperty() {
+  /**
+   * Path text property.
+   *
+   * @return the string property
+   */
+  public final StringProperty pathTextProperty() {
     return pathholder.textProperty();
   }
 
+  /**
+   * Gets the path of the selected image.
+   *
+   * @return the path
+   */
   public final String getPath() {
     return pathholder.getText();
   }
 
-  public final void setPath(String value) {
+  /**
+   * Sets the path.
+   *
+   * @param value the new path
+   */
+  private final void setPath(String value) {
     pathholder.setText(value);
   }
 
@@ -125,40 +133,10 @@ public class ImagePicker extends VBox {
   }
 
   /**
-   * Gets the image.
+   * Gets the stylesheet.
    *
-   * @return the image
+   * @return the user agent stylesheet
    */
-  public Image getImage() {
-    return this.imageView.getImage();
-  }
-
-  /**
-   * Sets the image.
-   *
-   * @param image the new image
-   */
-  public void setImage(Image image) {
-    this.imageView.setImage(image);
-  }
-
-  /**
-   * Gets the image as blob.
-   *
-   * @return the image as blob
-   */
-  public Blob getImageAsBlob() {
-    if (selectedFile != null) {
-      try {
-        inputStream = new FileInputStream(selectedFile);
-        return new SerialBlob(inputStream.readAllBytes());
-      } catch (SQLException | IOException e) {
-        e.printStackTrace();
-      }
-    }
-    return null;
-  }
-
   public String getUserAgentStylesheet() {
     return App.class.getResource("css/components/image-picker.css").toExternalForm();
   }

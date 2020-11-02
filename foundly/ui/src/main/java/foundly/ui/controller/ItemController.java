@@ -35,7 +35,7 @@ public class ItemController extends AbstractViewController {
   private ItemDataAccessObject itemDao;
   private static ObservableList<Item> items;
 
-  /** Filters. **/
+  // Filters for items.
   ObjectProperty<Predicate<Item>> stateFilter = new SimpleObjectProperty<>();
   ObjectProperty<Predicate<Item>> titleFilter = new SimpleObjectProperty<>();
   ObjectProperty<Predicate<Item>> descriptionFilter = new SimpleObjectProperty<>();
@@ -45,12 +45,15 @@ public class ItemController extends AbstractViewController {
   @FXML
   TextField searchFilter;
 
+  /**
+   * Instantiates a new item controller.
+   */
   public ItemController() {
 
   }
 
   /**
-   * Initialize.
+   * Initialize the ItemController.
    *
    * @param location the location
    * @param resources the resources
@@ -63,6 +66,10 @@ public class ItemController extends AbstractViewController {
     setupFilters();
   }
 
+  
+  /**
+   * Fetch data from the rest-api and add them to a filtered list.
+   */
   private void fetchData() {
     itemDao = new ItemDataAccessObject(App.API_URL);
     items = FXCollections.observableArrayList(itemDao.getAll());
@@ -70,6 +77,9 @@ public class ItemController extends AbstractViewController {
     filteredData = new FilteredList<Item>(items, p -> true);
   }
 
+  /**
+   * Setup the tabs.
+   */
   private void setupTabs() {
 
     for (String tabName : tabNames) {
@@ -87,12 +97,13 @@ public class ItemController extends AbstractViewController {
     tabPane.getSelectionModel().getSelectedItem().setContent(listView);
   }
 
+  /**
+   * Setup the list view with Items.
+   */
   private void setupListView() {
     this.listView = new ListView<Item>();
 
-    /**
-     * Changes the display of each cell to ItemCellLayout
-     */
+    // Changes the display of each cell to ItemCellLayout.
     listView.setCellFactory(param -> new ListCell<Item>() {
       private ItemCellLayout itemCellLayout;
 
@@ -111,6 +122,9 @@ public class ItemController extends AbstractViewController {
     listView.setItems(filteredData);
   }
 
+  /**
+   * Setup the filters.
+   */
   private void setupFilters() {
     stateFilter.bind(Bindings.createObjectBinding(() -> item -> {
       String pred = tabPane.getSelectionModel().selectedItemProperty().getValue().getId();

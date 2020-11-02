@@ -33,14 +33,14 @@ public class Modal<R> extends Dialog<R> {
   private final StackPane contentContainer;
 
   /**
-   * Instantiates a new modal.
+   * Instantiates a new empty modal.
    */
   public Modal() {
     this(null);
   }
 
   /**
-   * Instantiates a new modal.
+   * Instantiates a new modal with a set stage.
    *
    * @param stage the stage
    */
@@ -145,7 +145,7 @@ public class Modal<R> extends Dialog<R> {
   }
 
   /**
-   * Sets the content.
+   * Sets the content of the modal.
    *
    * @param content the new content
    */
@@ -157,7 +157,7 @@ public class Modal<R> extends Dialog<R> {
   private BooleanProperty overlayClose = new SimpleBooleanProperty(true);
 
   /**
-   * Checks if is overlay close.
+   * Checks if modal will close if overlay is clicked.
    *
    * @return true, if is overlay close
    */
@@ -175,7 +175,7 @@ public class Modal<R> extends Dialog<R> {
   }
 
   /**
-   * Sets the overlay close.
+   * Sets the overlay close. If true, the Modal will close when the overlay is clicked.
    *
    * @param overlayClose the new overlay close
    */

@@ -17,7 +17,7 @@ public class SplashScreen extends Preloader {
   private Scene scene;
 
   /**
-   * Initializes the Preloader.
+   * Initializes the Preloader. Loads the .fxml-file and initializes a new Scene.
    *
    * @throws Exception the exception
    */
@@ -27,7 +27,7 @@ public class SplashScreen extends Preloader {
   }
 
   /**
-   * Start.
+   * Setup the stage and start the preloader.
    *
    * @param stage the stage
    * @throws Exception the exception
@@ -41,7 +41,7 @@ public class SplashScreen extends Preloader {
   }
 
   /**
-   * Handle application notification.
+   * Handle notifications given to the preloader. Will update the label text and progress bar.
    *
    * @param info the info
    */
@@ -54,7 +54,7 @@ public class SplashScreen extends Preloader {
   }
 
   /**
-   * Handle state change notification.
+   * Handle state change notification. Hides the preloader if the application is about to start.
    *
    * @param info the info
    */
