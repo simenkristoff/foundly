@@ -130,15 +130,4 @@ public class ApiController {
     }
   }
 
-  /**
-   * Redirect all URls to the web-client frontend except index.html and 'api/..'.
-   *
-   * @return forward string
-   */
-  @RequestMapping(value = "{_:^(?!index\\.html|api).*$}")
-  public String redirectApi() {
-    LOG.info("Redirecting to the frontend..");
-    return "forward:/";
-  }
-
-}
+ }
