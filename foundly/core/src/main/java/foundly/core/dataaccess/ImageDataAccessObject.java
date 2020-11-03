@@ -20,6 +20,8 @@ import org.springframework.web.client.RestTemplate;
 public class ImageDataAccessObject implements ImageDataAccess {
 
   private final String baseUrlString;
+  
+  private RestTemplate restTemplate;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -32,6 +34,7 @@ public class ImageDataAccessObject implements ImageDataAccess {
   public ImageDataAccessObject(final String baseUrlString) {
     this.baseUrlString = baseUrlString + "/api/upload";
     this.objectMapper = new ObjectMapper();
+    this.restTemplate = new RestTemplate();
   }
 
   /**
@@ -41,6 +44,15 @@ public class ImageDataAccessObject implements ImageDataAccess {
    */
   protected ObjectMapper getObjectMapper() {
     return objectMapper;
+  }
+  
+  /**
+   * Gets the restTemplate-client from Spring.
+   *
+   * @return the restTemplate
+   */
+  public RestTemplate getRestTemplate() {
+    return restTemplate;
   }
 
   /**
@@ -57,7 +69,6 @@ public class ImageDataAccessObject implements ImageDataAccess {
     MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
     body.add("file", resource);
     HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-    RestTemplate restTemplate = new RestTemplate();
 
     ResponseEntity<String> response =
         restTemplate.postForEntity(this.baseUrlString, requestEntity, String.class);
