@@ -33,5 +33,15 @@ public class ResponseMessage {
   public void setMessage(String message) {
     this.message = message;
   }
+  
+  /**
+   * To string.
+   *
+   * @return the string
+   */
+  @Override
+  public String toString() {
+    return "ResponseMessage [message=" + message + "]";
+  }
 
 }

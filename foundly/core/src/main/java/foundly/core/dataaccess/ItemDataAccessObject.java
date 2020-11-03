@@ -38,7 +38,7 @@ public class ItemDataAccessObject implements ItemDataAccess {
    *
    * @return the restTemplate
    */
-  protected RestTemplate getRestTemplate() {
+  public RestTemplate getRestTemplate() {
     return restTemplate;
   }
 
@@ -69,7 +69,7 @@ public class ItemDataAccessObject implements ItemDataAccess {
       try {
         return Arrays.asList(response.getBody());
       } catch (NullPointerException e) {
-        System.out.println("Error while fetching all items from rest-Server");
+        e.printStackTrace();
         return null;
       }
 
