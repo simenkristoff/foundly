@@ -82,6 +82,7 @@
 import FileUpload from "./FileUpload";
 import { required, email, minLength } from 'vuelidate/lib/validators'
 export default {
+    name: "modal",
     components: {
       FileUpload
     },

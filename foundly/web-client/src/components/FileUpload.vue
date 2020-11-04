@@ -4,11 +4,13 @@
       <img class="upload-preview" :src="preview" />
     </div>
     <label for="upload-image" class="btn btn-primary">Velg bilde
-      <input type="file" id="upload-image" style="display:none;" ref="file" @change="selectFile" />
-
+      <input type="file" accept="image/*" id="upload-image" style="display:none;" ref="file" @change="validateFile" />
     </label>
     <input type="text" id="image-path" name="image-path" v-model="filepath" readonly />
-    <div v-if="message" class="alert alert-light" role="alert">{{ message }}</div>
+    <div class="form-error" v-if="message">
+        <div class="error" role="alert">{{ message }}</div>
+    </div>
+
   </div>
 </template>
 
@@ -54,19 +56,30 @@ export default {
   },
   methods: {
     /* eslint-disable no-console */
-    selectFile() {
-      this.selectedFile = this.$refs.file.files.item(0);
+    processFile(file) {
+      this.selectedFile = file;
       this.preview = URL.createObjectURL(this.selectedFile);
       this.filepath = this.selectedFile.name;
+      this.message = "";
       this.$emit('input', this.filepath);
+    },
+    validateFile(event) {
+      if(event.target.files[0].type === 'image/jpeg' || event.target.files[0].type == 'image/png'){
+        this.processFile(event.target.files[0])
+      } else {
+        this.$emit('invalid-file');
+        this.message = "Feil filtype. Filen må være et bilde";
+      }
     },
     upload() {
       FileService.upload(this.selectedFile)
         .then(response => {
           this.message = response.data.message;
+          this.$emit('file-uploaded');
         })
         .catch(() => {
           this.message = "Kunne ikke laste opp filen!";
+          this.$emit('upload-failed');
         });
 
       this.selectedFile = undefined;

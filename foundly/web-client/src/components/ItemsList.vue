@@ -3,18 +3,18 @@
 
       <ul class="tab-nav">
         <li class="tab-item">
-          <button class="nav-link" v-on:click="itemFilterKey = 'all'" :class="{ active: itemFilterKey == 'all' }">Alle</button>
+          <button class="nav-link" id="filter-all" v-on:click="itemFilterKey = 'all'" :class="{ active: itemFilterKey == 'all' }">Alle</button>
         </li>
         <li class="tab-item">
-          <button class="nav-link" v-on:click="itemFilterKey = 'lost'" :class="{ active: itemFilterKey == 'lost' }">Mistet</button>
+          <button class="nav-link" id="filter-lost" v-on:click="itemFilterKey = 'lost'" :class="{ active: itemFilterKey == 'lost' }">Mistet</button>
         </li>
         <li class="tab-item">
-          <button class="nav-link" v-on:click="itemFilterKey = 'found'" :class="{ active: itemFilterKey == 'found' }">Funnet</button>
+          <button class="nav-link" id="filter-found" v-on:click="itemFilterKey = 'found'" :class="{ active: itemFilterKey == 'found' }">Funnet</button>
         </li>
       </ul>
 
       <div class="search-wrapper">
-        <input type="text" class="form-control" v-model="search" placeholder="Søk.."/>
+        <input type="text" class="form-control" id="filter-search" v-model="search" placeholder="Søk.."/>
       </div>
 
       <ul class="items">
@@ -108,9 +108,6 @@ export default {
         .catch(e => {
           console.log(e);
         });
-    },
-    refreshList() {
-      this.retrieveItems();
     }
     /* eslint-enable no-console */
   },
