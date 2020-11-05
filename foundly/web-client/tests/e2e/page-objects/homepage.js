@@ -23,26 +23,50 @@ module.exports = {
     app: {
       selector: '#app',
 
-      elements: {
-        logo: 'img'
-      },
-
-      // - a page object section can also have sub-sections
-      // - elements or sub-sections located here are retrieved using the "app" section as the base
       sections: {
-        headline: {
-          selector: 'h1'
+        siteContainer: {
+          selector: '.site',
+
+          sections: {
+            siteHeader: {
+              selector: '.site-header',
+
+              elements: {
+                logo: 'img.logo'
+              }
+            },
+
+            siteContent: {
+              selector: '.site-content',
+
+            },
+
+            siteFooter: {
+              selector: '.site-footer',
+
+              elements: {
+                btnFound: {
+                  selector: 'button.btn-primary'
+                },
+                btnLost: 'button.btn-secondary'
+              }
+            }
+          }
         },
+        itemModal: {
+          selector: '#ItemModal',
 
-        welcome: {
-          // the equivalent css selector for the "welcome" sub-section would be:
-          //  '#app div.hello'
-          selector: 'div.hello',
+          sections: {
+            itemForm: {
+              selector: '#ItemForm',
 
-          elements: {
-            cliPluginLinks: {
-              selector: 'ul',
-              index: 0
+              elements: {
+                btnCancel: {
+                  selector: '.modal-footer > button[type=button].btn-secondary',
+                  locateStrategy: 'css'
+                },
+                btnSubmit: '.modal-footer > button[type=submit].btn-primary'
+              }
             }
           }
         }
