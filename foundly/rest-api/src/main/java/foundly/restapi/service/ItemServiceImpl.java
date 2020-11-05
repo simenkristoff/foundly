@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Class ItemServiceImpl. Implementation of interface ItemService. This class handles all
@@ -14,10 +15,15 @@ import org.springframework.stereotype.Service;
  * the item repository.
  */
 @Service
+@Transactional
 public class ItemServiceImpl implements ItemService {
 
+  private final ItemRepository itemRepository;
+  
   @Autowired
-  ItemRepository itemRepository;
+  public ItemServiceImpl(ItemRepository itemRepository) {
+      this.itemRepository = itemRepository;
+  }
 
   /**
    * Gets all items from the item repository and returns them as a list.
@@ -51,9 +57,8 @@ public class ItemServiceImpl implements ItemService {
    * @param item the item
    */
   @Override
-  public void insertItem(Item item) {
-    itemRepository.save(new Item(item.getTitle(), item.getDescription(), item.getState(),
-        item.getEmail(), item.getPhone(), item.getImage(), item.getDate()));
+  public Item insertItem(Item item) {
+    return itemRepository.save(item);
   }
 
   /**
@@ -65,29 +70,7 @@ public class ItemServiceImpl implements ItemService {
    */
   @Override
   public void deleteItem(Long id) {
-    Item item = itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
-    itemRepository.delete(item);
-  }
-
-  /**
-   * Updates an item in the item repository by it's id. Throws an ItemNotFoundException if the item
-   * can't be found.
-   *
-   * @param id the id
-   * @param item the item
-   * @throws ItemNotFoundException signals that an item with the given id can't be found
-   */
-  @Override
-  public void updateItem(Long id, Item item) {
-    Item itemData = itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
-
-    itemData.setTitle(item.getTitle());
-    itemData.setDescription(item.getDescription());
-    itemData.setState(item.getState());
-    itemData.setEmail(item.getEmail());
-    itemData.setPhone(item.getPhone());
-    itemData.setImage(item.getImage());
-    itemRepository.save(itemData);
+    itemRepository.deleteById(id);
   }
 
 }

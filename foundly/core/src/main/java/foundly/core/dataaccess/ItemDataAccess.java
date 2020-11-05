@@ -29,14 +29,6 @@ public interface ItemDataAccess {
   Item get(long id) throws IOException, InterruptedException;
 
   /**
-   * Update an Item.
-   *
-   * @param id the id
-   * @param item the item
-   */
-  void update(long id, Item item);
-
-  /**
    * Delete an Item.
    *
    * @param id the id

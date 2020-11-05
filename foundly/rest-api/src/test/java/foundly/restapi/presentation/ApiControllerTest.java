@@ -62,7 +62,7 @@ public class ApiControllerTest {
 
 
   /**
-   * Inits the items used in the tests.
+   * Initializes the items used in the tests.
    */
   @BeforeAll
   public static void init() {
@@ -75,9 +75,6 @@ public class ApiControllerTest {
 
   /**
    * Tests get all items
-   *
-   * @return the all items test
-   * @throws Exception the exception
    */
   @Test
   public void getAllItemsTest() throws Exception {
@@ -91,9 +88,6 @@ public class ApiControllerTest {
 
   /**
    * Test get item by id
-   *
-   * @return the item test
-   * @throws Exception the exception
    */
   @Test
   public void getItemTest() throws Exception {
@@ -107,15 +101,13 @@ public class ApiControllerTest {
 
   /**
    * Test insert item
-   *
-   * @throws Exception the exception
    */
   @Test
   public void insertItemTest() throws Exception {
     Item item = new Item("Gul frosk", "Gul og prikkete frosk mistet", State.LOST, "test@test.no",
         "12345678", "default.png", LocalDateTime.now());
 
-    doNothing().when(itemService).insertItem(item);
+    when(itemService.insertItem(item)).thenReturn(item);
 
     this.mockMvc
         .perform(post("/api/items").contentType(MediaType.APPLICATION_JSON)
@@ -125,8 +117,6 @@ public class ApiControllerTest {
 
   /**
    * Test delete item
-   *
-   * @throws Exception the exception
    */
   @Test
   public void deleteItemTest() throws Exception {
@@ -140,29 +130,7 @@ public class ApiControllerTest {
   }
 
   /**
-   * Test update item
-   *
-   * @throws Exception the exception
-   */
-  @Test
-  public void updateItemTest() throws Exception {
-    Item item = new Item("Gul frosk", "Gul og prikkete frosk mistet", State.LOST, "test@test.no",
-        "12345678", "default.png", LocalDateTime.now());
-
-    given(itemService.getItemById(1L)).willReturn(Optional.of(item).get());
-    doNothing().when(itemService).updateItem(1L, item);
-
-    this.mockMvc
-        .perform(put("/api/items/1").contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(item)))
-        .andExpect(status().isOk()).andExpect(jsonPath("$.message", is("Item updated at id = 1")));
-
-  }
-
-  /**
    * Test successful file upload
-   *
-   * @throws Exception the exception
    */
   @Test
   public void uploadFileSuccessTest() throws Exception {
@@ -175,8 +143,6 @@ public class ApiControllerTest {
 
   /**
    * Test unsuccessful file upload
-   *
-   * @throws Exception the exception
    */
   @Test
   public void uploadFileUnsuccessTest() throws Exception {
