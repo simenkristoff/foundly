@@ -16,6 +16,7 @@ module.exports = {
 
   /** Add proxy to rest-api for development **/
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8098',
