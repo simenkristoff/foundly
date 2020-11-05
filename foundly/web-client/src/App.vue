@@ -16,6 +16,10 @@
   </div>
 </template>
 
+<style lang="scss">
+@import './assets/sass/style.scss';
+</style>
+
 <script>
 import http from "./http-common";
 import Modal from './components/ItemModal'
