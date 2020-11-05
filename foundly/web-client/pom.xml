@@ -3,26 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<packaging>pom</packaging>
-	
+
 	<parent>
 		<groupId>gr2050.foundly</groupId>
 		<artifactId>foundlyParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>web-client</artifactId>
-	
+
 	<name>Web-client</name>
-	<description>Web-client for foundly project runs in Vue.js</description>
+	<description>Web-client for Foundly-project, runs in Vue.js</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<frontend-maven-plugin.version>1.10.3</frontend-maven-plugin.version>
 	</properties>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -30,15 +30,20 @@
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>${frontend-maven-plugin.version}</version>
 				<executions>
+
+					<!-- Install node locally -->
 					<execution>
 						<id>install node and npm</id>
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v12.18.2</nodeVersion>
+							<nodeVersion>v12.19.0</nodeVersion>
+							<npmVersion>6.14.8</npmVersion>
 						</configuration>
 					</execution>
+
+					<!-- Install modules -->
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -49,6 +54,8 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
+
+					<!-- Build project -->
 					<execution>
 						<id>npm run build</id>
 						<goals>
@@ -58,18 +65,33 @@
 							<arguments>run build</arguments>
 						</configuration>
 					</execution>
+
 					<!-- Run Unit tests with Jest -->
-					<!-- <execution> <id>npm run test:unit</id> <goals> <goal>npm</goal> 
-						</goals> <phase>test</phase> <configuration> <arguments>run test:unit</arguments> 
-						</configuration> </execution> -->
+					<execution>
+						<id>npm run test:unit</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>test</phase>
+						<configuration>
+							<arguments>run test:unit</arguments>
+						</configuration>
+					</execution>
+
 					<!-- Run End2End tests with Nightwatch -->
-					<!-- <execution> <id>npm run test:e2e</id> <goals> <goal>npm</goal> 
-						</goals> <phase>test</phase> <configuration> <arguments>run test:e2e</arguments> 
-						</configuration> </execution> -->
+					<execution>
+						<id>npm run test:e2e</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>test</phase>
+						<configuration>
+							<arguments>run test:e2e</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
 

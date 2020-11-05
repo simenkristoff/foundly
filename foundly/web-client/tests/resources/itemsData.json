@@ -1,0 +1,7 @@
+
+[
+  {"title":"Funnet mobil","description":"Fant en iPhone 9 på r2 i dag tidlig","state":"FOUND","email":"simen.kristoffersen98@gmail.com","phone":"90360922","image":"default.png","date":"2020-10-31T09:18:47.947168"},
+  {"title":"Mistet nøkler","description":"Mistet nøklene mine på gløs i går","state":"LOST","email":"simen.kristoffersen98@gmail.com","phone":"90360922","image":"default.png","date":"2020-10-31T09:33:20.168159"},
+  {"title":"Fant nøkler i går","description":"Fant en nøkkelring med to nøkler i R2","state":"FOUND","email":"simen.kristoffersen98@gmail.com","phone":"90360922","image":"husnokkel.png","date":"2020-10-31T09:41:02.599998"},
+  {"title":"Mistet noe as","description":"Nøkkelen min","state":"LOST","email":"simen.kristoffersen98@gmail.com","phone":"90360922","image":"default.png","date":"2020-11-02T13:41:34.422585"}
+]

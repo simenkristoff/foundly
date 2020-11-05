@@ -7,4 +7,8 @@ image:
 ports:
   # used by virtual desktop and vnc, supports JavaFX
   - port: 6080
+  # used by rest-api and web-client
+  - port: 8098
+  # used by web-client devServer
+  - port: 8080
 
