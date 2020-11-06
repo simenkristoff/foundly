@@ -7,6 +7,11 @@ import foundly.ui.App;
 import foundly.ui.container.Modal;
 import foundly.ui.container.ModalLayout;
 import foundly.ui.control.ImagePicker;
+import foundly.ui.control.form.Form;
+import foundly.ui.control.form.FormPatternField;
+import foundly.ui.control.form.FormTextArea;
+import foundly.ui.control.form.FormTextField;
+import foundly.ui.control.form.FormPatternField.PatternType;
 import foundly.ui.effect.DepthManager;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,9 +64,13 @@ public class Navigator {
     btnFound.setOnAction(foundItem());
     btnLost.setOnAction(lostItem());
   }
-
   /**
-   * Event for adding found items.
+   * Event for adding found items. Initializes a {@link Form} with input-fields for {@code title},
+   * {@code description}, {@code email}, {@code phone}, {@code image-picker}. If the input is
+   * validated, the {@link ItemDataAccessObject} will send a post request for the item with a {@code State.FOUND} to the
+   * rest-api. </br>
+   * The {@link ImagePicker} is not required, and the {@link ImageDataAccessObject} will only send a
+   * post-request for image-upload to the rest-api if an image is selected.
    * 
    * @return (ActionEvent) event
    */
@@ -77,21 +86,22 @@ public class Navigator {
       ModalLayout layout = new ModalLayout();
       layout.setHeader(new Label("Legg til funnet gjenstand"));
 
-      TextField itemTitle = new TextField();
+      FormTextField itemTitle = new FormTextField(true, 5);
       itemTitle.setPromptText("Tittel");
 
-      TextArea itemDesc = new TextArea();
+      FormTextArea itemDesc = new FormTextArea(true, 20);
       itemDesc.setPromptText("Beskrivelse");
 
-      TextField itemEmail = new TextField();
+      FormPatternField itemEmail = new FormPatternField(true, PatternType.EMAIL);
       itemEmail.setPromptText("Email-adresse");
 
-      TextField itemPhone = new TextField();
+      FormPatternField itemPhone = new FormPatternField(true, PatternType.PHONE);
       itemPhone.setPromptText("Telefon");
 
       ImagePicker itemImage = new ImagePicker("Velg bilde");
-
-      VBox form = new VBox(itemTitle, itemImage, itemDesc, itemEmail, itemPhone);
+      //NY!
+      Form form = new Form(itemTitle, itemImage, itemDesc, itemEmail, itemPhone);
+      form.setInputs(itemTitle, itemDesc, itemEmail, itemPhone);
       form.setAlignment(Pos.CENTER);
       form.setSpacing(3);
 
@@ -101,11 +111,13 @@ public class Navigator {
       btnSubmit.setDefaultButton(true);
       btnSubmit.getStyleClass().add("primary");
       btnSubmit.setOnAction(addEvent -> {
-        Item item = new Item(itemTitle.getText(), itemDesc.getText(), Item.State.FOUND,
-            itemEmail.getText(), itemPhone.getText(), itemImage.getImageName(),
-            LocalDateTime.now());
-        modal.setResult(item);
-        modal.hide();
+        if (form.isValid()) {
+          Item item = new Item(itemTitle.getText(), itemDesc.getText(), Item.State.FOUND,
+              itemEmail.getText(), itemPhone.getText(), itemImage.getImageName(),
+              LocalDateTime.now());
+          modal.setResult(item);
+          modal.hide();
+        }
       });
 
       Button btnCancel = new Button("Avbryt");
@@ -133,7 +145,12 @@ public class Navigator {
   }
 
   /**
-   * Event for adding found items.
+   * Event for adding lost items. Initializes a {@link Form} with input-fields for {@code title},
+   * {@code description}, {@code email}, {@code phone}, {@code image-picker}. If the input is
+   * validated, the {@link ItemDataAccessObject} will send a post request for the item with a {@code State.LOST} to the
+   * rest-api. </br>
+   * The {@link ImagePicker} is not required, and the {@link ImageDataAccessObject} will only send a
+   * post-request for image-upload to the rest-api if an image is selected.
    * 
    * @return (ActionEvent) event
    */
@@ -149,21 +166,22 @@ public class Navigator {
       ModalLayout layout = new ModalLayout();
       layout.setHeader(new Label("Legg til mistet gjenstand"));
 
-      TextField itemTitle = new TextField();
+      FormTextField itemTitle = new FormTextField(true, 5);
       itemTitle.setPromptText("Tittel");
 
-      TextArea itemDesc = new TextArea();
+      FormTextArea itemDesc = new FormTextArea(true, 20);
       itemDesc.setPromptText("Beskrivelse");
 
-      TextField itemEmail = new TextField();
+      FormPatternField itemEmail = new FormPatternField(true, PatternType.EMAIL);
       itemEmail.setPromptText("Email-adresse");
 
-      TextField itemPhone = new TextField();
+      FormPatternField itemPhone = new FormPatternField(true, PatternType.PHONE);
       itemPhone.setPromptText("Telefon");
 
       ImagePicker itemImage = new ImagePicker("Velg bilde");
 
-      VBox form = new VBox(itemTitle, itemImage, itemDesc, itemEmail, itemPhone);
+      Form form = new Form(itemTitle, itemImage, itemDesc, itemEmail, itemPhone);
+      form.setInputs(itemTitle, itemDesc, itemEmail, itemPhone);
       form.setAlignment(Pos.CENTER);
       form.setSpacing(3);
 
@@ -174,11 +192,13 @@ public class Navigator {
       btnSubmit.setDefaultButton(true);
       btnSubmit.getStyleClass().add("primary");
       btnSubmit.setOnAction(addEvent -> {
-        Item item = new Item(itemTitle.getText(), itemDesc.getText(), Item.State.LOST,
-            itemEmail.getText(), itemPhone.getText(), itemImage.getImageName(),
-            LocalDateTime.now());
-        modal.setResult(item);
-        modal.hide();
+        if (form.isValid()) {
+          Item item = new Item(itemTitle.getText(), itemDesc.getText(), Item.State.LOST,
+              itemEmail.getText(), itemPhone.getText(), itemImage.getImageName(),
+              LocalDateTime.now());
+          modal.setResult(item);
+          modal.hide();
+        }
       });
 
       Button btnCancel = new Button("Avbryt");
