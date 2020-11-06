@@ -92,10 +92,6 @@ ul.items {
     align-self: flex-start;
     width: 100%;
 
-    > span {
-      flex: 1 1 100%;
-    }
-
     ul.item-details {
       > li {
         float: left;

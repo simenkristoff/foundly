@@ -12,9 +12,6 @@ import 'bootstrap'
 import {IconsPlugin} from 'bootstrap-vue'
 Vue.use(IconsPlugin)
 
-/**  Add stylesheet **/
-import './assets/sass/style.scss';
-
 /** Filters **/
 require('./assets/js/filters.js');
 
