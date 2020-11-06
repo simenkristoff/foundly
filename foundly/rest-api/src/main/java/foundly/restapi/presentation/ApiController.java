@@ -93,24 +93,6 @@ public class ApiController {
   }
 
   /**
-   * Updates an Item in the Item-repository and returns a response message. The new Item will
-   * override the old Item with same id as the id-parameter in the Item-repository.
-   *
-   * @param id the id
-   * @param item the updated item
-   * @return the response message
-   */
-  @PutMapping("/items/{id}")
-  public ResponseEntity<ResponseMessage> updateItem(@PathVariable("id") long id,
-      @RequestBody Item item) {
-    itemService.updateItem(id, item);
-    String message = "Item updated at id = " + id;
-    ResponseEntity<ResponseMessage> response =
-        ResponseEntity.ok().body(new ResponseMessage(message));
-    return response;
-  }
-
-  /**
    * Uploads a file to the file storage directory.
    *
    * @param file the file to be uploaded
