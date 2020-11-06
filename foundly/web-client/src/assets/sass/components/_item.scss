@@ -52,13 +52,9 @@ ul.items {
   position: relative;
   text-align: left;
   padding: .25rem 1rem;
-  flex: 1 1 100%;
+  flex: 0 1 100%;
   align-self: stretch;
   flex-flow: column;
-
-  > div {
-    display: flex;
-  }
 
   .item-header {
     padding-top: .75rem;
@@ -71,13 +67,12 @@ ul.items {
   }
 
   .item-body {
-    flex: 1 1 100%;
+    flex: 0 1 100%;
     align-self: stretch;
     padding: .5rem 0;
 
     > .description {
       width: 100%;
-      max-height: 250px;
       overflow-y: hidden;
     }
   }
@@ -87,9 +82,7 @@ ul.items {
   }
 
   .item-footer {
-    display: inline-flex;
     flex-flow: column;
-    align-self: flex-start;
     width: 100%;
 
     ul.item-details {
