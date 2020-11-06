@@ -34,7 +34,7 @@ public class FormTextArea extends AbstractValidator<TextArea> {
    */
   public boolean isValid() {
     if ((this.control.getText().isEmpty() && this.required)
-        && this.control.getText().length() < this.minLen) {
+        || this.control.getText().length() < this.minLen) {
       this.setInvalid();
       return false;
     }
