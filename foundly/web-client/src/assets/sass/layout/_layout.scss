@@ -2,7 +2,6 @@
 /** Site **/
 .site {
   background: $secondary-background-color;
-  border-radius: 1.5rem;
   -webkit-box-shadow: 0px 10px 20px 3px rgba(0,0,0,0.25);
   -moz-box-shadow: 0px 10px 20px 3px rgba(0,0,0,0.25);
   box-shadow: 0px 10px 20px 3px rgba(0,0,0,0.25);
@@ -17,7 +16,7 @@
 // Site-header
 .site-header {
   margin-bottom: 0;
-  padding: .5rem;
+  height: $header-height;
 }
 
 
@@ -29,5 +28,18 @@
 
 // Site-footer
 .site-footer {
-  
+  height: $footer-height;
+}
+
+@media screen and (max-width: $breakpoint-small) {
+  .site-footer {
+    height: auto;
+    padding: 0;
+    margin: 0;
+
+    > button {
+      padding: .25rem;
+      margin: .125rem;
+    }
+  }
 }

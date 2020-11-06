@@ -21,15 +21,10 @@
 @import 'components/components';
 
 #app {
+  margin: 0 auto;
+  max-width: $app-width;
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin: 1rem auto;
-  max-width: 1024px;
-}
-
-@media screen and (max-width: 1025px) {
-  #app {
-    margin: 0 auto;
-  }
 }
