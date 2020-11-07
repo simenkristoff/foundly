@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 public class ImageDataAccessObject implements ImageDataAccess {
 
   private final String baseUrlString;
-  
+
   private RestTemplate restTemplate;
 
   @Autowired
@@ -45,7 +45,7 @@ public class ImageDataAccessObject implements ImageDataAccess {
   protected ObjectMapper getObjectMapper() {
     return objectMapper;
   }
-  
+
   /**
    * Gets the restTemplate-client from Spring.
    *
@@ -62,17 +62,21 @@ public class ImageDataAccessObject implements ImageDataAccess {
    */
   @Override
   public void upload(File file) {
-    Resource resource = new FileSystemResource(file);
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+    try {
+      Resource resource = new FileSystemResource(file);
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-    MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-    body.add("file", resource);
-    HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+      MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+      body.add("file", resource);
+      HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-    ResponseEntity<String> response =
-        restTemplate.postForEntity(this.baseUrlString, requestEntity, String.class);
-    System.out.println("Response code: " + response.getStatusCode());
+      ResponseEntity<String> response =
+          restTemplate.postForEntity(this.baseUrlString, requestEntity, String.class);
+      System.out.println("Response code: " + response.getStatusCode());
+    } catch (Exception e) {
+      System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
+    }
   }
 
 }

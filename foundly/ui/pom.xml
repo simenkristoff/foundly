@@ -28,13 +28,7 @@
             <artifactId>core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        
-        <dependency>
-            <groupId>gr2050.foundly</groupId>
-            <artifactId>rest-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>			
-    
+        		
     	<!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -66,12 +60,6 @@
     <build>
         <plugins>
             
-            <!-- Springboot -->
-        	<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-        
         	<!-- Compiling code -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -83,6 +71,16 @@
 					<target>14</target>
 				</configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.4</version>
+                <configuration>
+                    <mainClass>foundly.ui.App</mainClass>
+                </configuration>
+            </plugin>
+            
             
             <plugin>
 				<groupId>org.codehaus.mojo</groupId>
