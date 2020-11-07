@@ -1,23 +1,19 @@
 package foundly.ui;
 
-import foundly.restapi.RestApi;
 import foundly.ui.controller.Navigator;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * JavaFX App. The launcher application for this project.
  */
-@SpringBootApplication
 public class App extends Application {
 
   public static final DateTimeFormatter DATEPATTERN = DateTimeFormatter.ofPattern("dd.MM.YY HH:mm");
@@ -29,7 +25,6 @@ public class App extends Application {
   private static final int COUNT_LIMIT = 10;
   private static final String ICON = "img/icons/icon.png";
 
-  private ConfigurableApplicationContext springContext;
   private Navigator navigator;
 
   /**
@@ -52,34 +47,27 @@ public class App extends Application {
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
       @Override
       public void handle(WindowEvent event) {
-        try {
-          stop();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        close();
       }
     });
+
   }
 
   /**
-   * Stops the rest-api service and closes the application.
+   * Closes the application.
    *
-   * @throws Exception the exception
    */
-  @Override
-  public void stop() throws Exception {
-    springContext.close();
+  public void close() {
+    Platform.exit();
     System.exit(-1);
   }
 
   /**
-   * Initialize the app. Starts the rest-api service, initializes the navigator and updates the
-   * preloader.
+   * Initialize the app. Initializes the navigator and updates the preloader.
    *
    * @throws Exception the exception
    */
   public void init() throws Exception {
-    this.springContext = SpringApplication.run(RestApi.class);
     this.navigator = new Navigator();
     for (int i = 0; i < COUNT_LIMIT; i++) {
       double progress = (double) i / COUNT_LIMIT;

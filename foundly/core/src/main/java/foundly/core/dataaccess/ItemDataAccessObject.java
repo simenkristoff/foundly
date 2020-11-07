@@ -58,24 +58,25 @@ public class ItemDataAccessObject implements ItemDataAccess {
    * @return the items
    */
   public List<Item> getAll() {
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    ResponseEntity<Item[]> response =
-        getRestTemplate().getForEntity(getRequestUrl(""), Item[].class);
+    try {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      ResponseEntity<Item[]> response =
+          getRestTemplate().getForEntity(getRequestUrl(""), Item[].class);
 
-    System.out.println(response.getStatusCode());
+      System.out.println(response.getStatusCode());
 
-    if (response.getStatusCode() == HttpStatus.OK) {
-      try {
+      if (response.getStatusCode() == HttpStatus.OK) {
         return Arrays.asList(response.getBody());
-      } catch (NullPointerException e) {
-        e.printStackTrace();
-        return null;
       }
 
+    } catch (NullPointerException e) {
+      System.err.println("[WARNING] Could not find requested item \n" + e.getMessage());
+    } catch (Exception e) {
+      System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
     }
 
-    return null;
+    return Collections.emptyList();
   }
 
   /**
@@ -86,19 +87,30 @@ public class ItemDataAccessObject implements ItemDataAccess {
    * @return the item
    */
   public Item get(long id) {
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    ResponseEntity<Item> response =
-        getRestTemplate().getForEntity(getRequestUrl("/" + id), Item.class);
+    try {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      ResponseEntity<Item> response =
+          getRestTemplate().getForEntity(getRequestUrl("/" + id), Item.class);
 
-    System.out.println(response.getStatusCode());
+      System.out.println(response.getStatusCode());
 
-    if (response.getStatusCode() == HttpStatus.OK) {
-      return response.getBody();
+      if (response.getStatusCode() == HttpStatus.OK) {
+        return response.getBody();
+      }
+
+    } catch (NullPointerException e) {
+      System.err.println("[WARNING] Could not find requested item \n" + e.getMessage());
+    } catch (Exception e) {
+      System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
     }
+
+<<<<<<< foundly/core/src/main/java/foundly/core/dataaccess/ItemDataAccessObject.java
     return null;
   }
 
+=======
+>>>>>>> foundly/core/src/main/java/foundly/core/dataaccess/ItemDataAccessObject.java
   /**
    * Delete an Item. Sends a DELETE-request to the rest-api requesting a DELETE for the Item with an
    * id corresponding to the id-parameter.
@@ -106,11 +118,17 @@ public class ItemDataAccessObject implements ItemDataAccess {
    * @param id the id
    */
   public void delete(long id) {
-    HttpHeaders headers = new HttpHeaders();
-    Map<String, Long> params = new HashMap<String, Long>();
-    params.put("id", id);
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    getRestTemplate().delete(getRequestUrl("/" + id), params);
+    try {
+      HttpHeaders headers = new HttpHeaders();
+      Map<String, Long> params = new HashMap<String, Long>();
+      params.put("id", id);
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      getRestTemplate().delete(getRequestUrl("/" + id), params);
+
+    } catch (Exception e) {
+      System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
+    }
+
   }
 
   /**
@@ -121,18 +139,24 @@ public class ItemDataAccessObject implements ItemDataAccess {
    * @return true, if successful
    */
   public boolean insert(Item item) {
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-    HttpEntity<Item> entity = new HttpEntity<>(item, headers);
-    ResponseEntity<String> response =
-        this.getRestTemplate().postForEntity(this.getRequestUrl(""), entity, String.class);
+    try {
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON);
+      headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+      HttpEntity<Item> entity = new HttpEntity<>(item, headers);
+      ResponseEntity<String> response =
+          this.getRestTemplate().postForEntity(this.getRequestUrl(""), entity, String.class);
 
-    System.out.println(response.getStatusCode());
+      System.out.println(response.getStatusCode());
 
-    if (response.getStatusCode() == HttpStatus.OK) {
-      return true;
+      if (response.getStatusCode() == HttpStatus.OK) {
+        return true;
+      }
+
+    } catch (Exception e) {
+      System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
     }
+
     return false;
   }
 
