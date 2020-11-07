@@ -100,22 +100,6 @@ public class ItemDataAccessObject implements ItemDataAccess {
   }
 
   /**
-   * Update an Item. Sends a POST-request to rest-api requesting a POST for an Item in the database.
-   * The Item will override the already stored Item in the database corresponding to the
-   * id-parameter.
-   *
-   * @param id the id
-   * @param item the updated item
-   */
-  public void update(long id, Item item) {
-    HttpHeaders headers = new HttpHeaders();
-    Map<String, Long> params = new HashMap<String, Long>();
-    params.put("id", id);
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    getRestTemplate().put(getRequestUrl("/" + id), item, params);
-  }
-
-  /**
    * Delete an Item. Sends a DELETE-request to the rest-api requesting a DELETE for the Item with an
    * id corresponding to the id-parameter.
    *
