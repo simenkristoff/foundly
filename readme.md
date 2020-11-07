@@ -41,8 +41,9 @@ Vårt bygg har tillegg for:
 ## Kjøring av prosjektet
 1. Åpne prosjektet i gitpod ved hjelp av knappen øverst.
 2. Fra /workspace/gr2050/foundly, skriv kommandoen **mvn clean install** i terminalvinduet.
-3. Kjør deretter kommandoen **mvn compile -X  exec:java -f ui/pom.xml**
-4. Åpne port 6080 for å se JavaFx-klienten.
-5. Åpne port 8098 for å se Web-klienten.
-5. Legg inn hittegodset ditt!
+3. For å starte Rest API brukes kommandoen **mvn spring-boot:run -f rest-api/pom.xml** 
+4. Kjør deretter kommandoen **mvn javafx:run -f ui/pom.xml** for å starte JavaFx-klienten.
+5. Åpne port 6080 for å se JavaFx-klienten.
+6. Åpne port 8098 for å se Web-klienten.
+7. Legg inn hittegodset ditt!
 
