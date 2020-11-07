@@ -2,6 +2,8 @@ package foundly.ui.container;
 
 import foundly.core.model.Item;
 import foundly.ui.App;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -67,7 +69,10 @@ public class ItemCellLayout extends BorderPane {
     imageView.setPreserveRatio(true);
     imageView.fitWidthProperty().bind(imageViewWrapper.widthProperty());
     imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
-    image = new Image(App.API_URL + "/img/" + item.getImage());
+
+    // Will URL-encode the filename if it contains unsupported characters
+    image = new Image(
+        App.API_URL + "/img/" + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8));
     imageView.setImage(image);
   }
 
