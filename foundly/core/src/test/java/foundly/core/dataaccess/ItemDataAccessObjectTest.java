@@ -108,26 +108,6 @@ public class ItemDataAccessObjectTest {
   }
 
   /**
-   * Test if update() method sends the correct request.
-   *
-   * @throws JsonProcessingException the json processing exception
-   * @throws URISyntaxException the URI syntax exception
-   */
-  @Test
-  @DisplayName("Test update(Long id, Item item)")
-  public void updateTest() throws JsonProcessingException, URISyntaxException {
-    mockServer.expect(ExpectedCount.once(), requestTo(new URI("http://localhost:8098/api/items/1")))
-        .andExpect(method(HttpMethod.PUT))
-        .andRespond(withSuccess("{message : 'Item updated!'}", MediaType.APPLICATION_JSON));
-
-    Item updatedItem = items.get(0);
-    updatedItem.setState(State.FOUND);
-    itemDao.update(1, updatedItem);
-
-    mockServer.verify();
-  }
-
-  /**
    * Test if delete() method sends the correct request.
    *
    * @throws JsonProcessingException the json processing exception

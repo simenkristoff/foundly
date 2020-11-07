@@ -105,9 +105,12 @@ public class ItemDataAccessObject implements ItemDataAccess {
       System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
     }
 
+<<<<<<< foundly/core/src/main/java/foundly/core/dataaccess/ItemDataAccessObject.java
     return null;
   }
 
+=======
+>>>>>>> foundly/core/src/main/java/foundly/core/dataaccess/ItemDataAccessObject.java
   /**
    * Delete an Item. Sends a DELETE-request to the rest-api requesting a DELETE for the Item with an
    * id corresponding to the id-parameter.

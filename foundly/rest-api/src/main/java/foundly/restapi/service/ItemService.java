@@ -27,8 +27,9 @@ public interface ItemService {
    * Insert an item.
    *
    * @param item the item
+   * @return 
    */
-  public void insertItem(Item item);
+  public Item insertItem(Item item);
   
   /**
    * Delete an item by id.
@@ -37,11 +38,4 @@ public interface ItemService {
    */
   public void deleteItem(Long id);
   
-  /**
-   * Update an item by id.
-   *
-   * @param id the id
-   * @param item the item to be updated
-   */
-  public void updateItem(Long id, Item item);
 }
