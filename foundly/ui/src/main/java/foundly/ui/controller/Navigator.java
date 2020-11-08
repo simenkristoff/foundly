@@ -9,9 +9,9 @@ import foundly.ui.container.ModalLayout;
 import foundly.ui.control.ImagePicker;
 import foundly.ui.control.form.Form;
 import foundly.ui.control.form.FormPatternField;
+import foundly.ui.control.form.FormPatternField.PatternType;
 import foundly.ui.control.form.FormTextArea;
 import foundly.ui.control.form.FormTextField;
-import foundly.ui.control.form.FormPatternField.PatternType;
 import foundly.ui.effect.DepthManager;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,11 +27,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -64,11 +61,12 @@ public class Navigator {
     btnFound.setOnAction(foundItem());
     btnLost.setOnAction(lostItem());
   }
+
   /**
    * Event for adding found items. Initializes a {@link Form} with input-fields for {@code title},
    * {@code description}, {@code email}, {@code phone}, {@code image-picker}. If the input is
-   * validated, the {@link ItemDataAccessObject} will send a post request for the item with a {@code State.FOUND} to the
-   * rest-api. </br>
+   * validated, the {@link ItemDataAccessObject} will send a post request for the item with a
+   * {@code State.FOUND} to the rest-api. <br>
    * The {@link ImagePicker} is not required, and the {@link ImageDataAccessObject} will only send a
    * post-request for image-upload to the rest-api if an image is selected.
    * 
@@ -88,18 +86,24 @@ public class Navigator {
 
       FormTextField itemTitle = new FormTextField(true, 5);
       itemTitle.setPromptText("Tittel");
+      itemTitle.setId("found_itemTitle");
 
       FormTextArea itemDesc = new FormTextArea(true, 20);
       itemDesc.setPromptText("Beskrivelse");
+      itemDesc.setId("found_itemDesc");
 
       FormPatternField itemEmail = new FormPatternField(true, PatternType.EMAIL);
       itemEmail.setPromptText("Email-adresse");
+      itemEmail.setId("found_itemEmail");
 
       FormPatternField itemPhone = new FormPatternField(true, PatternType.PHONE);
       itemPhone.setPromptText("Telefon");
+      itemPhone.setId("found_itemPhone");
 
       ImagePicker itemImage = new ImagePicker("Velg bilde");
-      //NY!
+      itemImage.setId("found_itemImage");
+
+      // NY!
       Form form = new Form(itemTitle, itemImage, itemDesc, itemEmail, itemPhone);
       form.setInputs(itemTitle, itemDesc, itemEmail, itemPhone);
       form.setAlignment(Pos.CENTER);
@@ -147,8 +151,8 @@ public class Navigator {
   /**
    * Event for adding lost items. Initializes a {@link Form} with input-fields for {@code title},
    * {@code description}, {@code email}, {@code phone}, {@code image-picker}. If the input is
-   * validated, the {@link ItemDataAccessObject} will send a post request for the item with a {@code State.LOST} to the
-   * rest-api. </br>
+   * validated, the {@link ItemDataAccessObject} will send a post request for the item with a
+   * {@code State.LOST} to the rest-api. <br>
    * The {@link ImagePicker} is not required, and the {@link ImageDataAccessObject} will only send a
    * post-request for image-upload to the rest-api if an image is selected.
    * 
@@ -168,17 +172,22 @@ public class Navigator {
 
       FormTextField itemTitle = new FormTextField(true, 5);
       itemTitle.setPromptText("Tittel");
+      itemTitle.setId("lost_itemTitle");
 
       FormTextArea itemDesc = new FormTextArea(true, 20);
       itemDesc.setPromptText("Beskrivelse");
+      itemDesc.setId("lost_itemDesc");
 
       FormPatternField itemEmail = new FormPatternField(true, PatternType.EMAIL);
       itemEmail.setPromptText("Email-adresse");
+      itemEmail.setId("lost_itemEmail");
 
       FormPatternField itemPhone = new FormPatternField(true, PatternType.PHONE);
       itemPhone.setPromptText("Telefon");
+      itemPhone.setId("lost_itemPhone");
 
       ImagePicker itemImage = new ImagePicker("Velg bilde");
+      itemImage.setId("lost_itemImage");
 
       Form form = new Form(itemTitle, itemImage, itemDesc, itemEmail, itemPhone);
       form.setInputs(itemTitle, itemDesc, itemEmail, itemPhone);
