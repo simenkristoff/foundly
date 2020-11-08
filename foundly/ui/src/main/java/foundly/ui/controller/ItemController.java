@@ -27,7 +27,7 @@ public class ItemController extends AbstractViewController {
 
   @FXML
   private TabPane tabPane;
-  private ObservableList<Tab> tabs = FXCollections.observableArrayList();
+  private ObservableList<Tab> tabs;
   private final String[] tabNames = {"Alle", "Mistet", "Funnet"};
 
   private ListView<Item> listView;
@@ -66,7 +66,7 @@ public class ItemController extends AbstractViewController {
     setupFilters();
   }
 
-  
+
   /**
    * Fetch data from the rest-api and add them to a filtered list.
    */
@@ -81,6 +81,7 @@ public class ItemController extends AbstractViewController {
    * Setup the tabs.
    */
   private void setupTabs() {
+    tabs = FXCollections.observableArrayList();
 
     for (String tabName : tabNames) {
       Tab tab = new Tab(tabName);
@@ -102,6 +103,7 @@ public class ItemController extends AbstractViewController {
    */
   private void setupListView() {
     this.listView = new ListView<Item>();
+    this.listView.setId("items-list");
 
     // Changes the display of each cell to ItemCellLayout.
     listView.setCellFactory(param -> new ListCell<Item>() {

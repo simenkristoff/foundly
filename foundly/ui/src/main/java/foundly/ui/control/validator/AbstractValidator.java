@@ -62,6 +62,24 @@ public abstract class AbstractValidator<T extends TextInputControl> extends VBox
   }
 
   /**
+   * Gets the the input-control.
+   *
+   * @return the input-control
+   */
+  public T getControl() {
+    return this.control;
+  }
+
+  /**
+   * Gets the error message.
+   *
+   * @return message the error message
+   */
+  public String getErrorMessage() {
+    return this.message;
+  }
+
+  /**
    * Sets the error message.
    *
    * @param message the new error message
@@ -85,7 +103,7 @@ public abstract class AbstractValidator<T extends TextInputControl> extends VBox
    */
   protected void reset() {
     this.control.getStyleClass().remove("error");
-    this.error.setText("");
+    this.error.setText(null);
   }
 
   /**

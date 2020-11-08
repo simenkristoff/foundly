@@ -13,7 +13,7 @@ public class FormTextField extends AbstractValidator<TextField> {
 
   private boolean required = true;
   private int minLen = 0;
-
+  
   /**
    * Instantiates a new {@code FormTextField} with a required boolean and minimum length.
    *
@@ -34,7 +34,7 @@ public class FormTextField extends AbstractValidator<TextField> {
    */
   public boolean isValid() {
     if ((this.control.getText().isEmpty() && this.required)
-        && this.control.getText().length() < this.minLen) {
+        || this.control.getText().length() < this.minLen) {
       this.setInvalid();
       return false;
     }

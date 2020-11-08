@@ -59,7 +59,6 @@ public class App extends Application {
    */
   public void close() {
     Platform.exit();
-    System.exit(-1);
   }
 
   /**
