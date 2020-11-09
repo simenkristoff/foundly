@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">88.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">88.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>8/9</span>
             </div>
         
             
@@ -107,7 +107,15 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -128,6 +136,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,7 +156,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,57 +166,60 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-  &lt;div id="app"&gt;
-    &lt;div class="site mx-auto"&gt;
-      &lt;div class="site-header"&gt;
-        &lt;img class="logo" src="./assets/img/logo.png" /&gt;
-      &lt;/div&gt;
-      &lt;div class="site-content"&gt;
-        &lt;router-view/&gt;
-      &lt;/div&gt;
-      &lt;div class="site-footer text-center py-3"&gt;
-        &lt;button @click="addItem('FOUND')" class="btn btn-primary mx-2"&gt;Har du funnet noe?&lt;/button&gt;
-        &lt;button @click="addItem('LOST')" class="btn btn-secondary mx-2"&gt;Har du mistet noe?&lt;/button&gt;
-      &lt;/div&gt;
+&lt;div id="app"&gt;
+  &lt;div class="site mx-auto"&gt;
+    &lt;div class="site-header"&gt;
+      &lt;img class="logo" src="./assets/img/logo.png" /&gt;
     &lt;/div&gt;
-    &lt;modal @close="closeModal" :state="state" v-show="state != null"&gt;&lt;/modal&gt;
+    &lt;div class="site-content"&gt;
+      &lt;router-view /&gt;
+    &lt;/div&gt;
+    &lt;div class="site-footer text-center py-3"&gt;
+      &lt;button @click="addItem('FOUND')" class="btn btn-primary mx-2"&gt;Har du funnet noe?&lt;/button&gt;
+      &lt;button @click="addItem('LOST')" class="btn btn-secondary mx-2"&gt;Har du mistet noe?&lt;/button&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
+  &lt;modal @close="closeModal" :state="state" v-show="state != null"&gt;&lt;/modal&gt;
+&lt;/div&gt;
 &lt;/template&gt;
 &nbsp;
+&lt;style lang="scss"&gt;
+@import './assets/sass/style.scss';
+&lt;/style&gt;
+&nbsp;
 &lt;script&gt;
-import http from "./http-common";
-import Modal from './components/ItemModal'
+import http from './http-common';
+import Modal from './components/ItemModal.vue';
 &nbsp;
 export default {
   name: 'App',
-  components: {Modal},
+  components: {
+    Modal,
+  },
   data() {
     return {
       state: '',
       form: {},
-    }
+    };
   },
   methods: {
-    addItem(state){
+    addItem(state) {
       this.state = state;
-      window.jQuery('#ItemModal').modal('show');
+      window.jQuery('#item-modal').modal('show');
     },
     closeModal(form) {
-      http.post("/items", form)
-      .then(response =&gt; {
-        console.log(response.data);
-        window.jQuery('#ItemModal').modal('hide');
-        window.Fire.$emit('update');
-<span class="fstat-no" title="function not covered" >      })</span>
-      .catch(e =&gt; {
-<span class="cstat-no" title="statement not covered" >        console.log(e);</span>
-      });
-&nbsp;
+      http.post('/items', form)
+        .then(() =&gt; {
+          window.jQuery('#item-modal').modal('hide');
+          window.Fire.$emit('update');
+<span class="fstat-no" title="function not covered" >        })</span>
+        .catch((e) =&gt; {
+<span class="cstat-no" title="statement not covered" >          console.error(e);</span>
+        });
     },
-  }
-}
+  },
+};
 &lt;/script&gt;
 &nbsp;</pre></td></tr></table></pre>
 
@@ -216,7 +228,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Nov 05 2020 03:13:08 GMT+0100 (GMT+01:00)
+                at Mon Nov 09 2020 16:53:13 GMT+0100 (GMT+01:00)
             </div>
         </div>
         <script src="..\prettify.js"></script>

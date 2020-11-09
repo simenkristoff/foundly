@@ -15,7 +15,7 @@ module.exports = {
 
   // A page object can have elements
   elements: {
-    appContainer: '#app'
+    appContainer: '#app',
   },
 
   // Or a page objects can also have sections
@@ -32,8 +32,8 @@ module.exports = {
               selector: '.site-header',
 
               elements: {
-                logo: 'img.logo'
-              }
+                logo: 'img.logo',
+              },
             },
 
             siteContent: {
@@ -46,31 +46,31 @@ module.exports = {
 
               elements: {
                 btnFound: {
-                  selector: 'button.btn-primary'
+                  selector: 'button.btn-primary',
                 },
-                btnLost: 'button.btn-secondary'
-              }
-            }
-          }
+                btnLost: 'button.btn-secondary',
+              },
+            },
+          },
         },
         itemModal: {
-          selector: '#ItemModal',
+          selector: '#item-modal',
 
           sections: {
             itemForm: {
-              selector: '#ItemForm',
+              selector: '#item-form',
 
               elements: {
                 btnCancel: {
                   selector: '.modal-footer > button[type=button].btn-secondary',
-                  locateStrategy: 'css'
+                  locateStrategy: 'css',
                 },
-                btnSubmit: '.modal-footer > button[type=submit].btn-primary'
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+                btnSubmit: '.modal-footer > button[type=submit].btn-primary',
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};

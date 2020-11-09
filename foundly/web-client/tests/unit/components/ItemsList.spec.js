@@ -1,152 +1,149 @@
-import Vue from 'vue'
-import ItemsList from "@/components/ItemsList";
+import Vue from 'vue';
+import ItemsList from '@/components/ItemsList.vue';
 import http from '@/http-common';
-import { mount, createLocalVue } from '@vue/test-utils'
+import {
+  mount,
+  createLocalVue,
+} from '@vue/test-utils';
 
-/** Import dummy items from test resources **/
-import dummyItems from '../../resources/itemsData.json'
+/** Import bootstrap and Icons * */
+import 'bootstrap';
+import {
+  IconsPlugin,
+} from 'bootstrap-vue';
 
-const localVue = createLocalVue()
+/** Import dummy items from test resources * */
+import dummyItems from '../../resources/itemsData.json';
 
-/** Create mocks **/
-const mockRetrieveItems = jest.spyOn(ItemsList.methods, 'retrieveItems')
+const localVue = createLocalVue();
 
-/** Add global event bus **/
+/** Create mocks * */
+const mockRetrieveItems = jest.spyOn(ItemsList.methods, 'retrieveItems');
+
+/** Add global event bus * */
 window.Fire = new Vue();
-localVue.use(window)
+localVue.use(window);
+localVue.use(IconsPlugin);
 
-/** Import bootstrap and Icons **/
-import 'bootstrap'
-import {IconsPlugin} from 'bootstrap-vue'
-localVue.use(IconsPlugin)
-
-/** Import filters **/
-let filters = require('@/assets/js/filters.js');
+/** Import filters * */
+const filters = require('@/assets/js/filters.js');
 
 const wrapper = mount(ItemsList, {
   filters,
   localVue,
-  data: function() {
+  data() {
     return {
-      items: dummyItems
-    }
-  }
-})
+      items: dummyItems,
+    };
+  },
+});
 
 describe('ItemsList.vue', () => {
-
   // Checks if necessary components are loaded
   test('Check if setup is correct', () => {
-    expect(wrapper.find("#filter-all").exists()).toBeTruthy()
-    expect(wrapper.find("#filter-lost").exists()).toBeTruthy()
-    expect(wrapper.find("#filter-found").exists()).toBeTruthy()
-    expect(wrapper.find("div.search-wrapper > #filter-search").exists()).toBeTruthy()
-    expect(wrapper.find("ul.items").exists()).toBeTruthy()
+    expect(wrapper.find('#filter-all').exists()).toBeTruthy();
+    expect(wrapper.find('#filter-lost').exists()).toBeTruthy();
+    expect(wrapper.find('#filter-found').exists()).toBeTruthy();
+    expect(wrapper.find('div.search-wrapper > #filter-search').exists()).toBeTruthy();
+    expect(wrapper.find('ul.items').exists()).toBeTruthy();
   });
 
   // Test items are loaded, and rendered properly
   test('Test dummy items', () => {
-    expect(wrapper.vm.items.length).toBe(4)
-    const item = wrapper.find("li > .item:first-of-type")
+    expect(wrapper.vm.items.length).toBe(4);
+    const item = wrapper.find('li > .item:first-of-type');
 
-    const title = item.find(".item-title")
-    expect(title.text()).toContain('Funnet mobil')
+    const title = item.find('.item-title');
+    expect(title.text()).toContain('Funnet mobil');
 
-    const description = item.find(".description")
-    expect(description.text()).toContain('Fant en iPhone 9 på r2 i dag tidlig')
+    const description = item.find('.description');
+    expect(description.text()).toContain('Fant en iPhone 9 på r2 i dag tidlig');
 
-    const state = item.find(".state")
-    expect(state.text()).toContain('Funnet')
+    const state = item.find('.state');
+    expect(state.text()).toContain('Funnet');
 
-    const email = item.find(".email")
-    expect(email.text()).toContain('simen.kristoffersen98@gmail.com')
+    const email = item.find('.email');
+    expect(email.text()).toContain('simen.kristoffersen98@gmail.com');
 
-    const phone = item.find(".phone")
-    expect(phone.text()).toContain('90360922')
+    const phone = item.find('.phone');
+    expect(phone.text()).toContain('90360922');
 
-    const datetime = item.find(".date")
-    expect(datetime.text()).toContain(wrapper.vm.$options.filters.datetime('2020-10-31T09:18:47.947168'))
+    const datetime = item.find('.date');
+    expect(datetime.text()).toContain(wrapper.vm.$options.filters.datetime('2020-10-31T09:18:47.947168'));
   });
 
   // Test if state filters are working properly
   test('Test filtering of items by state', () => {
-
     // No filter applied
-    const filterAll = wrapper.find("#filter-all")
-    filterAll.trigger('click')
-    expect(wrapper.vm.itemFilterKey).toBe('all')
-    expect(wrapper.vm.filteredList.length).toBe(4)
+    const filterAll = wrapper.find('#filter-all');
+    filterAll.trigger('click');
+    expect(wrapper.vm.itemFilterKey).toBe('all');
+    expect(wrapper.vm.filteredList.length).toBe(4);
 
     // Filter lost items
-    const filterLost = wrapper.find("#filter-lost")
-    filterLost.trigger('click')
-    expect(wrapper.vm.itemFilterKey).toBe('lost')
-    expect(wrapper.vm.filteredList.length).toBe(2)
-    for (var i = 0; i < 2; i++) {
-      expect(wrapper.vm.filteredList[i].state).toBe('LOST')
+    const filterLost = wrapper.find('#filter-lost');
+    filterLost.trigger('click');
+    expect(wrapper.vm.itemFilterKey).toBe('lost');
+    expect(wrapper.vm.filteredList.length).toBe(2);
+    for (let i = 0; i < 2; i += 1) {
+      expect(wrapper.vm.filteredList[i].state).toBe('LOST');
     }
 
     // Filter found items
-    const filterFound = wrapper.find("#filter-found")
-    filterFound.trigger('click')
-    expect(wrapper.vm.itemFilterKey).toBe('found')
-    expect(wrapper.vm.filteredList.length).toBe(2)
-    for (var i = 0; i < 2; i++) {
-      expect(wrapper.vm.filteredList[i].state).toBe('FOUND')
+    const filterFound = wrapper.find('#filter-found');
+    filterFound.trigger('click');
+    expect(wrapper.vm.itemFilterKey).toBe('found');
+    expect(wrapper.vm.filteredList.length).toBe(2);
+    for (let k = 0; k < 2; k += 1) {
+      expect(wrapper.vm.filteredList[k].state).toBe('FOUND');
     }
   });
 
   // Test if the search filter is working properly
   test('Test filtering of items by text-input', () => {
-
     // Reset state filter
-    const filterAll = wrapper.find("#filter-all")
-    filterAll.trigger('click')
-    expect(wrapper.vm.filteredList.length).toBe(4)
+    const filterAll = wrapper.find('#filter-all');
+    filterAll.trigger('click');
+    expect(wrapper.vm.filteredList.length).toBe(4);
 
     // Filter lost items
-    const filterSearch = wrapper.find("#filter-search")
-    filterSearch.element.value = "MOBIL" // uppercase to test case-insensitivity
-    filterSearch.trigger('input')
-    expect(wrapper.vm.filteredList.length).toBe(1)
-    expect(wrapper.vm.filteredList[0].title).toContain('Funnet mobil')
+    const filterSearch = wrapper.find('#filter-search');
+    filterSearch.element.value = 'MOBIL'; // uppercase to test case-insensitivity
+    filterSearch.trigger('input');
+    expect(wrapper.vm.filteredList.length).toBe(1);
+    expect(wrapper.vm.filteredList[0].title).toContain('Funnet mobil');
   });
 
   // Should refresh list of items on event 'update'. In this case we will reject the response
   it('Test refresh list', (done) => {
-    http.get = jest.fn(() => Promise.reject('Request failed'))
+    http.get = jest.fn(() => Promise.reject(new Error('Request failed')));
     setTimeout(() => {
-      done()
-    })
-    window.Fire.$emit('update')
-    expect(http.get).toHaveBeenCalled()
-    expect(mockRetrieveItems).toHaveBeenCalled()
-  })
+      done();
+    });
+    window.Fire.$emit('update');
+    expect(http.get).toHaveBeenCalled();
+    expect(mockRetrieveItems).toHaveBeenCalled();
+  });
 
   // The function retrieveItems() should update our items
   it('Test retrieve and update Items', async () => {
-    http.get = jest.fn(()=>{
-      return Promise.resolve({
-        status: 200,
-        data: [
-          {
-            "title":"Mistet noe as",
-            "description":"Nøkkelen min",
-            "state":"LOST",
-            "email":"simen.kristoffersen98@gmail.com"
-            ,"phone":"90360922"
-            ,"image":"default.png"
-            ,"date":"2020-11-02T13:41:34.422585"}
-        ]
-      })
-    });
+    http.get = jest.fn(() => Promise.resolve({
+      status: 200,
+      data: [{
+        title: 'Mistet noe as',
+        description: 'Nøkkelen min',
+        state: 'LOST',
+        email: 'simen.kristoffersen98@gmail.com',
+        phone: '90360922',
+        image: 'default.png',
+        date: '2020-11-02T13:41:34.422585',
+      }],
+    }));
     await wrapper.vm.retrieveItems();
-    expect(http.get).toHaveBeenCalled()
-    expect(mockRetrieveItems).toHaveBeenCalled()
+    expect(http.get).toHaveBeenCalled();
+    expect(mockRetrieveItems).toHaveBeenCalled();
 
     // Should be 1 as the mocked get-function only returns 1 item
-    expect(wrapper.vm.items.length).toBe(1)
+    expect(wrapper.vm.items.length).toBe(1);
   });
-
-
 });

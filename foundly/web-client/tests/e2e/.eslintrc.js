@@ -1,5 +1,8 @@
 module.exports = {
   rules: {
-    'no-unused-expressions': 'off'
-  }
-}
+    'no-unused-expressions': 'off',
+    'func-names': [
+      'error', 'never',
+    ],
+  },
+};
