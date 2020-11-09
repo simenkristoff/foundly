@@ -1,8 +1,8 @@
 module.exports = {
   preset: '@vue/cli-plugin-unit-jest',
-  setupFiles: ["./tests/unit/setup-jest.js"],
+  setupFiles: ['./tests/unit/setup-jest.js'],
   transform: {
-		"^.+\\.vue$": "vue-jest",
-		"^.+\\.js$": "babel-jest",
-	}
-}
+    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.js$': 'babel-jest',
+  },
+};

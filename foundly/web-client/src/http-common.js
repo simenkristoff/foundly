@@ -1,19 +1,17 @@
 import axios from 'axios';
 
-let api_url = 'http://localhost:8080/';
-
-/** 
+let apiurl = 'http://localhost:8080/';
+const host = window.location.href;
+/**
  * Fix for sending requests in GitPod.
- * Changes the base url to GitPod's dynamic URL. 
+ * Changes the base url to GitPod's dynamic URL.
  * The proxy in vue.config.js will take care of the port-isssue.
  */
-if(api_url !== location.href){
-    api_url = location.href;
-}
+apiurl = (apiurl !== host) ? host : apiurl;
 
 export default axios.create({
-  baseURL: api_url + 'api',
+  baseURL: `${apiurl}api`,
   headers: {
-    "Content-type": "application/json",
-  }
+    'Content-type': 'application/json',
+  },
 });

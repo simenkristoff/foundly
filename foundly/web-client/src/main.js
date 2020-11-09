@@ -1,29 +1,35 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
-/** Setup Vuelidate **/
-import Vuelidate from 'vuelidate'
-Vue.use(Vuelidate)
+/** Setup Vuelidate * */
+import Vuelidate from 'vuelidate';
 
-/** Add jQuery to window-variable **/
-window.$ = window.jQuery = require('jquery')
+/** Import bootstrap and Icons * */
+import 'bootstrap';
+import {
+  IconsPlugin,
+} from 'bootstrap-vue';
 
-/** Import bootstrap and Icons **/
-import 'bootstrap'
-import {IconsPlugin} from 'bootstrap-vue'
-Vue.use(IconsPlugin)
+import App from './App.vue';
+import router from './router';
 
-/** Filters **/
+Vue.use(Vuelidate);
+
+/** Add jQuery to window-variable * */
+window.jQuery = require('jquery');
+
+window.$ = window.jQuery;
+
+Vue.use(IconsPlugin);
+
+/** Filters * */
 require('./assets/js/filters.js');
 
-/** Event handling **/
+/** Event handling * */
 window.Fire = new Vue();
 
-import App from './App.vue'
-import router from './router'
-
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount('#app');

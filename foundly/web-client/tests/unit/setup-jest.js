@@ -1,3 +1,4 @@
-import $ from 'jquery'
-global.$ = $
-import 'bootstrap'
+import $ from 'jquery';
+import 'bootstrap';
+
+global.$ = $;
