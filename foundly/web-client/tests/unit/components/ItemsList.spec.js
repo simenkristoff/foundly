@@ -1,3 +1,18 @@
+/**
+ * Unit test for ItemsList.vue.
+ *
+ * This tests purpose is to verify that components are loaded properly,
+ * and functions as expected.
+ *
+ * Functionality to test:
+ * - Test if setup is correct.
+ * - Test if items are rendered properly.
+ * - Test if filtering by state works.
+ * - Test if filtering by text works.
+ * - Test if the list of items are refreshed on update.
+ * - Test if refresh-function fetches items from rest-api.
+ */
+
 import Vue from 'vue';
 import ItemsList from '@/components/ItemsList.vue';
 import http from '@/http-common';
@@ -6,26 +21,26 @@ import {
   createLocalVue,
 } from '@vue/test-utils';
 
-/** Import bootstrap and Icons * */
+// Import bootstrap and Icons
 import 'bootstrap';
 import {
   IconsPlugin,
 } from 'bootstrap-vue';
 
-/** Import dummy items from test resources * */
+// Import dummy items from test resources
 import dummyItems from '../../resources/itemsData.json';
 
 const localVue = createLocalVue();
 
-/** Create mocks * */
+// Create mocks
 const mockRetrieveItems = jest.spyOn(ItemsList.methods, 'retrieveItems');
 
-/** Add global event bus * */
+// Add global event bus
 window.Fire = new Vue();
 localVue.use(window);
 localVue.use(IconsPlugin);
 
-/** Import filters * */
+// Import filters
 const filters = require('@/assets/js/filters.js');
 
 const wrapper = mount(ItemsList, {
@@ -49,7 +64,7 @@ describe('ItemsList.vue', () => {
   });
 
   // Test items are loaded, and rendered properly
-  test('Test dummy items', () => {
+  test('Test dummy-items', () => {
     expect(wrapper.vm.items.length).toBe(4);
     const item = wrapper.find('li > .item:first-of-type');
 
@@ -116,6 +131,7 @@ describe('ItemsList.vue', () => {
 
   // Should refresh list of items on event 'update'. In this case we will reject the response
   it('Test refresh list', (done) => {
+    // Mock get-function
     http.get = jest.fn(() => Promise.reject(new Error('Request failed')));
     setTimeout(() => {
       done();
@@ -127,6 +143,7 @@ describe('ItemsList.vue', () => {
 
   // The function retrieveItems() should update our items
   it('Test retrieve and update Items', async () => {
+    // Mock get-function
     http.get = jest.fn(() => Promise.resolve({
       status: 200,
       data: [{

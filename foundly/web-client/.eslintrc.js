@@ -1,3 +1,9 @@
+/**
+ * Configuration file for Eslint.
+ * Setup with airbnb-standard.
+ *
+ */
+
 module.exports = {
   root: true,
   env: {

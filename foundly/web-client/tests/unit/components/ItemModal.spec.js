@@ -1,3 +1,15 @@
+/**
+ * Unit test for ItemModal.vue.
+ *
+ * This tests purpose is to verify that components are loaded properly,
+ * and functions as expected.
+ *
+ * Functionality to test:
+ * - Test if vuelidate-validator works for all fields.
+ * - Test submit works with an empty image file.
+ * - Test submit with selected image file is handled correctly.
+ */
+
 /* eslint no-shadow: "off" */
 import ItemModal from '@/components/ItemModal.vue';
 import FileUpload from '@/components/FileUpload.vue';
@@ -7,7 +19,7 @@ import {
 } from '@vue/test-utils';
 import Vuelidate from 'vuelidate';
 
-/** Create mocks * */
+// Create mocks
 const mockUpload = jest.spyOn(FileUpload.methods, 'upload');
 
 const localVue = createLocalVue();
@@ -17,7 +29,7 @@ const wrapper = mount(ItemModal, {
   localVue,
 });
 
-/** Image-object for testing * */
+// Image-object for testing
 const event = {
   target: {
     files: [{

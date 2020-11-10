@@ -1,3 +1,17 @@
+/**
+ * Unit test for App.vue.
+ *
+ * This tests purpose is to verify that components are loaded properly,
+ * and functions as expected.
+ *
+ * Functionality to test:
+ * - Test if setup is correct.
+ * - Test if add found-item opens correct modal.
+ * - Test if add lost-item opens correct modal.
+ * - Test if modal closes properly.
+ * - Test if a post-request for a new item is sent when modal is submitted.
+ */
+
 import App from '@/App.vue';
 import Modal from '@/components/ItemModal.vue';
 import http from '@/http-common';
@@ -44,20 +58,20 @@ describe('App.vue', () => {
   });
 
   // Test if the button for adding lost items passes the correct paramater
-  test('Test "Add found item"-button', () => {
+  test('Test "Add lost item"-button', () => {
     wrapper.find('.site-footer > button.btn-secondary').trigger('click');
     expect(mockAddItem).toHaveBeenCalledWith('LOST');
   });
 
-  // Test if the button for adding lost items passes the correct paramater
-  test('Test "Add lost item"-button', () => {
+  // Test if modal closes on 'close'-emit
+  test('Test close modal', () => {
     const modal = wrapper.findComponent(Modal);
     modal.vm.$emit('close');
     expect(mockCloseModal).toHaveBeenCalled();
   });
 
   // Test call to post item after modal is closed. Should emit 'update' if successful
-  test('Test 1', async () => {
+  test('Test add item on close', async () => {
     http.post = jest.fn(() => Promise.resolve({
       status: 200,
       data: {

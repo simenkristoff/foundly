@@ -1,3 +1,11 @@
+/**
+ * Configuration file for the Vue app.
+ * Packs jQuery-plugin for use in components.
+ * Redirects api-requests to port 8098
+ * while running in development.
+ *
+ */
+
 /* eslint-disable import/no-extraneous-dependencies */
 const webpack = require('webpack');
 
@@ -15,7 +23,7 @@ module.exports = {
     ],
   },
 
-  /** Add proxy to rest-api for development * */
+  // Add proxy to rest-api for development
   devServer: {
     disableHostCheck: true,
     proxy: {

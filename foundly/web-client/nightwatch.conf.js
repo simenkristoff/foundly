@@ -1,5 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/**
+ * Configuration file for Nightwatch e2e-test plugin.
+ *
+ */
 
+/* eslint-disable import/no-extraneous-dependencies */
 const chromedriver = require('chromedriver');
 
 module.exports = {
