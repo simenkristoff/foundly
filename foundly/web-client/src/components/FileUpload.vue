@@ -66,6 +66,7 @@ export default {
      * Prepares the file for upload
      * and displays an image preview.
      *
+     * @param {File} file the verified file
      */
     processFile(file) {
       this.selectedFile = file;
@@ -86,7 +87,8 @@ export default {
      * i.e. 'image/jpeg' or 'image/png'.
      * Will process the file if it is valid,
      * or emit 'invalid-file' if invalid.
-     *
+     * 
+     * @param {Event} event the input event
      */
     validateFile(event) {
       if (event.target.files[0].type === 'image/jpeg' || event.target.files[0].type

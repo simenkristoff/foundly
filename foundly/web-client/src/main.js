@@ -1,5 +1,5 @@
 /**
- * Initialise the App.
+ * Initialize the App.
  * Load all required plugins.
  *
  */
@@ -27,10 +27,10 @@ window.$ = window.jQuery;
 
 Vue.use(IconsPlugin);
 
-// Filters
+// Register filters
 require('./assets/js/filters.js');
 
-// Event handling
+// Setup event handling
 window.Fire = new Vue();
 
 Vue.config.productionTip = false;
