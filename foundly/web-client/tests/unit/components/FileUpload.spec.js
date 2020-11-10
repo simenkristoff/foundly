@@ -1,3 +1,16 @@
+/**
+ * Unit test for FileUpload.vue.
+ *
+ * This tests purpose is to verify that components are loaded properly,
+ * and functions as expected.
+ *
+ * Functionality to test:
+ * - Test if only image-files are excepted.
+ * - Test if successful upload is handled correctly.
+ * - Test if failed upload is handled correctly.
+ *
+ */
+
 import FileUpload from '@/components/FileUpload.vue';
 import FileService from '@/services/FileService';
 import {
@@ -5,18 +18,18 @@ import {
   createLocalVue,
 } from '@vue/test-utils';
 
-/** Register jQuery for use in the test * */
+// Register jQuery for use in the test
 window.$ = require('jquery');
 
 window.jQuery = window.$;
 
-/** Create mocks * */
+// Create mocks
 const mockProcessFile = jest.spyOn(FileUpload.methods, 'processFile');
 const mockValidateFile = jest.spyOn(FileUpload.methods, 'validateFile');
 const mockUpload = jest.spyOn(FileUpload.methods, 'upload');
 window.URL.createObjectURL = function () {};
 
-/** Invalid file-object for testing * */
+// Invalid file-object for testing
 const falseEvent = {
   target: {
     files: [{
@@ -27,7 +40,7 @@ const falseEvent = {
   },
 };
 
-/** Valid file-object for testing * */
+// Valid file-object for testing
 const validEvent = {
   target: {
     files: [{

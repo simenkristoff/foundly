@@ -1,9 +1,15 @@
+/**
+ * Initialize the App.
+ * Load all required plugins.
+ *
+ */
+
 import Vue from 'vue';
 
-/** Setup Vuelidate * */
+// Setup Vuelidate
 import Vuelidate from 'vuelidate';
 
-/** Import bootstrap and Icons * */
+// Import bootstrap and Icons
 import 'bootstrap';
 import {
   IconsPlugin,
@@ -14,21 +20,22 @@ import router from './router';
 
 Vue.use(Vuelidate);
 
-/** Add jQuery to window-variable * */
+// Add jQuery to window-variable
 window.jQuery = require('jquery');
 
 window.$ = window.jQuery;
 
 Vue.use(IconsPlugin);
 
-/** Filters * */
+// Register filters
 require('./assets/js/filters.js');
 
-/** Event handling * */
+// Setup event handling
 window.Fire = new Vue();
 
 Vue.config.productionTip = false;
 
+// Mount the app
 new Vue({
   router,
   render: (h) => h(App),

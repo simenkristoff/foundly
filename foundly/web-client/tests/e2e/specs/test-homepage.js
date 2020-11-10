@@ -1,8 +1,8 @@
 /**
- * End to end test
+ * End to end test.
  *
  * This tests purpose is to verify that components are loaded properly,
- * and functions as expected
+ * and functions as expected.
  *
  */
 
