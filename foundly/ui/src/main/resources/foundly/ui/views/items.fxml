@@ -14,7 +14,6 @@
             <AnchorPane>
                <children>
                   <TextField fx:id="searchFilter" maxWidth="250.0" minWidth="100.0" promptText="Søk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
-                  <ComboBox prefWidth="150.0" promptText="Velg filter" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                </children>
                <padding>
                   <Insets top="10.0" />
