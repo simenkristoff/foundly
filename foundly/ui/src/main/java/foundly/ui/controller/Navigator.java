@@ -1,7 +1,5 @@
 package foundly.ui.controller;
 
-import foundly.core.dataaccess.ImageDataAccessObject;
-import foundly.core.dataaccess.ItemDataAccessObject;
 import foundly.core.model.Item;
 import foundly.ui.App;
 import foundly.ui.container.Modal;
@@ -12,6 +10,8 @@ import foundly.ui.control.form.FormPatternField;
 import foundly.ui.control.form.FormPatternField.PatternType;
 import foundly.ui.control.form.FormTextArea;
 import foundly.ui.control.form.FormTextField;
+import foundly.ui.dataaccess.ImageDataAccessObject;
+import foundly.ui.dataaccess.ItemDataAccessObject;
 import foundly.ui.effect.DepthManager;
 import java.io.IOException;
 import java.io.InputStream;
