@@ -10,7 +10,7 @@ Denne modulen inneholder web-klienten for [Foundly](/foundly/README.md).
 
 ### Beskrivelse
 
-Web-klienten representerer [brukergrensesnittet](/foundly/ui/README.md) for web-applikasjoner, og er bygget med rammeverket [Vue.js](/README.md/#vuejs). Web-klienten viser en oversikt over gjenstander som er enten tapt eller funnet. Ved å trykke på en av knappene navigasjons-baren kan man filtrere gjenstandene etter deres tilstand (mistet/funnet), eller søke etter tekst i søkefeltet.
+Web-klienten representerer [brukergrensesnittet](/foundly/ui/README.md) for web-applikasjonen, og er bygget på rammeverket [Vue.js](/README.md/#vuejs). Web-klienten viser en oversikt over gjenstander som er enten tapt eller funnet. Ved å trykke på en av knappene navigasjons-baren kan man filtrere gjenstandene etter deres tilstand (mistet/funnet), eller søke etter tekst i søkefeltet.
 
 Videre kan brukeren legge til gjenstander som enten er tapt eller funnet, ved å benytte seg av de to knappene i nettsidens footer-seksjon. Dette vil åpne et popup-vindu med felter for nødvendig informasjon som må fylles inn, og mulighet for opplastning av et bilde.
 
