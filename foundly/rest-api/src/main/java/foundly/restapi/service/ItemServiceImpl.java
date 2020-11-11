@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ItemServiceImpl implements ItemService {
 
   private final ItemRepository itemRepository;
-  
+
   @Autowired
   public ItemServiceImpl(ItemRepository itemRepository) {
-      this.itemRepository = itemRepository;
+    this.itemRepository = itemRepository;
   }
 
   /**
