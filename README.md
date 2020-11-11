@@ -13,14 +13,14 @@
 [[_TOC_]]
 
 ## Om prosjektet
-Prosjektet, **[Foundly](foundly/)**, er konfigurert som et multi-modul prosjekt med maven. Modulene utfyller en trelagsapplikasjon med et [domenelag](foundly/core) (core) , [brukergrensesnitt](foundly/ui) (ui) og [persistens](foundly/rest-api/data) (lagring). Videre benytter applikasjonen et [Rest API](foundly/rest-api) for å håndtere data mellom brukergrensesnitt- og persistens-laget.
+Prosjektet, **[Foundly](foundly/)**, er konfigurert som et multi-modul prosjekt med maven. Modulene utfyller en trelagsapplikasjon med et [domenelag](foundly/core) (core) , [brukergrensesnitt](foundly/ui) (ui), [brukergrensesnitt for web](foundly/web-client) (web-klient) og [persistens](foundly/rest-api) (lagring). Videre benytter applikasjonen et [Rest API](foundly/rest-api) for å håndtere data mellom brukergrensesnitt- og persistens-laget.
 
 ### Moduler
 Prosjektets fire moduler tilhører pom-filen [foundlyParent](foundly/pom.xml), og er ytteligere beskrevet i egne README-filer.
 - **[foundly.core](foundly/core)** utgjør domenelaget, og inneholder standardiserte objekter samt. logikk for å fremstille disse objektene.
 - **[foundly.rest-api](foundly/rest-api)** API-laget bygget med [Spring Boot](#spring-boot). Denne modulen har en innebygd Tomcat server og håndterer alle requests sendt til denne serveren.
-- **[foundly.ui](foundly/ui)** lokalt brukergrensesnitt bygget med [JavaFx](#javafx)
-- **[foundly.web-client](foundly/web-client)** web-brukergrensesnitt bygget med [Vue.js](#vuejs)
+- **[foundly.ui](foundly/ui)** brukergrensesnitt bygget med [JavaFx](#javafx)
+- **[foundly.web-client](foundly/web-client)** web-klient bygget med [Vue.js](#vuejs)
 ##
 
 ### Arkitektur
@@ -105,12 +105,11 @@ Bibliotekmodularisering ved hjelp av et rammeverk er vanlig i frontend-utvikling
 
 <hr>
 
-## Maven
+## Bygging med Maven
 
 Vårt bygg har tillegg for:
 - oppsett av java [(**maven-compiler-plugin**)](https://maven.apache.org/plugins/maven-compiler-plugin/)
 - testing [(**maven-surefire-plugin**)](https://maven.apache.org/surefire/maven-surefire-plugin/)
-- samkjøring av node-kommandoer med maven-kommandoer [(**frontend-maven-plugin**)](https://github.com/eirslett/frontend-maven-plugin)
 - flytting av web-ressurser til Tomcat public-mappe [(**maven-resources-plugin**)](https://maven.apache.org/plugins/maven-resources-plugin/)
 - kjøring av Spring Boot Rest API [(**spring-boot-maven-plugin**)](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/)
 - kjøring av javafx [(**javafx-maven-plugin**)](https://github.com/openjfx/javafx-maven-plugin)
