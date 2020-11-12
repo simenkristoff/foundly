@@ -74,16 +74,17 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+
 				<!-- Compiling code -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.8.0</version>
 					<configuration>
-						<encoding>UTF-8</encoding>
+						<encoding>${project.build.sourceEncoding}</encoding>
 						<release>${java.version}</release>
-						<source>${java.version}</source>
-						<target>${java.version}</target>
+						<source>${maven.compiler.source}</source>
+						<target>${maven.compiler.target}</target>
 					</configuration>
 				</plugin>
 
@@ -93,7 +94,7 @@
 					<artifactId>maven-surefire-plugin</artifactId>
 				</plugin>
 
-				<!-- Run the checkstyle code quality tool -->
+				<!-- Run the Checkstyle code quality tool -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
@@ -107,7 +108,7 @@
 					</dependencies>
 					<configuration>
 						<configLocation>config/checkstyle/google_checks.xml</configLocation>
-						<encoding>UTF-8</encoding>
+						<encoding>${project.build.sourceEncoding}</encoding>
 						<consoleOutput>true</consoleOutput>
 						<failsOnError>true</failsOnError>
 						<linkXRef>false</linkXRef>
@@ -123,13 +124,13 @@
 					</executions>
 				</plugin>
 
-				<!-- Run the spotbugs code quality tool -->
+				<!-- Run the Spotbugs code quality tool -->
 				<plugin>
 					<groupId>com.github.spotbugs</groupId>
 					<artifactId>spotbugs-maven-plugin</artifactId>
 					<version>4.0.4</version>
 					<configuration>
-						<xmlOutput>false</xmlOutput>
+						<xmlOutput>true</xmlOutput>
 						<htmlOutput>true</htmlOutput>
 						<failOnError>false</failOnError>
 					</configuration>
@@ -144,7 +145,7 @@
 					</executions>
 				</plugin>
 
-				<!-- Configure jacoco code coverage -->
+				<!-- Configure Jacoco code coverage -->
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
@@ -169,4 +170,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
 </project>
