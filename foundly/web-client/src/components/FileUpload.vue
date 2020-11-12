@@ -87,7 +87,7 @@ export default {
      * i.e. 'image/jpeg' or 'image/png'.
      * Will process the file if it is valid,
      * or emit 'invalid-file' if invalid.
-     * 
+     *
      * @param {Event} event the input event
      */
     validateFile(event) {

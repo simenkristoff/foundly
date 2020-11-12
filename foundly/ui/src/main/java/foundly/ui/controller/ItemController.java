@@ -1,9 +1,9 @@
 package foundly.ui.controller;
 
-import foundly.core.dataaccess.ItemDataAccessObject;
 import foundly.core.model.Item;
 import foundly.ui.App;
 import foundly.ui.container.ItemCellLayout;
+import foundly.ui.dataaccess.ItemDataAccessObject;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;

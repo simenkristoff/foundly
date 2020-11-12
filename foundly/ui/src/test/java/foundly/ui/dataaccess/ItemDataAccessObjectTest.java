@@ -1,4 +1,4 @@
-package foundly.core.dataaccess;
+package foundly.ui.dataaccess;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
