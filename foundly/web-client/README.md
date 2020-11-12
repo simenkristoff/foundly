@@ -29,6 +29,11 @@ Nettsiden er utformet med hensyn på brukervennlighet for alle nettlesere og enh
 - [**Vue-router**](https://router.vuejs.org/) - håndterer nettstedets url-adresser og sørger for å levere riktig view/komponent til en gitt adresse.
 - [**Vuelidate**](https://vuelidate.js.org/) - brukes for validering av input. 
 
+### Interaksjon med REST Api
+
+Nedenfor vises sekvensen når en bruker legger til en ny gjenstand. I dette tilfellet har brukeren valgt å legge til en bildefil, og derav vil web-klienten sende ut to POST-requests - én for opplastning av bildet, og én for opplastning av Item.
+
+![Sekvensdiagram for web-client](/foundly/architecture/sequencediagram-web-client.png).
 
 ## Struktur
 
