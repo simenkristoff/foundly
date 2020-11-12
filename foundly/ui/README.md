@@ -1,4 +1,4 @@
-![UI-banner](foundly/resources/javafx-gui.jpg)
+![UI-banner](../resources/javafx-gui.jpg)
 # UI
 
 Denne modulen inneholder brukergrensesnittet til [Foundly](/foundly/README.md).
