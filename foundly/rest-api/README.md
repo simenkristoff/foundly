@@ -1,0 +1,110 @@
+# Rest-api
+
+Denne modulen inneholder REST Api-tjenesten for [Foundly](/foundly/README.md).
+
+[[_TOC_]]
+
+## Rest-api
+
+### Beskrivelse
+
+Modulen er bygget med [Spring Boot](/README.md/#spring-boot), og har en innebygd **TomCat-server** og en **H2 Database**. Rest-api håndterer requests fra [**Web-client**](/foundly/web-client/README.md) og [**ui**](/foundly/ui/README.md), og støtter metoder som **POST**, **GET**, **PUT**, **DELETE**.
+
+Rest-api-modulen fungerer som et mellomledd mellom klientene og deres interaksjoner med databasen. Via http-requests kan klientene hente ut eller oppdatere data i databasen. Rest-api prosesserer requestene og benytter [**persistenslaget(JPA)**](#avhengigheter) til å håndtere data i databasen. Deretter returnerer rest-api en respons til klienten, enten i form av data hentet ut fra databasen eller en melding.
+
+#### Konfigurasjon for REST Serveren
+
+Konfigurasjons filen finnes i modulens ressursmappe og heter [**application.properties**](/foundly/rest-api/src/main/resources/application.properties). 
+
+- Serveren er konfigurert til å kjøre på port **8098**
+- Databasen lagrer data til filen [**foundlydb**](/foundly/rest-api/data/foundlydb.mv.db)
+- Grensesnitt for databasen kan sees i nettleser ved å legge til **/h2_console** bakerst på URL-adressen til rest-api. - f.eks: 'http://localhost:8098/h2_console'
+    - **brukernavn**: admin
+    - **passord**: foundly
+
+
+
+### Sekvenser
+
+#### Interaksjon mellom ui og rest-api
+
+Nedenfor vises sekvensen når en bruker legger til en ny gjenstand med **JavaFx-appen** i ui. I dette tilfellet har brukeren valgt å legge til en bildefil, og derav vil ui-klienten sende ut to POST-requests - én for opplastning av bildet, og én for opplastning av Item.
+
+![Sekvensdiagram for ui](/foundly/architecture/sequencediagram-ui.png).
+#### Interaksjon mellom web-client og rest-api
+
+Nedenfor vises sekvensen når en bruker legger til en ny gjenstand med **web-klienten**. I dette tilfellet har brukeren valgt å legge til en bildefil, og derav vil ui-klienten sende ut to POST-requests - én for opplastning av bildet, og én for opplastning av Item.
+
+![Sekvensdiagram for web-client](/foundly/architecture/sequencediagram-web-client.png).
+## Struktur
+
+### Pakker
+- [**foundly.restapi.presentation**](/foundly/rest-api/src/main/java/foundly/restapi/presentation) - her ligger filene som håndterer end-points
+- [**foundly.restapi.service**](/foundly/rest-api/src/main/java/foundly/restapi/service) - håndterer domenelogikken i rest-api 
+- [**foundly.restapi.persistence**](/foundly/rest-api/src/main/java/foundly/restapi/persistence) - håndterer persistens-spesifikke operasjoner
+- [**foundly.restapi.exception**](/foundly/rest-api/src/main/java/foundly/restapi/exception) - tilpassede unntak
+- [**foundly.restapi.exception.advice**](/foundly/rest-api/src/main/java/foundly/restapi/exception/advice) - printer meldinger knyttet til et unntak til loggen
+
+### Lagring
+
+- [**uploads/**](/foundly/rest-api/uploads) - mappe for bildeopplastninger
+- [**data/**](/foundly/rest-api/data) - inneholder SQL-filene med lagret data som brukes av **H2 Databasen**.
+
+### Database
+
+Databasen har én tabell kalt **ITEMS**, og har følgende struktur:
+
+<sub>* **INDEX** primær-nøkkel</sub>
+
+| ID* | TITLE | DESCRIPTION | STATE | EMAIL | PHONE | DATE | IMAGE |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| BIGINT | VARCHAR | VARCHAR | ENUM: [LOST\|FOUND] | VARCHAR | VARCHAR | TIMESTAMP | VARCHAR |
+
+**Eksempel på tabell med oppførte records.**
+
+| ID* | TITLE | DESCRIPTION | STATE | EMAIL | PHONE | DATE | IMAGE |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| 1 | Funnet mobil | Fant en iPhone 9 på R2 i dag tidlig | FOUND | xxx@gmail.com | 92381124 | 2020-11-12 11:18:47.94716 | iphone.png |
+| 2 | Mistet mobil | Mistet mobilen min på R2 i dag | LOST | yyy@gmail.com | 94421528 | 	2020-11-11 15:17:22.504222 | default.png |
+
+## Bygging med Maven
+
+### Avhengigheter
+
+Denne modulen har følgende avhengigheter:
+
+- [(**core**)](/foundly/core/README.md) - bruker core for å representere Item-objekter
+- [(**spring-boot-starter-data-jpa**)](https://www.javatpoint.com/spring-boot-starter-data-jpa) - utgjør persistenslaget i rest-api, og håndterer CRUD-funksjoner til og fra SQL-databasen
+- [(**spring-boot-starter-web**)](https://www.javatpoint.com/spring-boot-starter-web) - starter pakke for Spring Boot som inkluderer innebygd Tomcat-server
+- [(**h2**)](https://www.h2database.com/html/main.html) - Java SQL database
+
+### Tillegg
+
+Denne modulen har tillegg for:
+- [(**maven-resources-plugin**)](https://maven.apache.org/plugins/maven-resources-plugin/) - flytting av web-client-byggget til Tomcat sin public-mappe 
+
+## Kommandoer
+
+### Kjøring
+Kjører i gang rest-api med server
+```
+mvn spring-boot:run
+```
+
+### Start
+Starter rest-api. I motsetning til `run` hindrer ikke denne funksjonen andre *mål* fra å kjøre på applikasjon, og brukes deriblant til kjøring av integrasjonstester. 
+```
+mvn spring-boot:start
+```
+
+### Stop
+Stopper rest-api etter at det har blit startet med *start*-målet. Brukes etter hver test.
+```
+mvn spring-boot:stop
+```
+
+### Testing
+For å teste denne modulen spesifikt:
+```
+test -f rest-api/pom.xml
+```
