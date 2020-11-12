@@ -29,3 +29,6 @@ I mappen [arkitektur](/foundly/architecture) finnes det et [klassediagram](/foun
 som viser oppførselen og strukturen til klassene i core-modulen.
 
 ![klassediagram](/foundly/architecture/classdiagram-core.png)
+
+## Testing av kodekvalitet
+I tillegg til enhetstesting, tester vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
