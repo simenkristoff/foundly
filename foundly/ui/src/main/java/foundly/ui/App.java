@@ -2,11 +2,12 @@ package foundly.ui;
 
 import foundly.ui.controller.Navigator;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
-import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.application.Preloader;
@@ -20,14 +21,8 @@ import javafx.stage.WindowEvent;
  */
 public class App extends Application {
 
-  public static final DateTimeFormatter DATEPATTERN = DateTimeFormatter.ofPattern("dd.MM.YY HH:mm");
-  public static final String API_URL = "http://localhost:8098";
-
-  private static final String TITLE = "Foundly";
-  private static final double WIDTH = 720;
-  private static final double HEIGHT = 640;
-  private static final int COUNT_LIMIT = 10;
-  private static final String ICON = "img/icons/icon.png";
+  private static final Properties config = new Properties();
+  private static final Properties defaults = new Properties();
 
   private Navigator navigator;
 
@@ -38,13 +33,14 @@ public class App extends Application {
    * @throws IOException Signals that an I/O exception has occurred.
    */
   public void start(Stage stage) throws IOException {
-    stage.getIcons().add(new Image(this.getClass().getResource(ICON).toExternalForm()));
-    stage.setTitle(TITLE);
+    stage.getIcons()
+        .add(new Image(this.getClass().getResource(getProperty("resource.icon")).toExternalForm()));
+    stage.setTitle(getProperty("app.title"));
     stage.setScene(this.navigator.getScene());
-    stage.setWidth(WIDTH);
-    stage.setHeight(HEIGHT);
-    stage.setMaximized(false);
-    stage.setResizable(true);
+    stage.setWidth(Double.parseDouble(getProperty("app.width")));
+    stage.setHeight(Double.parseDouble(getProperty("app.height")));
+    stage.setMaximized(Boolean.parseBoolean(getProperty("maximized")));
+    stage.setResizable(Boolean.parseBoolean(getProperty("resizable")));
     stage.centerOnScreen();
     stage.show();
 
@@ -65,36 +61,44 @@ public class App extends Application {
   }
 
   /**
-   * Initialize the app. Initializes the navigator and updates the preloader.
+   * Initialize the app. Loads configuration, initializes the navigator and updates the preloader.
    *
    * @throws Exception the exception
    */
   public void init() throws Exception {
+    loadProperties();
     this.navigator = new Navigator();
-    for (int i = 0; i < COUNT_LIMIT; i++) {
-      double progress = (double) i / COUNT_LIMIT;
+
+    int loadCounter = Integer.parseInt(getProperty("app.loadCounter"));
+    for (int i = 0; i < loadCounter; i++) {
+      double progress = (double) i / loadCounter;
       this.notifyPreloader(new Preloader.ProgressNotification(progress));
       Thread.sleep(100);
     }
   }
 
   /**
-   * Checks connection to the REST Api.
+   * Thread safe function that checks status of the connection to REST Api.
    *
    * @return true, if connection is established
    */
-  public static boolean isRemote() {
-    SocketAddress socketAddress = new InetSocketAddress("localhost", 8098);
+  public static synchronized boolean isRemote() {
+    String hostname = getProperty("api.hostname");
+    int port = Integer.parseInt(getProperty("api.port"));
+    int timeout = Integer.parseInt(getProperty("api.timeoutMillis"));
+
+    SocketAddress socketAddress = new InetSocketAddress(hostname, port);
     Socket socket = new Socket();
-    int timeout = 200;
     try {
       socket.connect(socketAddress, timeout);
       socket.close();
       return true;
     } catch (SocketTimeoutException e) {
-      System.out.println("SocketTimeoutException localhost:8098. " + e.getMessage());
+      System.out
+          .println("SocketTimeoutException: " + hostname + ":" + port + ". " + e.getMessage());
     } catch (IOException e) {
-      System.out.println("IOException - Unable to connect to localhost:8098. " + e.getMessage());
+      System.out.println("IOException - Unable to connect to " + hostname + " at port: " + port
+          + ". " + e.getMessage());
     }
     return false;
   }
@@ -106,6 +110,56 @@ public class App extends Application {
    */
   public Navigator getNavigator() {
     return this.navigator;
+  }
+
+  /**
+   * Thread safe function to retrieve property-settings. The App will fetch properties from
+   * 'client.properties' first, which means that this file can be used to override default settings.
+   * However, if a field is declared but left empty in this config file, the app will use the
+   * settings from defaults.properties instead.
+   * 
+   * @param propertyName the property to fetch
+   * @return String property
+   */
+  public static synchronized String getProperty(String propertyName) {
+    String property;
+    try {
+      property = config.getProperty(propertyName);
+      if (property.isEmpty()) {
+        System.err.println("Property field \"" + propertyName
+            + "\" is empty. Please check the configuration file.\nReverting to default settings");
+        property = defaults.getProperty(propertyName);
+      }
+    } catch (NullPointerException e) {
+      property = defaults.getProperty(propertyName);
+    }
+    return property;
+  }
+
+  /**
+   * Loads properties from the configuration-files.
+   */
+  private void loadProperties() {
+    InputStream propertyStream = null;
+    try {
+      propertyStream = this.getClass().getResourceAsStream("properties/client.properties");
+      config.load(propertyStream);
+      propertyStream.close();
+
+      propertyStream = this.getClass().getResourceAsStream("properties/default.properties");
+      defaults.load(propertyStream);
+      propertyStream.close();
+
+    } catch (IOException e) {
+      System.out.println("IOException: Could not load properties-file. " + e.getMessage());
+    }
+    if (propertyStream != null) {
+      try {
+        propertyStream.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   /**

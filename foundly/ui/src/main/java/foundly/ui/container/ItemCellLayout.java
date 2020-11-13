@@ -4,6 +4,7 @@ import foundly.core.model.Item;
 import foundly.ui.App;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -21,6 +22,8 @@ import javafx.scene.text.Text;
  * structured with the Item's image on the left-hand side, and the Item's content in the center.
  */
 public class ItemCellLayout extends BorderPane {
+
+  private String apiUrl;
 
   private Item item;
   private Header header = new Header();
@@ -40,10 +43,25 @@ public class ItemCellLayout extends BorderPane {
    */
   public ItemCellLayout(Item item) {
     this.item = item;
+    apiUrl = buildApiUrl();
     initialize();
     setLeft(imageViewWrapper);
     setCenter(contentWrapper);
     setMargin(contentWrapper, new Insets(0, 0, 0, 10));
+  }
+
+  /**
+   * Builds the URL to REST Api based on settings in the configuration file.
+   * 
+   * @return String URL to REST Api
+   */
+  private String buildApiUrl() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(App.getProperty("api.protocol") + "://");
+    sb.append(App.getProperty("api.hostname") + ":");
+    sb.append(App.getProperty("api.port"));
+    sb.append(App.getProperty("api.resourcePath") + "/");
+    return sb.toString();
   }
 
   /**
@@ -59,7 +77,8 @@ public class ItemCellLayout extends BorderPane {
 
     footer.setEmail(item.getEmail());
     footer.setPhone(item.getPhone());
-    footer.setDate(item.getDate().format(App.DATEPATTERN));
+    footer.setDate(
+        item.getDate().format(DateTimeFormatter.ofPattern(App.getProperty("locale.dateFormat"))));
 
     imageViewWrapper.setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
     imageViewWrapper.setPrefSize(100, 100);
@@ -73,10 +92,9 @@ public class ItemCellLayout extends BorderPane {
     // Check connection to REST Api
     if (App.isRemote()) {
       // Will URL-encode the filename if it contains unsupported characters
-      image = new Image(
-          App.API_URL + "/img/" + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8));
+      image = new Image(apiUrl + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8));
     } else {
-      image = new Image(App.class.getResource("img/icons/lost_items_icon.png").toExternalForm());
+      image = new Image(App.class.getResource(App.getProperty("resource.defaultImage")).toExternalForm());
     }
     imageView.setImage(image);
   }

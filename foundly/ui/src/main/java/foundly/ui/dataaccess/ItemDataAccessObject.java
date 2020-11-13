@@ -1,6 +1,7 @@
 package foundly.ui.dataaccess;
 
 import foundly.core.model.Item;
+import foundly.ui.App;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,15 +22,27 @@ public class ItemDataAccessObject implements ItemDataAccess {
 
   private final String baseUrlString;
 
+  private String servicePath = "/api/items";
+
   private RestTemplate restTemplate;
 
   /**
-   * Instantiates a new ItemDataAccess-object.
+   * Instantiates a new ItemDataAccess-object. This instance will build a URL String based on the
+   * settings in the configuration file.
    *
-   * @param baseUrlString the url to the rest-api
    */
-  public ItemDataAccessObject(final String baseUrlString) {
-    this.baseUrlString = baseUrlString + "/api/items";
+  public ItemDataAccessObject() {
+    this.baseUrlString = buildBaseUrl();
+    this.restTemplate = new RestTemplate();
+  }
+
+  /**
+   * Instantiates a new ItemDataAccess-object with a predefined URL String.
+   *
+   * @param baseUrlString the URL to the REST Api
+   */
+  public ItemDataAccessObject(String baseUrlString) {
+    this.baseUrlString = baseUrlString + servicePath;
     this.restTemplate = new RestTemplate();
   }
 
@@ -43,10 +56,24 @@ public class ItemDataAccessObject implements ItemDataAccess {
   }
 
   /**
-   * Gets the request url.
+   * Builds the URL to REST Api based on settings in the configuration file.
+   * 
+   * @return String baseUrlString
+   */
+  private String buildBaseUrl() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(App.getProperty("api.protocol") + "://");
+    sb.append(App.getProperty("api.hostname") + ":");
+    sb.append(App.getProperty("api.port"));
+    sb.append(servicePath);
+    return sb.toString();
+  }
+
+  /**
+   * Gets the request URL.
    *
    * @param path the path
-   * @return the request url
+   * @return the request URL
    */
   private String getRequestUrl(final String path) {
     return baseUrlString + path;
@@ -104,7 +131,7 @@ public class ItemDataAccessObject implements ItemDataAccess {
     } catch (Exception e) {
       System.err.println("[WARNING] An error occured during the request \n" + e.getMessage());
     }
-    
+
     return null;
   }
 

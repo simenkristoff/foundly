@@ -61,7 +61,7 @@ public class ItemController extends AbstractViewController {
   }
 
   private void setupDataAccess() {
-    this.itemDao = new ItemDataAccessObject(App.API_URL);
+    this.itemDao = new ItemDataAccessObject();
   }
 
   /**
@@ -78,14 +78,15 @@ public class ItemController extends AbstractViewController {
     fetchData();
 
     // Setup automatic refresh for fetching items
-    Timeline refresh =
-        new Timeline(new KeyFrame(Duration.millis(300000), new EventHandler<ActionEvent>() {
+    Timeline refresh = new Timeline(
+        new KeyFrame(Duration.millis(Integer.parseInt(App.getProperty("api.refreshMillis"))),
+            new EventHandler<ActionEvent>() {
 
-          @Override
-          public void handle(ActionEvent event) {
-            fetchData();
-          }
-        }));
+              @Override
+              public void handle(ActionEvent event) {
+                fetchData();
+              }
+            }));
     refresh.setCycleCount(Timeline.INDEFINITE);
     refresh.play();
   }

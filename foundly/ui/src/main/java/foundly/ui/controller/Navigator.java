@@ -70,8 +70,8 @@ public class Navigator {
   }
 
   private void setupDataAccess() {
-    this.itemDao = new ItemDataAccessObject(App.API_URL);
-    this.imageDao = new ImageDataAccessObject(App.API_URL);
+    this.itemDao = new ItemDataAccessObject();
+    this.imageDao = new ImageDataAccessObject();
   }
 
   /**
