@@ -10,7 +10,9 @@ import foundly.ui.control.form.FormPatternField;
 import foundly.ui.control.form.FormPatternField.PatternType;
 import foundly.ui.control.form.FormTextArea;
 import foundly.ui.control.form.FormTextField;
+import foundly.ui.dataaccess.ImageDataAccess;
 import foundly.ui.dataaccess.ImageDataAccessObject;
+import foundly.ui.dataaccess.ItemDataAccess;
 import foundly.ui.dataaccess.ItemDataAccessObject;
 import foundly.ui.effect.DepthManager;
 import java.io.IOException;
@@ -46,6 +48,10 @@ public class Navigator {
   private Scene scene;
   private FXMLLoader loader;
 
+  // Data access
+  private ItemDataAccess itemDao;
+  private ImageDataAccess imageDao;
+
   @FXML
   Button btnFound;
   @FXML
@@ -55,11 +61,17 @@ public class Navigator {
    * Instantiates a new navigator.
    */
   public Navigator() {
+    setupDataAccess();
     setupScene();
     setView(View.ITEMS);
     DepthManager.setDepth(this.container.getTop(), 2);
     btnFound.setOnAction(foundItem());
     btnLost.setOnAction(lostItem());
+  }
+
+  private void setupDataAccess() {
+    this.itemDao = new ItemDataAccessObject(App.API_URL);
+    this.imageDao = new ImageDataAccessObject(App.API_URL);
   }
 
   /**
@@ -76,8 +88,6 @@ public class Navigator {
     return event -> {
       Modal<Item> modal = new Modal<Item>((Stage) btnFound.getScene().getWindow());
 
-      ItemDataAccessObject itemDao = new ItemDataAccessObject(App.API_URL);
-      ImageDataAccessObject imageDao = new ImageDataAccessObject(App.API_URL);
       modal.initModality(Modality.APPLICATION_MODAL);
       modal.setOverlayClose(false);
 
@@ -139,9 +149,12 @@ public class Navigator {
       });
       Optional<Item> result = modal.showAndWait();
       if (result.isPresent()) {
-        itemDao.insert((Item) result.get());
-        if (itemImage.getSelectedFile() != null) {
-          imageDao.upload(itemImage.getSelectedFile());
+        // Check connection to REST Api
+        if (App.isRemote()) {
+          itemDao.insert((Item) result.get());
+          if (itemImage.getSelectedFile() != null) {
+            imageDao.upload(itemImage.getSelectedFile());
+          }
         }
         ItemController.getItems().addAll(result.get());
       }
@@ -162,8 +175,6 @@ public class Navigator {
     return event -> {
       Modal<Item> modal = new Modal<Item>((Stage) btnFound.getScene().getWindow());
 
-      ItemDataAccessObject itemDao = new ItemDataAccessObject(App.API_URL);
-      ImageDataAccessObject imageDao = new ImageDataAccessObject(App.API_URL);
       modal.initModality(Modality.APPLICATION_MODAL);
       modal.setOverlayClose(false);
 
@@ -225,9 +236,12 @@ public class Navigator {
       });
       Optional<Item> result = modal.showAndWait();
       if (result.isPresent()) {
-        itemDao.insert((Item) result.get());
-        if (itemImage.getSelectedFile() != null) {
-          imageDao.upload(itemImage.getSelectedFile());
+        // Check connection to REST Api
+        if (App.isRemote()) {
+          itemDao.insert((Item) result.get());
+          if (itemImage.getSelectedFile() != null) {
+            imageDao.upload(itemImage.getSelectedFile());
+          }
         }
         ItemController.getItems().addAll(result.get());
       }

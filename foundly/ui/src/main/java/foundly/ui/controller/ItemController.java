@@ -3,22 +3,28 @@ package foundly.ui.controller;
 import foundly.core.model.Item;
 import foundly.ui.App;
 import foundly.ui.container.ItemCellLayout;
+import foundly.ui.dataaccess.ItemDataAccess;
 import foundly.ui.dataaccess.ItemDataAccessObject;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 
 /**
  * The Class ItemController. Controller-class for the item view.
@@ -32,7 +38,9 @@ public class ItemController extends AbstractViewController {
 
   private ListView<Item> listView;
 
-  private ItemDataAccessObject itemDao;
+  // Data access
+  private ItemDataAccess itemDao;
+
   private static ObservableList<Item> items;
 
   // Filters for items.
@@ -49,7 +57,11 @@ public class ItemController extends AbstractViewController {
    * Instantiates a new item controller.
    */
   public ItemController() {
+    setupDataAccess();
+  }
 
+  private void setupDataAccess() {
+    this.itemDao = new ItemDataAccessObject(App.API_URL);
   }
 
   /**
@@ -60,25 +72,40 @@ public class ItemController extends AbstractViewController {
    */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    fetchData();
     setupListView();
     setupTabs();
     setupFilters();
+    fetchData();
+
+    // Setup automatic refresh for fetching items
+    Timeline refresh =
+        new Timeline(new KeyFrame(Duration.millis(300000), new EventHandler<ActionEvent>() {
+
+          @Override
+          public void handle(ActionEvent event) {
+            fetchData();
+          }
+        }));
+    refresh.setCycleCount(Timeline.INDEFINITE);
+    refresh.play();
   }
 
-
   /**
-   * Fetch data from the rest-api and add them to a filtered list.
+   * Fetch data from the rest-api and bind them to filters.
    */
   private void fetchData() {
-    itemDao = new ItemDataAccessObject(App.API_URL);
-    items = FXCollections.observableArrayList(itemDao.getAll());
+    // Check connection to REST Api
+    if (App.isRemote()) {
+      items = FXCollections.observableArrayList(itemDao.getAll());
+    } else {
+      items = FXCollections.observableArrayList();
+    }
+    bindFilters();
 
-    filteredData = new FilteredList<Item>(items, p -> true);
   }
 
   /**
-   * Setup the tabs.
+   * Setup the tabs for filtering items by their state [LOST|FOUND].
    */
   private void setupTabs() {
     tabs = FXCollections.observableArrayList();
@@ -99,7 +126,7 @@ public class ItemController extends AbstractViewController {
   }
 
   /**
-   * Setup the list view with Items.
+   * Setup the list view which displays the items.
    */
   private void setupListView() {
     this.listView = new ListView<Item>();
@@ -121,7 +148,6 @@ public class ItemController extends AbstractViewController {
         setGraphic(itemCellLayout);
       }
     });
-    listView.setItems(filteredData);
   }
 
   /**
@@ -150,11 +176,21 @@ public class ItemController extends AbstractViewController {
                     () -> item -> item.getDescription().toLowerCase()
                         .contains(searchFilter.getText().toLowerCase()),
                     searchFilter.textProperty()));
+  }
+
+  /**
+   * Binds the filters to a new Filtered List.
+   */
+  private void bindFilters() {
+    filteredData = new FilteredList<Item>(items, p -> true);
 
     filteredData.predicateProperty()
         .bind(Bindings.createObjectBinding(
             () -> stateFilter.get().and(titleFilter.get().or(descriptionFilter.get())), stateFilter,
             titleFilter, descriptionFilter));
+
+    // Add the filtered list to ListView
+    listView.setItems(filteredData);
   }
 
   /**

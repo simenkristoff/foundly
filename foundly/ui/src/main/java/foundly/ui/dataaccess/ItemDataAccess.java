@@ -2,7 +2,6 @@ package foundly.ui.dataaccess;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import foundly.core.model.Item;
-import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -23,10 +22,8 @@ public interface ItemDataAccess {
    *
    * @param id the id
    * @return the item
-   * @throws IOException Signals that an I/O exception has occurred.
-   * @throws InterruptedException the interrupted exception
    */
-  Item get(long id) throws IOException, InterruptedException;
+  Item get(long id);
 
   /**
    * Delete an Item.
@@ -42,6 +39,6 @@ public interface ItemDataAccess {
    * @return true, if successful
    * @throws JsonProcessingException the json processing exception
    */
-  boolean insert(Item item) throws JsonProcessingException;
+  boolean insert(Item item);
 
 }

@@ -29,11 +29,12 @@ public class NavigatorTest extends AppTest {
   private final String cancelLostItemButton = "Avbryt";
 
   /**
-   * Test if the button for found items opens the correct modal.
+   * Test if the button for found items opens the correct modal and verify that the close button
+   * works.
    */
   @Test
   @Order(1)
-  @DisplayName("Test Found-Item button")
+  @DisplayName("Test Found-Item modal")
   public void testFoundButton() {
     Button found = lookup(foundButton).query();
     clickOn(found);
@@ -56,11 +57,12 @@ public class NavigatorTest extends AppTest {
   }
 
   /**
-   * Test if the button for lost items opens the correct modal.
+   * Test if the button for lost items opens the correct modal and verify that the close button
+   * works.
    */
   @Test
   @Order(2)
-  @DisplayName("Test Lost-Item button")
+  @DisplayName("Test Lost-Item modal")
   public void testLostButton() {
     Button found = lookup(lostButton).query();
     clickOn(found);
