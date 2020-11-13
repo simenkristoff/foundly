@@ -17,10 +17,10 @@ Prosjektet, **[Foundly](foundly/)**, er konfigurert som et multi-modul prosjekt 
 
 ### Moduler
 Prosjektets fire moduler tilhører pom-filen [foundlyParent](foundly/pom.xml), og er ytteligere beskrevet i egne README-filer.
-- **[foundly.core](foundly/core)** utgjør domenelaget, og inneholder standardiserte objekter samt. logikk for å fremstille disse objektene.
-- **[foundly.rest-api](foundly/rest-api)** API-laget bygget med [Spring Boot](#spring-boot). Denne modulen har en innebygd Tomcat server og håndterer alle requests sendt til denne serveren.
-- **[foundly.ui](foundly/ui)** brukergrensesnitt bygget med [JavaFx](#javafx)
-- **[foundly.web-client](foundly/web-client)** web-klient bygget med [Vue.js](#vuejs)
+- **[foundly.core](foundly/core/README.md)** utgjør domenelaget, og inneholder standardiserte objekter samt. logikk for å fremstille disse objektene.
+- **[foundly.rest-api](foundly/rest-api/README.md)** API-laget bygget med [Spring Boot](#spring-boot). Denne modulen har en innebygd Tomcat server og håndterer alle requests sendt til denne serveren.
+- **[foundly.ui](foundly/ui/README.md)** brukergrensesnitt bygget med [JavaFx](#javafx)
+- **[foundly.web-client](foundly/web-client/README.md)** web-klient bygget med [Vue.js](#vuejs)
 ##
 
 ### Arkitektur
@@ -48,7 +48,7 @@ Spring Boot er et open source, mikroservicebasert Java-nettverk. Spring Boot-ram
 | **Fleksibelt** | Spring Boot gir en fleksibel måte å konfigurere Java Beans, XML-konfigurasjoner og databasetransaksjoner på. |
 | **Prossesering** | Yter kraftig batchbehandling og administrerer REST-endepunkter. |
 | **Enkel konfigurering** | I Spring Boot er alt automatisk konfigurert på forhånd, og krever ingen manuelle konfigurasjoner for å virke. |
-| **Innebygd serves** | Inkluderer innebygd [Tomcat](http://tomcat.apache.org/) server som ikke krever ytteligere installasjoner for å bruke. |
+| **Innebygd server** | Inkluderer innebygd [Tomcat](http://tomcat.apache.org/) server som ikke krever ytteligere installasjoner for å bruke. |
 
 <hr>
 
@@ -108,13 +108,19 @@ Bibliotekmodularisering ved hjelp av et rammeverk er vanlig i frontend-utvikling
 ## Bygging med Maven
 
 Vårt bygg har tillegg for:
-- oppsett av java [(**maven-compiler-plugin**)](https://maven.apache.org/plugins/maven-compiler-plugin/)
-- testing [(**maven-surefire-plugin**)](https://maven.apache.org/surefire/maven-surefire-plugin/)
-- flytting av web-ressurser til Tomcat public-mappe [(**maven-resources-plugin**)](https://maven.apache.org/plugins/maven-resources-plugin/)
-- kjøring av Spring Boot Rest API [(**spring-boot-maven-plugin**)](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/)
-- kjøring av javafx [(**javafx-maven-plugin**)](https://github.com/openjfx/javafx-maven-plugin)
-- sjekking av kodekvalitet med checkstyle [(**maven-checkstyle-plugin**)](https://checkstyle.sourceforge.io) og spotbugs [(**spotbugs-maven-plugin**)](https://spotbugs.github.io)
-- testdekningsgrad med jacoco [(**jacoco-maven-plugin**)](https://github.com/jacoco/jacoco)
+- [(**maven-compiler-plugin**)](https://maven.apache.org/plugins/maven-compiler-plugin/) - kompilerer source-filene i prosjektet
+- [(**maven-surefire-plugin**)](https://maven.apache.org/surefire/maven-surefire-plugin/) - kjøring av enhetstester
+- [(**maven-checkstyle-plugin**)](https://checkstyle.sourceforge.io) - sjekking av kodekvalitet med **Checkstyle** 
+- [(**spotbugs-maven-plugin**)](https://spotbugs.github.io) - finne bugs i koden med **Spotbugs**
+- [(**jacoco-maven-plugin**)](https://github.com/jacoco/jacoco) - testdekningsgrad med **Jacoco**
+- [**Web-client-spesifikke:**](/foundly/web-client/README.md)
+    - [(**frontend-maven-plugin**)](https://github.com/eirslett/frontend-maven-plugin) - samkjøring av node-kommandoer med maven-kommandoer 
+- [**REST Api-spesifikke:**](/foundly/rest-api/README.md)
+    - [(**maven-resources-plugin**)](https://maven.apache.org/plugins/maven-resources-plugin/) - flytting av web-client-byggget til Tomcat sin public-mappe 
+    - [(**spring-boot-maven-plugin**)](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/) - kjøring av **Spring Boot Rest API**
+- [**UI-spesifikke:**](/foundly/ui/README.md)
+    - [(**javafx-maven-plugin**)](https://github.com/openjfx/javafx-maven-plugin) - kjøring av **JavaFx-applikasjonen**
+
 
 ## Kjøring av prosjektet
 1. Åpne prosjektet i gitpod ved hjelp av knappen øverst.

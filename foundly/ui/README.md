@@ -1,4 +1,4 @@
-![UI-banner](../../resources/javaFX-gui.jpg)
+![UI-banner](/resources/javafx_gui.jpg)
 # UI
 
 Denne modulen inneholder brukergrensesnittet til [Foundly](/foundly/README.md).
@@ -16,30 +16,19 @@ Videre kan brukeren legge til gjenstander som enten er tapt eller funnet, ved å
 
 ## Struktur
 
-### Generell struktur
-UI-modulen er delt inn på følgende måte:
+### Pakker
 
-- **src/** - inneholder selve ui-modulen og og har underlagt mappene **main** og **test**
-    - **main/** - inneholder alle ressurser som brukes i ui-modulen.
-        - **java/foundly/ui** -
-            - **container/** - oppsett for layout og utseende
-            - **control/** - validering av input
-            - **controller/** - kontrollere som styrer hendelser i appen
-            - **dataaccess/** - kobling til rest-api
-            - **effect/** - utseende-effekter
-            - **App.java** - Launcher-applikasjonen for prosjektet
-            - **SplashScreen.java** - Kjører mens hovedapplikasjonen laster
-        - **resources/foundly/ui/** -
-            - **css/** - inneholder css-stilark
-            - **img/** - inneholder bildefilene
-            - **views/** - inneholder fxml-filene
-    - **test/** - inneholder tester for ui-modulen
-        - **java/foundly/ui/**
-            - **controller** - inneholder tester for controllerene
-            - **dataaccess** - inneholder tester for dataaccess-klassene
-            - **AppTest.java** - test for AppTest.java
+**UI-modulen** er delt inn på følgende måte:
 
-## Sekvensdiagram
+- [**foundly.ui.container**](/foundly/ui/src/main/java/foundly/ui/container) - oppsett for layout og utseende
+- [**foundly.ui.control**](/foundly/ui/src/main/java/foundly/ui/control) - utvidelser av **JavaFx**-controls
+- [**foundly.ui.control.form**](/foundly/ui/src/main/java/foundly/ui/control/form) - implementasjon av validering for inputs
+- [**foundly.ui.control.validator**](/foundly/ui/src/main/java/foundly/ui/control/validator) - støtte for validering av inputs
+- [**foundly.ui.controller**](/foundly/ui/src/main/java/foundly/ui/controller) - controllere for applikasjonen
+- [**foundly.ui.dataaccess**](/foundly/ui/src/main/java/foundly/ui/dataaccess) - håndterer interaksjon med [REST Api](/foundly/rest-api/README.md).
+- [**foundly.ui.effect**](/foundly/ui/src/main/java/foundly/ui/effect) - pakke med visuelle effekter for bruk i applikasjonen.
+
+### Sekvensdiagram
 
 I mappen [arkitektur](/foundly/architecture) finnes det et [sekvensdiagram](/foundly/architecture/sequencediagram-ui.png)
 som viser hvordan JavaFX-klienten samhandler med rest-api for å hente et nytt Item med bildefil.
@@ -47,4 +36,36 @@ som viser hvordan JavaFX-klienten samhandler med rest-api for å hente et nytt I
 ![sekvensdiagram](/foundly/architecture/sequencediagram-ui.png)
 
 ## Testing av kodekvalitet
-I tillegg til enhetstesting, tester vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
+Det er skrevet enhetstester for modulen som finnes i [her](/foundly/ui/src/test/java/foundly/ui).
+
+I tillegg til enhetstesting, sjekker vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
+
+## Bygging med Maven
+
+### Avhengigheter
+
+**UI-modulen** har følgende avhengigheter:
+
+- [(**core**)](/foundly/core/README.md) - bruker core for å representere Item-objekter
+- [(**javafx-controls**)](https://mvnrepository.com/artifact/org.openjfx/javafx-controls) - JavaFx-bibliotek
+- [(**javafx-fxml**)](https://mvnrepository.com/artifact/org.openjfx/javafx-fxml) - bruk av FXML-filer
+- [(**testfx-core**)](https://mvnrepository.com/artifact/org.testfx/testfx-core) - core for testing av JavaFx-applikasjoner
+- [(**testfx-junit5**)](https://mvnrepository.com/artifact/org.testfx/testfx-junit5) - integrerer TestFx med Junit
+
+### Tillegg
+
+**UI-modulen** har tillegg for:
+
+- [(**maven-compiler-plugin**)](https://maven.apache.org/plugins/maven-compiler-plugin/) - kompilerer source-filene i prosjektet
+- [(**javafx-maven-plugin**)](https://github.com/openjfx/javafx-maven-plugin) - kjøring av **JavaFx-applikasjonen**
+- [(**maven-surefire-plugin**)](https://maven.apache.org/surefire/maven-surefire-plugin/) - kjøring av enhetstester
+- [(**maven-checkstyle-plugin**)](https://checkstyle.sourceforge.io) - sjekking av kodekvalitet med **Checkstyle** 
+- [(**spotbugs-maven-plugin**)](https://spotbugs.github.io) - finne bugs i koden med **Spotbugs**
+- [(**jacoco-maven-plugin**)](https://github.com/jacoco/jacoco) - testdekningsgrad med **Jacoco**
+
+## Kommandoer
+
+### Kjøring
+```
+mvn javafx:run -f ui/pom.xml
+```

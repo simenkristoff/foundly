@@ -2,6 +2,8 @@
 
 Denne modulen inneholder kjernelogikken til [Foundly](/foundly/README.md).
 
+[[_TOC_]]
+
 ## Core
 
 ### Beskrivelse
@@ -11,19 +13,14 @@ får all informasjonen sin, blant annet tittel, mobilnummer, beskrivelse og e-po
 
 ## Struktur
 
-### Generell struktur
-Core-modulen er delt inn på følgende måte:
+### Pakker
 
-- **src/** - inneholder selve core-modulen og og har underlagt mappene **main** og **test**
-    - **main/java/foundly/core** - inneholder alle ressurser som brukes i core-modulen.
-        - **json/** - inneholder klasser for konvertering av Item-objekter til String og motsatt (serialization og deserialization)
-        - **model/** - inneholder all informasjon om en mistet/funnet-post, og håndterer responsmelding til rest-api
-    - **test/** - inneholder tester for core-modulen
-        - **java/foundly/core/**
-            - **json/** - tester serializer og deserializer i json-mappen
-            - **model/** - tester Item og ResponseMessage i model-mappen
+**Core-modulen** er delt inn på følgende måte:
 
-## Klassediagram
+- [**foundly.core.json**](/foundly/core/src/main/java/foundly/core/json) - inneholder klasser for konvertering av Item-objekter til String og motsatt (serialization og deserialization)
+- [**foundly.core.model**](/foundly/core/src/main/java/foundly/core/model) - inneholder objekter som er sentrale i applikasjon bla. **Item** som representerer en funnet/tapt gjenstand.
+
+### Klassediagram
 
 I mappen [arkitektur](/foundly/architecture) finnes det et [klassediagram](/foundly/architecture/classdiagram-core.png)
 som viser oppførselen og strukturen til klassene i core-modulen.
@@ -31,4 +28,25 @@ som viser oppførselen og strukturen til klassene i core-modulen.
 ![klassediagram](/foundly/architecture/classdiagram-core.png)
 
 ## Testing av kodekvalitet
-I tillegg til enhetstesting, tester vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
+Det er skrevet enhetstester for modulen som finnes i [her](/foundly/core/src/test/java/foundly/core).
+
+I tillegg til enhetstesting, sjekker vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
+
+## Bygging med Maven
+
+### Avhengigheter
+
+**Core-modulen** har følgende avhengigheter:
+
+- [(**spring-boot-starter-data-jpa**)](https://www.javatpoint.com/spring-boot-starter-data-jpa) - brukes for å deklarere objektene som ligger i pakken **foundly.core.model**, slik at de kan lagres i databasen.
+- [(**spring-boot-starter-web**)](https://www.javatpoint.com/spring-boot-starter-web) - ressurser for Spring Boot Web. Brukes for å serialize og deserialize objekter i **core**.
+
+### Tillegg
+
+**Core-modulen** har tillegg for:
+
+- [(**maven-compiler-plugin**)](https://maven.apache.org/plugins/maven-compiler-plugin/) - kompilerer source-filene i prosjektet
+- [(**maven-surefire-plugin**)](https://maven.apache.org/surefire/maven-surefire-plugin/) - kjøring av enhetstester
+- [(**maven-checkstyle-plugin**)](https://checkstyle.sourceforge.io) - sjekking av kodekvalitet med **Checkstyle** 
+- [(**spotbugs-maven-plugin**)](https://spotbugs.github.io) - finne bugs i koden med **Spotbugs**
+- [(**jacoco-maven-plugin**)](https://github.com/jacoco/jacoco) - testdekningsgrad med **Jacoco**

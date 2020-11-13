@@ -67,19 +67,19 @@ Struktur for stilarkets moduler:
 - **layout/** - nettsidens oppsett/layout
 - **typography** - stiler for skrift/fonts
 
-## Testing
+## Testing av kodekvalitet
 Prosjektet er rigget med to type tester, enhets- og end-to-end-tester.
 
-#### Enhetstesting med Jest
+### Enhetstesting med Jest
 Jest er et JavaScript-testverktøy opprettet av Facebook som håndterer kjøring av tester og verifisering av 'assertions'. Enhetstestene kan kjøres med kommandoen **`npm run test:unit`**
 
-#### End-to-end med Nightwatch
+### End-to-end med Nightwatch
 E2e-testene er designet for å teste web-klientens funksjonalitet i sin helhet. For å få til dette har vi brukt Nightwatch. Nightwatch er et automatisert testrammeverk for webapplikasjoner og nettsteder, skrevet i Node. js. E2e-testene kan kjøres med kommandoen **`npm run test:e2e`**
 
 ## Bygging med maven
 
-Modulen er bygget med tillegg for:
-- samkjøring av node-kommandoer med maven-kommandoer [(**frontend-maven-plugin**)](https://github.com/eirslett/frontend-maven-plugin)
+**Web-client**-modulen har tillegg for:
+- [(**frontend-maven-plugin**)](https://github.com/eirslett/frontend-maven-plugin) - samkjøring av node-kommandoer med maven-kommandoer 
 
 ## Kommandoer
 

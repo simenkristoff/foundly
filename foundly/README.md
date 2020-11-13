@@ -1,6 +1,8 @@
+# Foundly
+
 [[_TOC_]]
 
-# Foundly
+## Foundly - Lost & Found
 Foundly er en digital versjon av det fysiske konseptet hittegodskontor. Konseptet går ut på at om man finner noe gjenglemt, eller mister noe, kan man legge dette ut i appen med bilde og beskrivelse slik at det vil dukke opp for andre i nærheten. Dette fører da forhåpentligvis til at eier og gjenstand blir gjenforent. Appen bygger på frivilighet og ærlighet og skal være gratis for brukere.
 
 ### Brukergrensesnitt
@@ -17,5 +19,4 @@ Foundly er bygget opp i flere moduler som utgjør en trelagsarkitektur med domen
 
 Vi har også lagt opp prosjektet slik at både web-klienten og JavaFX-appen fungerer som likeverdige grensesnitt. Under kan man se hvordan de to ulike brukergrensesnittene ser ut.
 
-<img src="/Foundly.jpg" alt="JavaFX-app" width="650">
-<img src="/resources/foundly_web_client.jpg" alt="Web-klient" width="650">
+<img src="/resources/javafx_gui.jpg" alt="JavaFX-app" width="45%"><img src="/resources/foundly_web_client.jpg" alt="Web-klient" width="45%">
