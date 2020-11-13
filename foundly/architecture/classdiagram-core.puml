@@ -16,62 +16,19 @@ package Model <<Folder>> {
 package json <<Folder>> {
 
     class ItemSerializer {
-        flightNumber : Integer
-        departureTime : Date
         Item serialize()
     }
 
     class ItemDeserializer {
-        flightNumber : Integer
-        departureTime : Date
         Item deserialize()
     }
 }
 
-package dataaccess <<Folder>> {
-
-    interface ImageDataAccess {
-        void upload(File)
-
-    }
-
-    class ImageDataAccessObject {
-        final String baseUrlString
-        RestTemplate restTemplate
-        ObjectMapper objectMapper
-
-
-
-    }
-
-    ImageDataAccess <|.. ImageDataAccessObject
-
-    interface ItemDataAccess {
-        Collection<Item> getAll()
-        Item get(long)
-        void delete(long)
-        boolean insert(Item)
-    }
-
-    class ItemDataAccessObject {
-        final String baseUrlString
-        RestTemplate restTemplate
-        String getRequestUrl(final String)
-    }
-
-    ItemDataAccess <|.. ItemDataAccessObject
+package uiDataaccess <<Cloud>> {
 
 }
 
-package restAPI <<Cloud>> {
-
-}
-
-
-ImageDataAccess -right-> restAPI
-ItemDataAccess -right-> restAPI
-note on link #lightgray: restAPI-diagram in separate plantUML
-
-ItemDataAccess -up-> Item : uses
+uiDataaccess -left-> Item : uses
+note right of uiDataaccess: See separate diagram for ui-module
 Model -down-> json : uses
 @enduml
