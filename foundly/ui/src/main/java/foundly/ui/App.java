@@ -66,7 +66,9 @@ public class App extends Application {
    * @throws Exception the exception
    */
   public void init() throws Exception {
-    loadProperties();
+    loadProperties(config, "client.properties"); // Load custom settings
+    loadProperties(defaults, "default.properties"); // Load default settings
+    
     this.navigator = new Navigator();
 
     int loadCounter = Integer.parseInt(getProperty("app.loadCounter"));
@@ -137,21 +139,19 @@ public class App extends Application {
   }
 
   /**
-   * Loads properties from the configuration-files.
+   * Loads configuration settings from a property file into a Properties object.
+   * 
+   * @param property the property object to load into
+   * @param filename the file to load from
    */
-  private void loadProperties() {
+  private void loadProperties(Properties property, String filename) {
     InputStream propertyStream = null;
     try {
-      propertyStream = this.getClass().getResourceAsStream("properties/client.properties");
-      config.load(propertyStream);
+      propertyStream = this.getClass().getResourceAsStream("properties/" + filename);
+      property.load(propertyStream);
       propertyStream.close();
-
-      propertyStream = this.getClass().getResourceAsStream("properties/default.properties");
-      defaults.load(propertyStream);
-      propertyStream.close();
-
     } catch (IOException e) {
-      System.out.println("IOException: Could not load properties-file. " + e.getMessage());
+      System.out.println("IOException: Could not load " + filename + ". " + e.getMessage());
     }
     if (propertyStream != null) {
       try {

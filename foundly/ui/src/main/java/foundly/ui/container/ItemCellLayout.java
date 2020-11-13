@@ -94,7 +94,7 @@ public class ItemCellLayout extends BorderPane {
       // Will URL-encode the filename if it contains unsupported characters
       image = new Image(apiUrl + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8));
     } else {
-      image = new Image(App.class.getResource(App.getProperty("resource.defaultImage")).toExternalForm());
+      image = new Image(App.class.getResource("img/icons/default.png").toExternalForm());
     }
     imageView.setImage(image);
   }
