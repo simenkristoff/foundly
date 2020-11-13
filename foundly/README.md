@@ -1,20 +1,22 @@
 # Foundly
-Appen Foundly er en digital versjon av det fysiske konseptet hittegodskontor. Hvis man finner noe gjenglemt kan man registrere med bilde og beskrivelse hva som er blitt mistet og hvor du har funnet det. Da kan andre brukere av appen se hvilke gjenstander som er funnet i område. Det skal også være mulighet for å etterlyse noe man selv har mistet og slik kan kanskje noen andre hjelpe deg med å finne det.
 
-## Brukergrensesnitt
-![Skjermbilde fra brukergrensesnittet](Foundly.jpg)
+[[_TOC_]]
 
-## Brukerhistorie
-Jeg har funnet en nøkkel utenfor Studentersamfundet, og vil
-gjerne levere den tilbake til riktig eier.
-For å finne eieren på enklest mulig måte, vil jeg legge ut
-en notis på et sosialt medium egnet for dette, slik at det
-når ut til så mange som mulig.
+## Foundly - Lost & Found
+Foundly er en digital versjon av det fysiske konseptet hittegodskontor. Konseptet går ut på at om man finner noe gjenglemt, eller mister noe, kan man legge dette ut i appen med bilde og beskrivelse slik at det vil dukke opp for andre i nærheten. Dette fører da forhåpentligvis til at eier og gjenstand blir gjenforent. Appen bygger på frivilighet og ærlighet og skal være gratis for brukere.
 
-### Krav til funksjonalitet
+### Brukergrensesnitt
+Brukergrensesnittet er minimalistisk bygget opp med gjennomgående fargebruk. Designet er responsivt, noe som vil si at det tilpasser seg skjermstørrelsen på enheten du bruker. I tillegg har du mulighet til å filtrere gjenstander basert på om de er mistet eller funnet, eller søke etter ord i beskrivelse eller tittel for å finne mer spesifikke gjenstander. På bildet under kan man se hvordan brukergrensesnittet er bygget opp og hvordan det tilpasser seg ulike enheter.
+![Web-client banner](/resources/foundly_responsive_view.png)
 
-- Kunne legge til en post/notis, som blir synlig på en oversiktlig oppslagstavle
-- Notisen må kunne inneholde en kort beskrivelse av hvor og når jeg har funnet
-gjenstanden, og hvordan man kommer i kontakt med meg
-- Mulighet for å legge til et bilde av gjenstanden
-- At notisen lagres og er synlig på oppslagstavla til noen fjerner den
+### Brukerhistorie
+Brukerhistorier ligger [her](/brukerhistorier.md).
+
+### Oppbygning
+Foundly er bygget opp i flere moduler som utgjør en trelagsarkitektur med domenelogikk, brukergrensesnitt og persistens. Sammen utgjør disse all funksjonaliteten i appen. Når du legger inn en mistet gjenstand via web-klienten, vil den sende dette til service-laget i rest-serveren, som videre vil sørge for at dette blir lagret i H2-databasen. Samhandlingen kan sees tydelig i pakkediagrammet.
+
+![Pakekdiagram](/foundly/architecture/Pakkediagram 1.png)
+
+Vi har også lagt opp prosjektet slik at både web-klienten og JavaFX-appen fungerer som likeverdige grensesnitt. Under kan man se hvordan de to ulike brukergrensesnittene ser ut.
+
+<img src="/resources/javafx_gui.jpg" alt="JavaFX-app" width="45%"><img src="/resources/foundly_web_client.jpg" alt="Web-klient" width="45%">
