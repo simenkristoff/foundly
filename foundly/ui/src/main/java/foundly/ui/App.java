@@ -2,6 +2,10 @@ package foundly.ui;
 
 import foundly.ui.controller.Navigator;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketTimeoutException;
 import java.time.format.DateTimeFormatter;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -50,7 +54,6 @@ public class App extends Application {
         close();
       }
     });
-
   }
 
   /**
@@ -73,6 +76,27 @@ public class App extends Application {
       this.notifyPreloader(new Preloader.ProgressNotification(progress));
       Thread.sleep(100);
     }
+  }
+
+  /**
+   * Checks connection to the REST Api.
+   *
+   * @return true, if connection is established
+   */
+  public static boolean isRemote() {
+    SocketAddress socketAddress = new InetSocketAddress("localhost", 8098);
+    Socket socket = new Socket();
+    int timeout = 200;
+    try {
+      socket.connect(socketAddress, timeout);
+      socket.close();
+      return true;
+    } catch (SocketTimeoutException e) {
+      System.out.println("SocketTimeoutException localhost:8098. " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("IOException - Unable to connect to localhost:8098. " + e.getMessage());
+    }
+    return false;
   }
 
   /**

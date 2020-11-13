@@ -8,10 +8,12 @@ import foundly.core.model.Item;
 import foundly.core.model.Item.State;
 import foundly.ui.AppTest;
 import foundly.ui.control.validator.AbstractValidator;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -40,12 +42,14 @@ public class ItemControllerTest extends AppTest {
   // Tabs
   List<String> expectedTabs = Arrays.asList("alle", "mistet", "funnet");
 
+  /**
+   * Test if the validation works for all fields, and if a found item is added correctly. Should
+   * have the state: FOUND.
+   */
   @Test
-  @Order(2)
-  @DisplayName("Test Item controller")
+  @Order(1)
+  @DisplayName("Test input validation and adding a found item")
   public void invalidFieldValidatorTest() {
-
-    // TEST ADDING A FOUND ITEM. //
     List<AbstractValidator<?>> foundInputs = FXCollections.observableArrayList();
 
     Button found = lookup(foundButton).query();
@@ -97,8 +101,15 @@ public class ItemControllerTest extends AppTest {
 
     // Check if the item has the correct state
     assertTrue(itemsList.getItems().get(0).getState() == State.FOUND);
+  }
 
-    // TEST ADDING A LOST ITEM. //
+  /**
+   * Test if a lost item is added correcly. Should have the state: LOST.
+   */
+  @Test
+  @Order(2)
+  @DisplayName("Test adding a lost item")
+  public void addLostItemTest() {
     List<AbstractValidator<?>> lostInputs = FXCollections.observableArrayList();
 
     Button lost = lookup(lostButton).query();
@@ -125,13 +136,32 @@ public class ItemControllerTest extends AppTest {
     assertTrue(this.listTargetWindows().size() == 1);
 
     // Check if item has been added to the list view
-    assertTrue(itemsList.getItems().size() == 2);
+    ListView<Item> itemsList = lookup("#items-list").queryListView();
+    assertTrue(itemsList.getItems().size() == 1);
 
     // Check if the item has the correct state
-    assertTrue(itemsList.getItems().get(1).getState() == State.LOST);
+    assertTrue(itemsList.getItems().get(0).getState() == State.LOST);
+  }
 
-    // TEST IF TABS ARE FILTERING THE ITEMS CORRECTLY. //
-    System.out.println(itemsList.getItems());
+  /**
+   * Test if tabs are filtering the items correctly.
+   */
+  @Test
+  @Order(3)
+  @DisplayName("Test filtering of items")
+  public void filteringItemsTest() {
+    
+    // Test-items
+    ObservableList<Item> items = FXCollections.observableArrayList();
+    items.add(new Item("Mistet nøkler", "Mistet nøklene mine på gløs i går", State.LOST,
+        "simen.kristoffersen98@gmail.com", "90360922", "default.png", LocalDateTime.now()));
+    items.add(new Item("Funnet nøkler", "Fant nøkler på glød i dag", State.FOUND,
+        "simen.kristoffersen98@gmail.com", "90360922", "default.png", LocalDateTime.now()));
+
+    // Add test-items to the ListView
+    ListView<Item> itemsList = lookup("#items-list").queryListView();
+    itemsList.setItems(items);
+
     TabPane tabPane = lookup("#tabPane").query();
     List<String> tabNames = new ArrayList<String>();
     for (Tab tab : tabPane.getTabs()) {
