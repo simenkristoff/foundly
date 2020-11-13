@@ -1,6 +1,7 @@
 package foundly.ui.dataaccess;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import foundly.ui.App;
 import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -21,18 +22,31 @@ public class ImageDataAccessObject implements ImageDataAccess {
 
   private final String baseUrlString;
 
+  private String servicePath = "/api/upload";
+
   private RestTemplate restTemplate;
 
   @Autowired
   private ObjectMapper objectMapper;
 
   /**
-   * Instantiates a new ImageDataAccess-object.
+   * Instantiates a new ImageDataAccess-object. This instance will build a URL String based on the
+   * settings in the configuration file.
    *
-   * @param baseUrlString the url to the rest-api
    */
-  public ImageDataAccessObject(final String baseUrlString) {
-    this.baseUrlString = baseUrlString + "/api/upload";
+  public ImageDataAccessObject() {
+    this.baseUrlString = buildBaseUrl();
+    this.objectMapper = new ObjectMapper();
+    this.restTemplate = new RestTemplate();
+  }
+
+  /**
+   * Instantiates a new ImageDataAccess-object with a predefined URL String.
+   *
+   * @param baseUrlString the URL to the REST Api
+   */
+  public ImageDataAccessObject(String baseUrlString) {
+    this.baseUrlString = baseUrlString + servicePath;
     this.objectMapper = new ObjectMapper();
     this.restTemplate = new RestTemplate();
   }
@@ -56,7 +70,21 @@ public class ImageDataAccessObject implements ImageDataAccess {
   }
 
   /**
-   * Upload. Sends a http-request to the rest-api with an image-file as content.
+   * Builds the URL to REST Api based on settings in the configuration file.
+   * 
+   * @return String baseUrlString
+   */
+  private String buildBaseUrl() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(App.getProperty("api.protocol") + "://");
+    sb.append(App.getProperty("api.hostname") + ":");
+    sb.append(App.getProperty("api.port"));
+    sb.append(servicePath);
+    return sb.toString();
+  }
+
+  /**
+   * Upload. Sends a POST-request to the rest-api with an image-file as content.
    *
    * @param file the image to be uploaded
    */
