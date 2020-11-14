@@ -11,6 +11,7 @@
 	</parent>
 
 	<artifactId>rest-api</artifactId>
+	<packaging>jar</packaging>
 
 	<name>Rest-api</name>
 	<description>REST Api Service module</description>
@@ -24,12 +25,13 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
-		<!-- Springboot -->
+		<!-- Spring Boot Starter Kit for Persistence -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+		<!-- Spring Boot Starter Kit for Web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -41,15 +43,49 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- Testing with Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+
+		<!-- Test with JUnit5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+		</dependency>
+
+		<!-- Mockito -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
 
-			<!-- Springboot -->
+			<!-- Springboot launcher-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<attach>false</attach>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- Compiling code -->
@@ -58,6 +94,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 
+			<!-- Move Web-client-build to public-dir -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
