@@ -1,0 +1,233 @@
+@startuml
+package container <<Folder>> {
+    class ItemCellLayout {
+    Item item;
+    Header header
+    Body body
+    Footer footer
+    Image image;
+    ImageView imageView
+    VBox contentWrapper
+    VBox imageViewWrapper 
+
+    void initialize()
+    String getUserAgentStylesheet()
+
+
+    }
+
+    class Header {
+        Text title
+        Text state
+        VBox badge
+
+    }
+
+    class Footer {
+        Text contactTitle
+        Text email
+        Text phone
+        Text date
+        HBox contactWrapper
+        Hbox dateWrapper
+    }
+
+    class Body {
+        Text description
+    }
+
+    class Modal {
+    }
+
+    class ModalLayout {
+        StackPane header
+        StackPane body
+        HBox actions
+    }
+}
+
+package control <<Folder>> {
+
+    package form <<Folder>> {
+        class Form {
+        ObservableList<Validator> inputFields
+        boolean validForm
+
+        }
+        class FormNumberField {
+
+        }
+        class FormPatternField {
+
+        }
+
+        class FormTextArea {
+
+        }
+        class FormTextField {
+
+        }
+
+
+    }
+
+    package validator <<Folder>> {
+        interface Validator {
+            boolean isValid()
+        }
+        abstract class AbstractValidator {
+            T control
+            Text error
+            String message
+
+            void reset()
+        }
+    }   
+
+    class ImagePicker {
+    final FileChooser fc
+    final ImageView imageView
+    final TextField pathholder
+    final BorderPane imageViewWrapper
+
+    Image image
+    File selectedFile
+    String defaultPath
+    
+    void initialize()
+
+
+    }
+    class NumberField
+
+}
+
+package controller <<Folder>> {
+    abstract class AbstractViewController
+
+    class ItemController {
+    TabPane tabPane
+    ObservableList<Tab> tabs
+    final String[] tabNames
+    ListView<Item> listView
+    ItemDataAccessObject itemDao
+    static ObservableList<Item> items
+
+    ObjectProperty<Predicate<Item>> stateFilter
+    ObjectProperty<Predicate<Item>> titleFilter
+    ObjectProperty<Predicate<Item>> descriptionFilter
+    FilteredList<Item> filteredData
+    TextField searchFilter
+    void fetchData()
+    void setupTabs()
+    void setupListView()
+    void setupFilters()
+
+    }
+    class Navigator {
+    BorderPane container
+    Scene scene
+    FXMLLoader loader
+
+    // JEG TROR IKKE DISSE SKAL VÆRE HER
+    ItemDataAccess itemDao
+    ImageDataAccess imageDao
+    Button btnFound
+    Button btnLost
+
+    EventHandler<ActionEvent> foundItem()
+    EventHandler<ActionEvent> lostItem()
+    void setupScene()
+
+
+    }
+
+    enum View {
+        String fxml
+        AbstractViewController controller
+        Region loadView()
+    }
+    class SplashController {
+        static Label label
+        static ProgressBar progress
+        Label splashText
+        ProgressBar splashProgress
+
+    
+
+    }
+
+
+
+}
+
+package effects <<Folder>> {
+  class DepthManager {
+  static DropShadow[] depth
+}
+
+}
+
+class App {
+static final DateTimeFormatter DATEPATTERN
+static final String API_URL
+static final double WIDTH
+static final double HEIGHT
+static final int COUNT_LIMIT
+static final String ICON
+Navigator navigator
+
+}
+
+class SplashScreen {
+
+}
+
+package core <<Cloud>> {
+ class Item
+}
+
+
+package dataaccess <<Folder>> {
+
+    interface ImageDataAccess {
+        void upload(File)
+
+    }
+
+    class ImageDataAccessObject {
+        final String baseUrlString
+        RestTemplate restTemplate
+        ObjectMapper objectMapper
+
+
+
+    }
+
+    ImageDataAccess <|.. ImageDataAccessObject
+
+    interface ItemDataAccess {
+        Collection<Item> getAll()
+        Item get(long)
+        void delete(long)
+        boolean insert(Item)
+    }
+
+    class ItemDataAccessObject {
+        final String baseUrlString
+        RestTemplate restTemplate
+        String getRequestUrl(final String)
+    }
+
+    ItemDataAccess <|.. ItemDataAccessObject
+
+}
+
+AbstractViewController --> "1" View
+Navigator "controls view" -up->  App
+dataaccess -up-> Item : uses
+ImagePicker -up-> App
+Validator --> "1..*" Form
+FormNumberField ..> "extends" AbstractValidator
+container -up-> Item: uses
+@enduml
