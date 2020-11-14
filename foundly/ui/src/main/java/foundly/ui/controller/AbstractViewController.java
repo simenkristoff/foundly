@@ -7,8 +7,6 @@ import javafx.fxml.Initializable;
  */
 public abstract class AbstractViewController implements Initializable {
 
-  public AbstractViewController() {
-    
-  }
-  
+  public AbstractViewController() {}
+
 }
