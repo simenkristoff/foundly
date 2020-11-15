@@ -1,0 +1,40 @@
+@startuml
+header Web-client - POST-request for nytt Item med bildefil
+
+participant WebClient
+box REST Api #lightblue
+participant ApiController
+participant ItemService
+participant FileService
+participant ItemRepository
+end box
+collections Uploads
+database Database
+
+
+note over WebClient: Sends request for file upload, and item-insert
+
+alt successful case
+WebClient -[#blue]> ApiController: {Post} /api/upload
+ApiController -[#blue]> FileService: save(file)
+FileService -[#blue]> Uploads: copy(file, "uploads/filename")
+    break Exception
+        FileService <-[#blue]- Uploads: FileAlreadyExistsException
+        FileService <-[#blue]- Uploads: Any other exception
+        ApiController <-[#blue]- FileService: RuntimeException
+        WebClient <-[#blue]- ApiController : {Response} 417
+    end
+FileService <-[#blue]- Uploads: Successful
+ApiController <-[#blue]- FileService: Boolean True
+WebClient <-[#blue]- ApiController : {Response} 200
+
+WebClient -> ApiController: {Post} /api/items
+ApiController -> ItemService: insertItem(item)
+ItemService -> ItemRepository: save(item)
+ItemRepository -> Database: SQL Insert
+
+ItemRepository <-- Database: ResultSet
+ItemService <-- ItemRepository: ResponseEntity<Item>
+ApiController <-- ItemService: ResponseEntity<Item>
+WebClient <-- ApiController: {Response} 200
+@enduml
