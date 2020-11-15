@@ -28,7 +28,8 @@
       <div class="item">
         <!-- .item-image -->
         <div class="item-image">
-          <img :src="'img/' + item.image" :alt="item.title" />
+          <img v-if="item.image" :src="'img/' + item.image" :alt="item.title" />
+          <img v-else src="../assets/img/default.png" :alt="item.title" />
         </div><!-- /.item-image -->
         <!-- .item-content -->
         <div class="item-content">

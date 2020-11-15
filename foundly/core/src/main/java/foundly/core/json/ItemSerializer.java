@@ -32,12 +32,7 @@ public class ItemSerializer extends JsonSerializer<Item> {
     gen.writeStringField("state", item.getState().toString());
     gen.writeStringField("email", item.getEmail());
     gen.writeStringField("phone", item.getPhone());
-
-    if (item.getImage().isEmpty()) {
-      gen.writeStringField("image", "default.png");
-    } else {
-      gen.writeStringField("image", item.getImage());
-    }
+    gen.writeStringField("image", item.getImage());
 
     if (item.getDate() != null) {
       gen.writeStringField("date", item.getDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));

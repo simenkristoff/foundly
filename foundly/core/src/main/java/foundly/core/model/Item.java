@@ -46,7 +46,7 @@ public class Item {
   @Column(name = "phone")
   private String phone;
 
-  @Column(name = "image")
+  @Column(name = "image", columnDefinition = "varchar(255) default null")
   private String image;
 
   @Column(name = "date")

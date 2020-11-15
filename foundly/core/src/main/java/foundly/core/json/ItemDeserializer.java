@@ -38,8 +38,12 @@ public class ItemDeserializer extends JsonDeserializer<Item> {
     LocalDateTime dateTime = node.get("date").asText().isEmpty() ? LocalDateTime.now()
         : LocalDateTime.parse(node.get("date").asText(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
+    // Check if image is set or not
+    String imagePath = node.get("image").asText().toLowerCase();
+    imagePath = (imagePath.equals("null")) ? null : imagePath;
+
     return new Item(node.get("title").asText(), node.get("description").asText(),
         State.fromString(node.get("state").asText()), node.get("email").asText(),
-        node.get("phone").asText(), node.get("image").asText(), dateTime);
+        node.get("phone").asText(), imagePath, dateTime);
   }
 }

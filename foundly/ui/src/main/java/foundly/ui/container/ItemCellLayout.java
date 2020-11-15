@@ -90,11 +90,11 @@ public class ItemCellLayout extends BorderPane {
     imageView.fitHeightProperty().bind(imageViewWrapper.heightProperty());
 
     // Check connection to REST Api
-    if (App.isRemote()) {
+    if (App.isRemote() && item.getImage() != null) {
       // Will URL-encode the filename if it contains unsupported characters
       image = new Image(apiUrl + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8));
     } else {
-      image = new Image(App.class.getResource("img/icons/default.png").toExternalForm());
+      image = new Image(App.class.getResource("img/default.png").toExternalForm());
     }
     imageView.setImage(image);
   }
