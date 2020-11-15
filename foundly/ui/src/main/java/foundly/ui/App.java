@@ -68,7 +68,7 @@ public class App extends Application {
   public void init() throws Exception {
     loadProperties(config, "client.properties"); // Load custom settings
     loadProperties(defaults, "default.properties"); // Load default settings
-    
+
     this.navigator = new Navigator();
 
     int loadCounter = Integer.parseInt(getProperty("app.loadCounter"));
@@ -152,14 +152,16 @@ public class App extends Application {
       propertyStream.close();
     } catch (IOException e) {
       System.out.println("IOException: Could not load " + filename + ". " + e.getMessage());
-    }
-    if (propertyStream != null) {
-      try {
-        propertyStream.close();
-      } catch (IOException e) {
-        e.printStackTrace();
+    } finally {
+      if (propertyStream != null) {
+        try {
+          propertyStream.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
+
   }
 
   /**
