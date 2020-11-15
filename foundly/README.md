@@ -15,7 +15,7 @@ Brukerhistorier ligger [her](/brukerhistorier.md).
 ### Oppbygning
 Foundly er bygget opp i flere moduler som utgjør en trelagsarkitektur med [**domenelogikk**](/foundly/core/README.md), brukergrensesnitt og persistens. Sammen utgjør disse all funksjonaliteten i appen. Når du legger inn en mistet gjenstand via web-klienten, vil den sende dette til [**service-laget**](/foundly/rest-api/README.md) i rest-serveren, som videre vil sørge for at dette blir lagret i H2-databasen. Samhandlingen kan sees tydelig i pakkediagrammet.
 
-![Pakekdiagram](/foundly/architecture/Pakkediagram 1.png)
+![Pakkediagram](/foundly/architecture/packagediagram.png)
 
 Vi har også lagt opp prosjektet slik at både web-klienten og JavaFX-appen fungerer som likeverdige grensesnitt. Under kan man se hvordan de to ulike brukergrensesnittene ser ut.
 
