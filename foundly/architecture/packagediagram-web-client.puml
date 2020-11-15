@@ -1,0 +1,31 @@
+@startuml
+header Pakkediagram for Web-klienten
+
+package Vue.js {
+[App.vue]
+
+component router {
+
+}
+router --> App.vue
+
+package components {
+    [ItemsList.vue]
+    [ItemModal.vue]
+    [FileUpload]
+}
+components --> router
+
+package services {
+    [FileService.js]
+}
+services ..> components
+
+ItemModal.vue --> App.vue
+}
+component axios {
+
+}
+axios ..> HTTP : use
+Vue.js .. axios : use
+@enduml

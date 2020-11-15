@@ -1,0 +1,157 @@
+@startuml
+header Klassediagram for JavaFx-klienten (ui)
+
+class App [[java:foundly.ui.App]] {
+	-{static}Properties config
+	-{static}Properties defaults
+	-Navigator navigator
+	+void start(Stage stage)
+	+void close()
+	+void init()
+	+{static}boolean isRemote()
+	+Navigator getNavigator()
+	+{static}String getProperty(String propertyName)
+	-void loadProperties(Properties property, String filename)
+	+{static}void main(String[] args)
+}
+
+note "Preloader screen while App is launching" as N1
+App -- N1
+N1 --> "1" SplashScreen
+class SplashScreen [[java:foundly.ui.SplashScreen]] {
+	-Stage preloaderStage
+	-Scene scene
+	+void init()
+	+void start(Stage stage)
+	+void handleApplicationNotification(PreloaderNotification info)
+	+void handleStateChangeNotification(StateChangeNotification info)
+}
+SplashScreen --> "1" SplashController
+class SplashController [[java:foundly.ui.controller.SplashController]] {
+	-{static}Label label
+	-{static}ProgressBar progress
+	-Label splashText
+	-ProgressBar splashProgress
+	+void initialize(URL location, ResourceBundle resources)
+	+{static}void setLabel(Label label)
+	+{static}void setLabelText(String text)
+	+{static}void setProgressBar(ProgressBar progressBar)
+	+{static}void setProgressValue(Double value)
+}
+Initializable <|.. SplashController
+
+class Preloader [[java:javafx.application.Preloader]] {
+}
+Preloader <|-- SplashScreen
+
+App--> "1" Navigator
+class Navigator [[java:foundly.ui.controller.Navigator]] {
+	-BorderPane container
+	+Navigator()
+	+void setView(View view)
+	+Node getView()
+}
+
+note "Loads a View-enum into center of BorderPane." as N2
+View "many" -- N2
+N2 --* "1" Navigator
+
+enum View{
+ITEMS
+
+	-String fxml
+	-AbstractViewController
+
+	+View(String fxml, AbstractViewController controller)
+	+Region loadView()
+}
+
+class ItemController [[java:foundly.ui.controller.ItemController]] {
+	-ListView<Item> listView
+	-{static}ObservableList<Item> items
+	-FilteredList<Item> filteredData
+	+ItemController()
+	+void initialize(URL location, ResourceBundle resources)
+	-void fetchData()
+	+{static}ObservableList<Item> getItems()
+}
+View "many" o-- "many" AbstractViewController 
+class AbstractViewController [[java:foundly.ui.controller.AbstractViewController]] {
+}
+interface Initializable [[java:org.assertj.core.internal.bytebuddy.dynamic.ClassFileLocator$AgentBased$ClassLoadingDelegate$ForDelegatingClassLoader$Dispatcher$Initializable]] {
+}
+Initializable <|.. AbstractViewController
+AbstractViewController <|-- ItemController
+
+Navigator --> "1" ItemDataAccess 
+ItemController--> "1" ItemDataAccess 
+interface ItemDataAccess [[java:foundly.ui.dataaccess.ItemDataAccess]] {
+	Collection<Item> getAll()
+	Item get(long id)
+	void delete(long id)
+	boolean insert(Item item)
+}
+ItemController "1" --> "many" ItemCellLayout
+class ItemCellLayout [[java:foundly.ui.container.ItemCellLayout]] {
+	-Item item
+	-Header header
+	-Body body
+	-Footer footer
+	-Image image
+	-ImageView imageView
+	+ItemCellLayout(Item item)
+}
+
+class ItemDataAccessObject [[java:foundly.ui.dataaccess.ItemDataAccessObject]] {
+	-String baseUrlString
+	-String servicePath
+	+ItemDataAccessObject()
+	+ItemDataAccessObject(String baseUrlString)
+	-String buildBaseUrl()
+	-String getRequestUrl(String path)
+	+List<Item> getAll()
+	+Item get(long id)
+	+void delete(long id)
+	+boolean insert(Item item)
+}
+ItemDataAccess <|.. ItemDataAccessObject
+
+Navigator --> "1" ImageDataAccess
+interface ImageDataAccess [[java:foundly.ui.dataaccess.ImageDataAccess]] {
+	void upload(File file)
+}
+
+class ImageDataAccessObject [[java:foundly.ui.dataaccess.ImageDataAccessObject]] {
+	-String baseUrlString
+	-String servicePath
+	+ImageDataAccessObject()
+	+ImageDataAccessObject(String baseUrlString)
+	-String buildBaseUrl()
+	+void upload(File file)
+}
+ImageDataAccess <|.. ImageDataAccessObject
+
+namespace foundly.core #orange {
+
+	class Item [[java:foundly.core.model.Item]] {
+		-long id
+		-String title
+		-String description
+		-State state
+		-String email
+		-String phone
+		-String image
+		-LocalDateTime date
+	}
+        class ItemDeserializer [[java:foundly.core.json.ItemDeserializer]] {
+	}
+
+	class ItemSerializer [[java:foundly.core.json.ItemSerializer]] {
+	}
+
+	Item .. ItemSerializer
+	Item .. ItemDeserializer
+}
+ItemDataAccess .. foundly.core.Item
+ItemCellLayout .. foundly.core.Item
+@enduml

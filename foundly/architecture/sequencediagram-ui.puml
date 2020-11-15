@@ -1,0 +1,47 @@
+@startuml
+header JavaFx-client - POST-request for nytt Item med bildefil
+
+participant Ui
+box Data Access Layer #yellow
+participant ItemDataAccess
+participant ImageDataAccess
+end box
+box REST Api #lightblue
+participant ApiController
+participant ItemService
+participant FileService
+participant ItemRepository
+end box
+collections Uploads
+database Database
+
+
+note over Ui: Sends request for file upload, and item-insert
+
+alt successful case
+	Ui -[#blue]> ImageDataAccess: upload(file)
+ImageDataAccess -[#blue]> ApiController: {Post} /api/upload
+ApiController -[#blue]> FileService: save(file)
+FileService -[#blue]> Uploads: copy(file, "uploads/filename")
+    break Exception
+        FileService <-[#blue]- Uploads: FileAlreadyExistsException
+        FileService <-[#blue]- Uploads: Any other exception
+        ApiController <-[#blue]- FileService: RuntimeException
+        ImageDataAccess <-[#blue]- ApiController : {Response} 417
+    end
+FileService <-[#blue]- Uploads: Successful
+ApiController <-[#blue]- FileService: Boolean True
+ImageDataAccess <-[#blue]- ApiController : {Response} 200
+
+Ui -> ItemDataAccess: insert(item)
+ItemDataAccess -> ApiController: {Post} /api/items
+ApiController -> ItemService: insertItem(item)
+ItemService -> ItemRepository: save(item)
+ItemRepository -> Database: SQL Insert
+
+ItemRepository <-- Database: ResultSet
+ItemService <-- ItemRepository: ResponseEntity<Item>
+ApiController <-- ItemService: ResponseEntity<Item>
+ItemDataAccess <-- ApiController: {Response} 200
+Ui <-- ItemDataAccess: Boolean True
+@enduml

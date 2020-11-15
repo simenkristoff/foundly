@@ -1,0 +1,53 @@
+@startuml
+header Pakkediagram for applikasjonen
+
+component core {
+    package foundly.core
+    package foundly.core
+}
+
+together {
+component ui {
+    package foundly.ui
+    package foundly.ui.dataaccess
+}
+
+foundly.ui.dataaccess ..> HTTP : use
+foundly.ui ..> foundly.ui.dataaccess
+
+}
+component web-client{
+    component router {
+    }
+    package components
+    component axios{
+    }
+    axios ..> HTTP : use
+    router <.. components
+    components .. axios
+
+}
+
+cloud restserver {
+    component restapi {
+        package foundly.restapi
+    }
+    component JPA {
+    }
+    foundly.restapi ..> JPA
+}
+database "Database" {
+  component H2 {
+  }
+}
+JPA ..> H2 : SQL
+
+component Tomcat {
+}
+restserver ..> Tomcat
+
+core .. restapi
+core .. ui
+
+HTTP --> restapi : JSON
+@enduml

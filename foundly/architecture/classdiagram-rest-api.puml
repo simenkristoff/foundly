@@ -1,0 +1,81 @@
+@startuml
+header Klassediagram for tjeneste-laget (REST Api)
+
+class ItemServiceImpl [[java:foundly.restapi.service.ItemServiceImpl]] {
+		+ItemServiceImpl(ItemRepository itemRepository)
+		+List<Item> getAllItems()
+		+Item getItemById(Long id)
+		+Item insertItem(Item item)
+		+void deleteItem(Long id)
+	}
+	
+	interface ItemRepository [[java:foundly.restapi.persistence.ItemRepository]] {
+	}
+	
+	ItemServiceImpl --> "1" ItemRepository : itemRepository
+	
+	interface ItemService [[java:foundly.restapi.service.ItemService]] {
+		List<Item> getAllItems()
+		Item getItemById(Long id)
+		Item insertItem(Item item)
+		void deleteItem(Long id)
+	}
+	
+	ItemService <|.. ItemServiceImpl
+	
+	class ApiController [[java:foundly.restapi.presentation.ApiController]] {
+		+ResponseEntity<List<Item>> getAllItems()
+		+ResponseEntity<Item> getItem(Long id)
+		+ResponseEntity<ResponseMessage> postItem(Item item)
+		+ResponseEntity<ResponseMessage> deleteItem(long id)
+		+ResponseEntity<ResponseMessage> uploadFile(MultipartFile file)
+	}
+
+	ApiController --> "1" ItemService : itemService
+	class FileStorageService [[java:foundly.restapi.service.FileStorageService]] {
+	}
+	
+	ApiController --> "1" FileStorageService : storageService
+	
+	interface "CrudRepository<Item,Long>" as CrudRepository_Item_Long_ {
+	}
+	
+	CrudRepository_Item_Long_ <|-- ItemRepository
+	
+	class FileStorageServiceImpl [[java:foundly.restapi.service.FileStorageServiceImpl]] {
+		-Path root
+		-FileHandler fileHandler
+		+void init()
+		+boolean save(MultipartFile file)
+	}
+	interface FileStorageService [[java:foundly.restapi.service.FileStorageService]] {
+        void init()
+		boolean save(MultipartFile file)
+	}
+
+	FileStorageService <|.. FileStorageServiceImpl
+
+namespace foundly.core #orange {
+
+	class Item [[java:foundly.core.model.Item]] {
+		-long id
+		-String title
+		-String description
+		-State state
+		-String email
+		-String phone
+		-String image
+		-LocalDateTime date
+	}
+
+	class ItemDeserializer [[java:foundly.core.json.ItemDeserializer]] {
+	}
+
+	class ItemSerializer [[java:foundly.core.json.ItemSerializer]] {
+	}
+
+	Item .. ItemSerializer
+	Item .. ItemDeserializer
+}
+foundly.core.Item .. "1" ItemService
+@enduml
