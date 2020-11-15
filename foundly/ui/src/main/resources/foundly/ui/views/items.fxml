@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,6 +14,7 @@
             <AnchorPane>
                <children>
                   <TextField fx:id="searchFilter" maxWidth="250.0" minWidth="100.0" promptText="Søk" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" />
+               	  <Button fx:id="btnRefresh" mnemonicParsing="false" styleClass=".btn-refresh" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" />
                </children>
                <padding>
                   <Insets top="10.0" />
