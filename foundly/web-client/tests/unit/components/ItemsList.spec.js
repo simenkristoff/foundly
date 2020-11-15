@@ -59,7 +59,8 @@ describe('ItemsList.vue', () => {
     expect(wrapper.find('#filter-all').exists()).toBeTruthy();
     expect(wrapper.find('#filter-lost').exists()).toBeTruthy();
     expect(wrapper.find('#filter-found').exists()).toBeTruthy();
-    expect(wrapper.find('div.search-wrapper > #filter-search').exists()).toBeTruthy();
+    expect(wrapper.find('div.action-wrapper > #filter-search').exists()).toBeTruthy();
+    expect(wrapper.find('div.action-wrapper > .tgl-refresh').exists()).toBeTruthy();
     expect(wrapper.find('ul.items').exists()).toBeTruthy();
   });
 

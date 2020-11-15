@@ -19,6 +19,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
@@ -53,6 +54,9 @@ public class ItemController extends AbstractViewController {
   @FXML
   TextField searchFilter;
 
+  @FXML
+  Button btnRefresh;
+
   /**
    * Instantiates a new item controller.
    */
@@ -77,6 +81,11 @@ public class ItemController extends AbstractViewController {
     setupFilters();
     fetchData();
 
+    // Setup refresh button
+    btnRefresh.setOnAction(refresh -> {
+      fetchData();
+    });
+
     // Setup automatic refresh for fetching items
     Timeline refresh = new Timeline(
         new KeyFrame(Duration.millis(Integer.parseInt(App.getProperty("api.refreshMillis"))),
@@ -99,7 +108,7 @@ public class ItemController extends AbstractViewController {
     if (App.isRemote()) {
       items = FXCollections.observableArrayList(itemDao.getAll());
     } else {
-      items = FXCollections.observableArrayList();
+      items = (items == null) ? FXCollections.observableArrayList() : items;
     }
     bindFilters();
 

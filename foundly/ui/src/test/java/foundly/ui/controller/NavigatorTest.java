@@ -2,21 +2,27 @@ package foundly.ui.controller;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import foundly.ui.AppTest;
+import java.util.concurrent.TimeoutException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import foundly.ui.App;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 /**
  * Tests for the class Navigator.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class NavigatorTest extends AppTest {
+public class NavigatorTest extends ApplicationTest {
 
   private final String foundButton = "#btnFound";
   private final String foundItemHeaderText = "Legg til funnet gjenstand";
@@ -27,6 +33,39 @@ public class NavigatorTest extends AppTest {
   private final String lostItemHeaderText = "Legg til mistet gjenstand";
   private final String addLostItemButton = "Legg til";
   private final String cancelLostItemButton = "Avbryt";
+
+  /**
+   * Runs the App for testing environment.
+   *
+   * @throws Exception the exception
+   */
+  @BeforeEach
+  public void runAppToTests() throws Exception {
+    FxToolkit.registerPrimaryStage();
+    FxToolkit.setupApplication(App::new);
+    FxToolkit.showStage();
+    WaitForAsyncUtils.waitForFxEvents(100);
+  }
+
+  /**
+   * Stop the app.
+   *
+   * @throws TimeoutException the timeout exception
+   */
+  @AfterEach
+  public void stopApp() throws TimeoutException {
+    FxToolkit.cleanupStages();
+  }
+
+  /**
+   * Star the app.
+   *
+   * @param primaryStage the primary stage
+   */
+  @Override
+  public void start(Stage primaryStage) {
+    primaryStage.toFront();
+  }
 
   /**
    * Test if the button for found items opens the correct modal and verify that the close button
