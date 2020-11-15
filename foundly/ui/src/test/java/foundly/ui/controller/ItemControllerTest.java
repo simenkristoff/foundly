@@ -6,30 +6,35 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import foundly.core.model.Item;
 import foundly.core.model.Item.State;
-import foundly.ui.AppTest;
+import foundly.ui.App;
 import foundly.ui.control.validator.AbstractValidator;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 /**
  * Tests for the class ItemController.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ItemControllerTest extends AppTest {
+public class ItemControllerTest extends ApplicationTest {
 
   // Buttons
   private final String foundButton = "#btnFound";
@@ -41,6 +46,39 @@ public class ItemControllerTest extends AppTest {
 
   // Tabs
   List<String> expectedTabs = Arrays.asList("alle", "mistet", "funnet");
+
+  /**
+   * Runs the App for testing environment.
+   *
+   * @throws Exception the exception
+   */
+  @BeforeEach
+  public void runAppToTests() throws Exception {
+    FxToolkit.registerPrimaryStage();
+    FxToolkit.setupApplication(App::new);
+    FxToolkit.showStage();
+    WaitForAsyncUtils.waitForFxEvents(100);
+  }
+
+  /**
+   * Stop the app.
+   *
+   * @throws TimeoutException the timeout exception
+   */
+  @AfterEach
+  public void stopApp() throws TimeoutException {
+    FxToolkit.cleanupStages();
+  }
+
+  /**
+   * Star the app.
+   *
+   * @param primaryStage the primary stage
+   */
+  @Override
+  public void start(Stage primaryStage) {
+    primaryStage.toFront();
+  }
 
   /**
    * Test if the validation works for all fields, and if a found item is added correctly. Should
@@ -65,6 +103,7 @@ public class ItemControllerTest extends AppTest {
     // Try to add item
     Button foundAdd = lookup(addItemButton).queryButton();
     clickOn(foundAdd);
+    WaitForAsyncUtils.waitForFxEvents(100); // wait
 
     // Check if modal didn't close
     assertTrue(this.listTargetWindows().size() == 2);
@@ -131,16 +170,17 @@ public class ItemControllerTest extends AppTest {
 
     Button lostAdd = lookup(addItemButton).queryButton();
     clickOn(lostAdd);
+    WaitForAsyncUtils.waitForFxEvents(100); // wait
 
     // Checks if modal closes
     assertTrue(this.listTargetWindows().size() == 1);
 
     // Check if item has been added to the list view
     ListView<Item> itemsList = lookup("#items-list").queryListView();
-    assertTrue(itemsList.getItems().size() == 1);
+    assertTrue(itemsList.getItems().size() == 2);
 
     // Check if the item has the correct state
-    assertTrue(itemsList.getItems().get(0).getState() == State.LOST);
+    assertTrue(itemsList.getItems().get(1).getState() == State.LOST);
   }
 
   /**
@@ -151,16 +191,9 @@ public class ItemControllerTest extends AppTest {
   @DisplayName("Test filtering of items")
   public void filteringItemsTest() {
 
-    // Test-items
-    ObservableList<Item> items = FXCollections.observableArrayList();
-    items.add(new Item("Mistet nøkler", "Mistet nøklene mine på gløs i går", State.LOST,
-        "simen.kristoffersen98@gmail.com", "90360922", "default.png", LocalDateTime.now()));
-    items.add(new Item("Funnet nøkler", "Fant nøkler på glød i dag", State.FOUND,
-        "simen.kristoffersen98@gmail.com", "90360922", "default.png", LocalDateTime.now()));
-
     // Add test-items to the ListView
     ListView<Item> itemsList = lookup("#items-list").queryListView();
-    itemsList.setItems(items);
+    WaitForAsyncUtils.waitForFxEvents(100); // wait
 
     TabPane tabPane = lookup("#tabPane").query();
     List<String> tabNames = new ArrayList<String>();

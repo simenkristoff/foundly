@@ -16,11 +16,13 @@
         :class="{ active: itemFilterKey == 'found' }">Funnet</button>
     </li>
   </ul><!-- /.tab-nav -->
-  <!-- .search-wrapper -->
-  <div class="search-wrapper">
-    <input type="text" class="form-control" id="filter-search" v-model="search"
+  <!-- .action-wrapper -->
+  <div class="action-wrapper">
+    <input type="search" class="form-control" id="filter-search" v-model="search"
       placeholder="Søk.." />
-  </div><!-- /.search-wrapper -->
+      <b-icon icon="arrow-repeat" class="tgl-refresh" font-scale="2" @click="retrieveItems">
+      </b-icon>
+  </div><!-- /.action-wrapper -->
   <!-- .items -->
   <ul class="items">
     <li v-for="(item, index) in filteredList" :key="index">

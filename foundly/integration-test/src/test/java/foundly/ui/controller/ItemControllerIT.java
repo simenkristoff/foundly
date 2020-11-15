@@ -5,28 +5,35 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import foundly.core.model.Item;
 import foundly.core.model.Item.State;
-import foundly.ui.AppIT;
+import foundly.ui.App;
 import foundly.ui.control.validator.AbstractValidator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 
 /**
  * Tests for the class ItemController.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ItemControllerIT extends AppIT {
+public class ItemControllerIT extends ApplicationTest {
 
   // Buttons
   private final String foundButton = "#btnFound";
@@ -40,12 +47,45 @@ public class ItemControllerIT extends AppIT {
   List<String> expectedTabs = Arrays.asList("alle", "mistet", "funnet");
 
   /**
+   * Runs the App for testing environment.
+   *
+   * @throws Exception the exception
+   */
+  @BeforeEach
+  public void runAppToTests() throws Exception {
+    FxToolkit.registerPrimaryStage();
+    FxToolkit.setupApplication(App::new);
+    FxToolkit.showStage();
+    WaitForAsyncUtils.waitForFxEvents(100);
+  }
+
+  /**
+   * Stop the app.
+   *
+   * @throws TimeoutException the timeout exception
+   */
+  @AfterEach
+  public void stopApp() throws TimeoutException {
+    FxToolkit.cleanupStages();
+  }
+
+  /**
+   * Star the app.
+   *
+   * @param primaryStage the primary stage
+   */
+  @Override
+  public void start(Stage primaryStage) {
+    primaryStage.toFront();
+  }
+
+  /**
    * Add a found item to the database via Rest Api.
    */
   @Test
   @Order(1)
   @DisplayName("Test adding a found item")
-  public void invalidFieldValidatorTest() {
+  public void addFoundItemTest() {
     List<AbstractValidator<?>> foundInputs = FXCollections.observableArrayList();
 
     Button found = lookup(foundButton).query();
@@ -67,6 +107,7 @@ public class ItemControllerIT extends AppIT {
     // Try to add item
     Button foundAdd = lookup(addItemButton).queryButton();
     clickOn(foundAdd);
+    WaitForAsyncUtils.waitForFxEvents(100); // wait
 
     // Check if item has been added to the list view
     ListView<Item> itemsList = lookup("#items-list").queryListView();
@@ -105,6 +146,7 @@ public class ItemControllerIT extends AppIT {
     // Try to add item
     Button lostAdd = lookup(addItemButton).queryButton();
     clickOn(lostAdd);
+    WaitForAsyncUtils.waitForFxEvents(100); // wait
 
     // Check if item has been added to the list view
     ListView<Item> itemsList = lookup("#items-list").queryListView();

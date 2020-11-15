@@ -1,0 +1,25 @@
+
+.action-wrapper {
+  display: flex;
+  flex-flow: row;
+  min-width: 100%;
+  justify-content: space-between;
+  margin: .5rem 0;
+  max-width: 250px;
+
+  > input[type="search"] {
+    max-width: 225px;
+    border-left: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  > .tgl-refresh {
+    margin-right: .5rem; 
+    fill: $primary-color;
+    &:hover {
+      fill: darken($primary-color, 5%);
+      cursor: pointer;
+    }
+  }
+}

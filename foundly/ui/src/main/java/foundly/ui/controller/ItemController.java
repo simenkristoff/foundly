@@ -108,7 +108,7 @@ public class ItemController extends AbstractViewController {
     if (App.isRemote()) {
       items = FXCollections.observableArrayList(itemDao.getAll());
     } else {
-      items = FXCollections.observableArrayList();
+      items = (items == null) ? FXCollections.observableArrayList() : items;
     }
     bindFilters();
 
