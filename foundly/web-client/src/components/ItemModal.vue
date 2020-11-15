@@ -124,7 +124,7 @@ export default {
         state: '',
         email: '',
         phone: '',
-        image: '',
+        image: null,
         date: '',
       },
     };

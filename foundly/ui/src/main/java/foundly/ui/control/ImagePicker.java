@@ -120,7 +120,7 @@ public class ImagePicker extends VBox {
     if (this.getSelectedFile() != null) {
       return this.selectedFile.getName();
     }
-    return "default.png";
+    return null;
   }
 
   /**

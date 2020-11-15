@@ -150,7 +150,7 @@ public class ItemControllerTest extends AppTest {
   @Order(3)
   @DisplayName("Test filtering of items")
   public void filteringItemsTest() {
-    
+
     // Test-items
     ObservableList<Item> items = FXCollections.observableArrayList();
     items.add(new Item("Mistet nøkler", "Mistet nøklene mine på gløs i går", State.LOST,

@@ -83,7 +83,7 @@ public class ItemSerializerTest {
     gen.flush();
 
     JsonNode node = mapper.readTree(jsonWriter.toString());
-    assertEquals(node.get("image").asText(), "default.png");
+    assertEquals(node.get("image").asText(), "");
   }
 
   /**
