@@ -1,4 +1,4 @@
-package foundly.core.model;
+package foundly.restapi.entity;
 
 /**
  * The Class ResponseMessage. Model for message returned by the rest-api.
