@@ -1,7 +1,7 @@
 package foundly.restapi.presentation;
 
 import foundly.core.model.Item;
-import foundly.core.model.ResponseMessage;
+import foundly.restapi.entity.ResponseMessage;
 import foundly.restapi.service.FileStorageService;
 import foundly.restapi.service.ItemService;
 import java.util.List;
