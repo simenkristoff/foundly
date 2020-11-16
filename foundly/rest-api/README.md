@@ -1,6 +1,6 @@
 # Rest-api
 
-Denne modulen inneholder REST Api-tjenesten for [Foundly](/foundly/README.md).
+Denne modulen utgjør tjenestelaget for [Foundly](/foundly/README.md).
 
 [[_TOC_]]
 
@@ -8,13 +8,13 @@ Denne modulen inneholder REST Api-tjenesten for [Foundly](/foundly/README.md).
 
 ### Beskrivelse
 
-Modulen er bygget med [Spring Boot](/README.md/#spring-boot), og har en innebygd **Tomcat-server** og en **H2 Database**. Rest-api håndterer requests fra [**Web-client**](/foundly/web-client/README.md) og [**ui**](/foundly/ui/README.md), og støtter metoder som **POST**, **GET**, **PUT**, **DELETE**.
+**Rest-api** er bygget med [Spring Boot](/README.md/#spring-boot), og har en innebygd **Tomcat-server** og en **H2 Database**. Modulen håndterer requests fra [**Web-client**](/foundly/web-client/README.md) og [**ui**](/foundly/ui/README.md), og støtter metoder som **POST**, **GET**, **PUT**, **DELETE**.
 
-Rest-api-modulen fungerer som et mellomledd mellom klientene og deres interaksjoner med databasen. Via http-requests kan klientene hente ut eller oppdatere data i databasen. Rest-api prosesserer requestene og benytter [**persistenslaget(JPA)**](#avhengigheter) til å håndtere data i databasen. Deretter returnerer rest-api en respons til klienten, enten i form av data hentet ut fra databasen eller en melding.
+Modulen fungerer som et mellomledd mellom klientene og deres interaksjoner med databasen. Via http-requests kan klientene hente ut eller oppdatere data i databasen. Rest-api prosesserer requestene og benytter [**persistenslaget (JPA)**](#avhengigheter) til å håndtere data i databasen. Deretter returnerer rest-api en respons til klienten, enten i form av data hentet ut fra databasen eller en melding.
 
 #### Konfigurasjon for REST Serveren
 
-Konfigurasjons filen finnes i modulens ressursmappe og heter [**application.properties**](/foundly/rest-api/src/main/resources/application.properties). 
+Konfigurasjonsfilen ligger i modulens ressursmappe og heter [**application.properties**](/foundly/rest-api/src/main/resources/application.properties). 
 
 - Serveren er konfigurert til å kjøre på port **8098**
 - Databasen lagrer data til filen [**foundlydb**](/foundly/rest-api/data/foundlydb.mv.db)
@@ -36,6 +36,7 @@ Nedenfor vises sekvensen når en bruker legger til en ny gjenstand med **JavaFx-
 Nedenfor vises sekvensen når en bruker legger til en ny gjenstand med **web-klienten**. I dette tilfellet har brukeren valgt å legge til en bildefil, og derav vil web-klienten sende ut to POST-requests - én for opplastning av bildet, og én for opplastning av Item.
 
 ![Sekvensdiagram for web-client](/foundly/architecture/sequencediagram-web-client.png).
+
 ## Struktur
 
 ### Pakker
@@ -45,6 +46,7 @@ Nedenfor vises sekvensen når en bruker legger til en ny gjenstand med **web-kli
 - [**foundly.restapi.presentation**](/foundly/rest-api/src/main/java/foundly/restapi/presentation) - her ligger filene som håndterer end-points
 - [**foundly.restapi.service**](/foundly/rest-api/src/main/java/foundly/restapi/service) - håndterer domenelogikken i rest-api 
 - [**foundly.restapi.persistence**](/foundly/rest-api/src/main/java/foundly/restapi/persistence) - håndterer persistens-spesifikke operasjoner
+- [**foundly.restapi.entity**](/foundly/rest-api/src/main/java/foundly/restapi/entity) - denne pakken inneholder enheter som brukes av modulen. F.eks. **ResponseMessage**
 - [**foundly.restapi.exception**](/foundly/rest-api/src/main/java/foundly/restapi/exception) - tilpassede unntak
 - [**foundly.restapi.exception.advice**](/foundly/rest-api/src/main/java/foundly/restapi/exception/advice) - printer meldinger knyttet til et unntak til loggen
 
@@ -68,7 +70,12 @@ Databasen har én tabell kalt **ITEMS**, og har følgende struktur:
 | ID* | TITLE | DESCRIPTION | STATE | EMAIL | PHONE | DATE | IMAGE |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
 | 1 | Funnet mobil | Fant en iPhone 9 på R2 i dag tidlig | FOUND | xxx@gmail.com | 92381124 | 2020-11-12 11:18:47.94716 | iphone.png |
-| 2 | Mistet mobil | Mistet mobilen min på R2 i dag | LOST | yyy@gmail.com | 94421528 | 	2020-11-11 15:17:22.504222 | default.png |
+| 2 | Mistet mobil | Mistet mobilen min på R2 i dag | LOST | yyy@gmail.com | 94421528 | 	2020-11-11 15:17:22.504222 | null |
+
+### Klassediagram
+[Diagrammet](/foundly/architecture/classdiagram-rest-api.png) nedenfor illusterer modulens essensielle oppbygning og hvordan disse klassene samhandler.
+
+![Klassediagram for REST Api](/foundly/architecture/classdiagram-rest-api.png)
 
 ## Testing av kodekvalitet
 Det er skrevet enhetstester for modulen som finnes i [her](/foundly/restapi/src/test/java/foundly/restapi).
@@ -82,9 +89,13 @@ I tillegg til enhetstesting, sjekker vi også kodekvaliteten med ulike analyseve
 **Rest-api**-modulen har følgende avhengigheter:
 
 - [(**core**)](/foundly/core/README.md) - bruker core for å representere Item-objekter
-    - [(**spring-boot-starter-data-jpa**)](https://www.javatpoint.com/spring-boot-starter-data-jpa) - utgjør persistenslaget i rest-api, og håndterer CRUD-funksjoner til og fra SQL-databasen
-    - [(**spring-boot-starter-web**)](https://www.javatpoint.com/spring-boot-starter-web) - ressurser for Spring Boot Web som brukes av Rest Api bla. Tomcat-server.
+- [(**spring-boot-starter-data-jpa**)](https://www.javatpoint.com/spring-boot-starter-data-jpa) - utgjør persistenslaget i rest-api, og håndterer CRUD-funksjoner til og fra SQL-databasen
+- [(**spring-boot-starter-web**)](https://www.javatpoint.com/spring-boot-starter-web) - ressurser for Spring Boot Web som brukes av Rest Api bla. Tomcat-server.
 - [(**h2**)](https://www.h2database.com/html/main.html) - Java SQL database
+- [(**spring-boot-starter-test**)](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test) - Testing med Spring Boot
+- [(**junit-jupiter-api**)](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api) - JUnit API 
+- [(**junit-jupiter-engine**)](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine) - Kjøring av JUnit-tester
+- [(**mockito-core**)](https://www.javatpoint.com/spring-boot-starter-web) - Mockito
 
 ### Tillegg
 

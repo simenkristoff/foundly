@@ -1,5 +1,3 @@
-![Web-client banner](/resources/foundly_web_client.jpg)
-
 # Web-client
 
 Denne modulen inneholder web-klienten for [Foundly](/foundly/README.md).
@@ -8,9 +6,11 @@ Denne modulen inneholder web-klienten for [Foundly](/foundly/README.md).
 
 ## Web-klient
 
+![Web-client banner](/resources/foundly_web_client.jpg)
+
 ### Beskrivelse
 
-Web-klienten representerer [brukergrensesnittet](/foundly/ui/README.md) for web-applikasjonen, og er bygget på rammeverket [Vue.js](/README.md/#vuejs). Web-klienten viser en oversikt over gjenstander som er enten tapt eller funnet. Ved å trykke på en av knappene navigasjons-baren kan man filtrere gjenstandene etter deres tilstand (mistet/funnet), eller søke etter tekst i søkefeltet.
+Web-klienten representerer [brukergrensesnittet](/foundly/ui/README.md) for web-applikasjonen, og er bygget på rammeverket [Vue.js](/README.md/#vuejs). Web-klienten viser en oversikt over gjenstander som er enten tapt eller funnet. Ved å trykke på en av knappene navigasjons-baren kan man filtrere gjenstandene etter deres tilstand (mistet/funnet), eller søke etter tekst i søkefeltet. Til høyre for søkefeltet er en *refresh-knapp* som kan brukes til å oppdatere data fra [**REST Api**](/foundly/rest-api/README.md).
 
 Videre kan brukeren legge til gjenstander som enten er tapt eller funnet, ved å benytte seg av de to knappene i nettsidens footer-seksjon. Dette vil åpne et popup-vindu med felter for nødvendig informasjon som må fylles inn, og mulighet for opplastning av et bilde.
 
@@ -65,10 +65,17 @@ Struktur for stilarkets moduler:
 - **components/** - stiler for komponenter
 - **elements/** - stiler for grunnleggende HTML-elementer
 - **layout/** - nettsidens oppsett/layout
-- **typography** - stiler for skrift/fonts
+- **typography/** - stiler for skrift/fonts
+
+### Pakkediagram
+
+[Diagrammet](/foundly/architecture/packagediagram-web-client.png) nedenfor illusterer modulens essensielle oppbygning og hvordan disse pakkene samhandler.
+
+![Pakkediagram for Web-klient](/foundly/architecture/packagediagram-web-client.png)
+
 
 ## Testing av kodekvalitet
-Prosjektet er rigget med to type tester, enhets- og end-to-end-tester.
+Prosjektet er rigget med to type tester, *enhets-* og *end-to-end-tester*.
 
 ### Enhetstesting med Jest
 Jest er et JavaScript-testverktøy opprettet av Facebook som håndterer kjøring av tester og verifisering av 'assertions'. Enhetstestene kan kjøres med kommandoen **`npm run test:unit`**
