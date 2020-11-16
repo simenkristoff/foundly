@@ -92,7 +92,8 @@ public class ItemCellLayout extends BorderPane {
     // Check connection to REST Api
     if (App.isRemote() && item.getImage() != null) {
       // Will URL-encode the filename if it contains unsupported characters
-      image = new Image(apiUrl + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8));
+      image = new Image(
+          apiUrl + URLEncoder.encode(item.getImage(), StandardCharsets.UTF_8).replace("+", "%20"));
     } else {
       image = new Image(App.class.getResource("img/default.png").toExternalForm());
     }
