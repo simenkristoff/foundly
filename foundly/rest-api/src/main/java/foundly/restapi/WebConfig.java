@@ -25,7 +25,7 @@ public class WebConfig implements Filter, WebMvcConfigurer {
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/img/**").addResourceLocations("file:resources/", "file:uploads/")
-        .setCachePeriod(0);
+        .setCachePeriod(0).resourceChain(true).addResolver(new CustomPathResourceResolver());
   }
 
   /**
