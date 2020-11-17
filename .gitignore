@@ -4,6 +4,7 @@ foundly/web-client/target/
 foundly/ui/target/
 foundly/rest-api/target/
 foundly/core/target/
+foundly/.settings/
 bin/
 
 HELP.md
