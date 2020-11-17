@@ -13,17 +13,22 @@
 [[_TOC_]]
 
 ## Om prosjektet
-Prosjektet, **[Foundly](foundly/)**, er konfigurert som et multi-modul prosjekt med maven. Modulene utfyller en trelagsapplikasjon med et [domenelag](foundly/core) (core) , [brukergrensesnitt](foundly/ui) (ui), [brukergrensesnitt for web](foundly/web-client) (web-klient) og [persistens](foundly/rest-api) (lagring). Videre benytter applikasjonen et [Rest API](foundly/rest-api) for å håndtere data mellom brukergrensesnitt- og persistens-laget.
+Prosjektet, **[Foundly](foundly/)**, er konfigurert som et multi-modul prosjekt med maven. Modulene utfyller en trelagsapplikasjon med et [domenelag](foundly/core/README.md) (**core**) , [brukergrensesnitt](foundly/ui/README.md) (**ui**), [brukergrensesnitt for web](foundly/web-client/README.md) (**web-klient**) og [persistens (JPA)](foundly/rest-api/README.md). Videre benytter applikasjonen seg av et [tjenestelag](foundly/rest-api/README.md) (**REST Api**) for å håndtere data mellom brukergrensesnitt- og persistens-laget.
 
 ### Moduler
 Prosjektets fire moduler tilhører pom-filen [foundlyParent](foundly/pom.xml), og er ytteligere beskrevet i egne README-filer.
 - **[foundly.core](foundly/core/README.md)** utgjør domenelaget, og inneholder standardiserte objekter samt. logikk for å fremstille disse objektene.
-- **[foundly.rest-api](foundly/rest-api/README.md)** API-laget bygget med [Spring Boot](#spring-boot). Denne modulen har en innebygd Tomcat server og håndterer alle requests sendt til denne serveren.
+- **[foundly.rest-api](foundly/rest-api/README.md)** tjenestelaget er bygget med [Spring Boot](#spring-boot) og har derfor en innebygd Tomcat server. Pakkene i rest-api utgjør tjenestelaget og håndterer alle requests, mens avhengighetene utgjør *REST server* og *persistenslaget (JPA)*
 - **[foundly.ui](foundly/ui/README.md)** brukergrensesnitt bygget med [JavaFx](#javafx)
 - **[foundly.web-client](foundly/web-client/README.md)** web-klient bygget med [Vue.js](#vuejs)
-##
 
 ### Arkitektur
+
+Diagrammer for applikasjonens arkitektur kan sees [**her**](foundly/architecture). Nedenfor vises et øvrig arkitekturkart for hvordan modulene i prosjektet samhandler og utveksler data.
+
+![Arkitektur](foundly/architecture/architecturemap.png)
+
+
 
 ### Teknologier
 Prosjektet er bygget på rammeverkene Spring Boot, JavaFx, Vue.js. 
@@ -113,14 +118,21 @@ Vårt bygg har tillegg for:
 - [(**maven-checkstyle-plugin**)](https://checkstyle.sourceforge.io) - sjekking av kodekvalitet med **Checkstyle** 
 - [(**spotbugs-maven-plugin**)](https://spotbugs.github.io) - finne bugs i koden med **Spotbugs**
 - [(**jacoco-maven-plugin**)](https://github.com/jacoco/jacoco) - testdekningsgrad med **Jacoco**
-- [**Web-client-spesifikke:**](/foundly/web-client/README.md)
+- [***Web-client-spesifikke:***](/foundly/web-client/README.md#tillegg)
     - [(**frontend-maven-plugin**)](https://github.com/eirslett/frontend-maven-plugin) - samkjøring av node-kommandoer med maven-kommandoer 
-- [**REST Api-spesifikke:**](/foundly/rest-api/README.md)
+- [***Rest-api-spesifikke:***](/foundly/rest-api/README.md#tillegg)
     - [(**maven-resources-plugin**)](https://maven.apache.org/plugins/maven-resources-plugin/) - flytting av web-client-byggget til Tomcat sin public-mappe 
     - [(**spring-boot-maven-plugin**)](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/) - kjøring av **Spring Boot Rest API**
-- [**UI-spesifikke:**](/foundly/ui/README.md)
+- [***UI-spesifikke:***](/foundly/ui/README.md#tillegg)
     - [(**javafx-maven-plugin**)](https://github.com/openjfx/javafx-maven-plugin) - kjøring av **JavaFx-applikasjonen**
+- [***Integration-test-spesifikke:***](/foundly/integration-test/README.md#tillegg)
+    - - [(**maven-failsafe-plugin**)](https://maven.apache.org/surefire/maven-failsafe-plugin/) - Kjøring av integrasjonstester
 
+## Kommandoer
+Kommandoer for enkelte moduler:
+- [**Ui**](/foundly/ui/README.md/#kommandoer)
+- [**Web-client**](/foundly/web-client/README.md/#kommandoer)
+- [**Rest-api**](/foundly/rest-api/README.md/#kommandoer)   
 
 ## Kjøring av prosjektet
 1. Åpne prosjektet i gitpod ved hjelp av knappen øverst.
