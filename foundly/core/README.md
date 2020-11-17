@@ -27,7 +27,7 @@ som viser oppførselen og strukturen til klassene i core-modulen.
 ![Klassediagram for Core](/foundly/architecture/classdiagram-core.png)
 
 ## Testing av kodekvalitet
-Det er skrevet enhetstester for modulen som finnes i [her](/foundly/core/src/test/java/foundly/core).
+Det er skrevet enhetstester for modulen som finnes i [her](/foundly/core/src/test/java/foundly/core). Ved kjøring av testene vil **Jacoco** generere en rapport over **testdekingsgrad** i *target*. Rapporten kan sees ved å gå til *core/target/site/jacoco* og åpne **index.html** i en nettleser - *open with -> Preview* i Gitpod.
 
 I tillegg til enhetstesting, sjekker vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
 

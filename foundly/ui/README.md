@@ -72,7 +72,8 @@ Følgende innstillinger lar seg konfigurere:
 ![Klassediagram for Ui](/foundly/architecture/classdiagram-ui.png)
 
 ## Testing av kodekvalitet
-Det er skrevet enhetstester for modulen som finnes i [her](/foundly/ui/src/test/java/foundly/ui).
+Det er skrevet enhetstester for modulen som finnes [her](/foundly/ui/src/test/java/foundly/ui). 
+Ved kjøring av testene vil **Jacoco** generere en rapport over **testdekingsgrad** i *target*. Rapporten kan sees ved å gå til *ui/target/site/jacoco* og åpne **index.html** i en nettleser - *open with -> Preview* i Gitpod.
 
 I tillegg til enhetstesting, sjekker vi også kodekvaliteten med ulike analyseverktøy. Her har vi brukt [jacoco](https://github.com/jacoco/jacoco), [spotbugs](https://spotbugs.github.io) og [checkstyle](https://checkstyle.sourceforge.io) for bygg med maven.
 

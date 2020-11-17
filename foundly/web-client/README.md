@@ -78,7 +78,9 @@ Struktur for stilarkets moduler:
 Prosjektet er rigget med to type tester, *enhets-* og *end-to-end-tester*.
 
 ### Enhetstesting med Jest
-Jest er et JavaScript-testverktøy opprettet av Facebook som håndterer kjøring av tester og verifisering av 'assertions'. Enhetstestene kan kjøres med kommandoen **`npm run test:unit`**
+Jest er et JavaScript-testverktøy opprettet av Facebook som håndterer kjøring av tester og verifisering av 'assertions'. Enhetstestene kan kjøres med kommandoen **`npm run test:unit`**.
+
+Kjøring av enhetestestene vil generere en ny mappe i modulens rotnivå med en rapport over **testdekningsgrad**, kalt *coverage*. Rapporten kan sees ved å gå til *web-client/coverage/Icov-report* og åpne **index.html** i en nettleser - *open with -> Preview* i Gitpod.
 
 ### End-to-end med Nightwatch
 E2e-testene er designet for å teste web-klientens funksjonalitet i sin helhet. For å få til dette har vi brukt Nightwatch. Nightwatch er et automatisert testrammeverk for webapplikasjoner og nettsteder, skrevet i Node. js. E2e-testene kan kjøres med kommandoen **`npm run test:e2e`**
