@@ -1,5 +1,3 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.idi.ntnu.no/#https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2050/gr2050)
-
 App utviklet under prosjektarbeid i faget Informatikk prosjektarbeid I (IT1901). Foundly er en digital versjon av det fysiske konseptet hittegodskontor. Konseptet går ut på at om man finner noe gjenglemt, eller mister noe, kan man legge dette ut i appen med bilde og beskrivelse slik at det vil dukke opp for andre i nærheten. Dette fører da forhåpentligvis til at eier og gjenstand blir gjenforent. Appen bygger på frivilighet og ærlighet og skal være gratis for brukere. 
 
 ![Project banner](resources/banner.png)
